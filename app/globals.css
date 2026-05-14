@@ -10,9 +10,9 @@
   --obsidian-graphite: #2C2C30;   /* Primary background, dominant surfaces */
   --charcoal-slate:   #3C3D42;   /* Secondary panels, cards */
   --steel-silver:     #C9CCD1;   /* Logo tone, accents, dividers */
-  --chrome-highlight: #F2F4F7;   /* Contrast text, lifted UI */
+  --chrome-highlight: #FFFFFF;   /* Contrast text, lifted UI — bright white */
   --deep-forest:      #1F3D2B;   /* Positive states, trust moments (Mood: Green) */
-  --muted-gold:       #B89B5E;   /* Selective outcome highlights, recognition */
+  --muted-gold:       #D4A843;   /* Deep gold — selective highlights, recognition */
   --signal-red:       #7A1C1C;   /* Alerts, urgent issues (Mood: Red) */
   --soft-gray:        #E5E7EB;   /* Form fields, quiet backgrounds (Mood: Gray) */
 
