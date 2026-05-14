@@ -95,7 +95,7 @@ export async function generateMetadata({
       title:
         "Just Had a Car Accident? What to Do in the First 24 Hours",
       description:
-        "Clear, plain-English guidance on what to do in the first 24 hours after a car accident in Missouri or Kansas. No pressure, no fluff — just the steps that protect you. From Yonke (YONK-ee) Law.",
+        "Clear, plain-English guidance on what to do in the first 24 hours after a car accident in Missouri or Kansas. No pressure, no fluff — just the steps that protect you. From Yonke Law.",
       alternates: {
         canonical: "https://yonke.law/just-happened/car-accident/",
       },
@@ -113,7 +113,7 @@ export async function generateMetadata({
   const label = TOPIC_LABELS[topic as TopicSlug];
   return {
     title: `${label} — What to Do Now`,
-    description: `Calm, plain-English guidance after a ${label.toLowerCase()}. From Yonke (YONK-ee) Law in Kansas City.`,
+    description: `Calm, plain-English guidance after a ${label.toLowerCase()}. From Yonke Law in Kansas City.`,
     alternates: {
       canonical: `https://yonke.law/just-happened/${topic}/`,
     },
@@ -364,7 +364,7 @@ function CarAccidentPage() {
           </div>
           <h1
             className="font-display text-4xl md:text-5xl lg:text-6xl text-chrome-highlight leading-[1.15] mb-6"
-            aria-label="Yonke, pronounced YONK-ee, Law — You were just in a car accident. Take a breath."
+            aria-label="Yonke Law — You were just in a car accident. Take a breath."
           >
             You were just in a car accident. Take a breath.
           </h1>

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 
 /* -------------------------------------------------------
@@ -37,12 +38,17 @@ export function TopNav() {
         {/* ---- Logo ---- */}
         <Link
           href="/"
-          aria-label="Yonke, pronounced YONK-ee, Law — Home"
-          className="flex items-center gap-2 text-chrome-highlight font-display text-xl font-bold tracking-tight"
+          aria-label="Yonke Law — Home"
+          className="flex items-center shrink-0"
         >
-          {/* TODO: Replace with actual YL monogram image from Drive folder
-              Asset: YL - Logo 2 Strong Edges - Transparent Background.png */}
-          <span className="text-muted-gold">YL</span>
+          <Image
+            src="/yl-logo.png"
+            alt="Yonke Law monogram"
+            width={40}
+            height={40}
+            className="rounded-full"
+            priority
+          />
         </Link>
 
         {/* ---- Desktop nav links ---- */}

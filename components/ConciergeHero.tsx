@@ -217,9 +217,8 @@ export function ConciergeHero() {
         {/* Pre-headline / eyebrow */}
         <div
           className="text-xs uppercase tracking-[0.2em] text-steel-silver mb-6 text-center"
-          aria-label="Yonke, pronounced YONK-ee, Law"
         >
-          YONKE (YONK-ee) LAW
+          YONKE LAW
         </div>
 
         {/* Headline */}

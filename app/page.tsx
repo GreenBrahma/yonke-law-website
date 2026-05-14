@@ -25,7 +25,7 @@ import { MoodMonitor } from "@/components/MoodMonitor";
 export const metadata: Metadata = {
   title: "Help for people hurt by someone else's negligence",
   description:
-    "Yonke (YONK-ee) Law represents people hurt by someone else's negligence — personal injury, medical malpractice, and wrongful death cases in Kansas City and across Missouri and Kansas.",
+    "Yonke Law represents people hurt by someone else's negligence — personal injury, medical malpractice, and wrongful death cases in Kansas City and across Missouri and Kansas.",
   alternates: {
     canonical: "https://yonke.law/",
   },
@@ -49,7 +49,7 @@ const jsonLd = {
       "@type": "LegalService",
       "@id": "https://yonke.law/#legalservice",
       name: "Yonke Law, LLC",
-      alternateName: "Yonke (YONK-ee) Law",
+      alternateName: "Yonke Law",
       url: "https://yonke.law/",
       telephone: "+1-816-221-6400",
       email: "mike@yonke.law",
@@ -66,7 +66,7 @@ const jsonLd = {
         addressCountry: "US",
       },
       description:
-        "Yonke (YONK-ee) Law represents people hurt by someone else's negligence — personal injury, medical malpractice, and wrongful death cases in Kansas City and the surrounding region.",
+        "Yonke Law represents people hurt by someone else's negligence — personal injury, medical malpractice, and wrongful death cases in Kansas City and the surrounding region.",
       priceRange: "Contingency basis — no fee unless we recover",
       makesOffer: {
         "@type": "Offer",

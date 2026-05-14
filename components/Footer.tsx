@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 /* -------------------------------------------------------
    Footer — Shared component (every page)
@@ -145,13 +146,13 @@ export function Footer() {
       {/* ---- Bottom strip ---- */}
       <div className="border-t border-steel-silver/10">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-4 sm:flex-row lg:px-8">
-          {/* TODO: Replace with actual YL monogram image (small) */}
-          <span
-            className="text-sm font-bold text-muted-gold"
-            aria-label="Yonke, pronounced YONK-ee, Law"
-          >
-            YL
-          </span>
+          <Image
+            src="/yl-logo.png"
+            alt="Yonke Law monogram"
+            width={28}
+            height={28}
+            className="rounded-full"
+          />
 
           <div className="flex items-center gap-4 text-xs text-steel-silver/50">
             <Link href="#" className="hover:text-chrome-highlight transition-colors duration-200">
@@ -167,8 +168,7 @@ export function Footer() {
             </Link>
           </div>
 
-          {/* Screen-reader pronunciation note */}
-          <p className="sr-only">Yonke is pronounced YONK-ee.</p>
+
         </div>
       </div>
     </footer>

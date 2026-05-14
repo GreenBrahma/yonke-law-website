@@ -77,14 +77,14 @@ const CATEGORIES = [
 export const metadata: Metadata = {
   title: "Something just happened — find your situation | Yonke Law",
   description:
-    "Calm, plain-English guidance on what to do after an incident. Find your path forward with Yonke (YONK-ee) Law.",
+    "Calm, plain-English guidance on what to do after an incident. Find your path forward with Yonke Law.",
   alternates: {
     canonical: "https://yonke.law/just-happened/",
   },
   openGraph: {
     title: "Something just happened — find your situation | Yonke Law",
     description:
-      "Calm, plain-English guidance on what to do after an incident. Find your path forward with Yonke (YONK-ee) Law.",
+      "Calm, plain-English guidance on what to do after an incident. Find your path forward with Yonke Law.",
     url: "https://yonke.law/just-happened/",
     type: "website",
   },
@@ -97,7 +97,7 @@ function buildJsonLd() {
     "@id": "https://yonke.law/just-happened/#collection",
     name: "Something just happened — find your situation",
     description:
-      "Calm, plain-English guidance on what to do after an incident. Find your path forward with Yonke (YONK-ee) Law.",
+      "Calm, plain-English guidance on what to do after an incident. Find your path forward with Yonke Law.",
     hasPart: Object.keys(TOPIC_LABELS).map((slug) => ({
       "@type": "WebPage",
       "@id": `https://yonke.law/just-happened/${slug}/`,
@@ -127,7 +127,7 @@ export default function JustHappenedHubPage() {
           </div>
           <h1
             className="font-display text-4xl md:text-5xl lg:text-6xl text-chrome-highlight leading-[1.15] mb-6"
-            aria-label="Yonke, pronounced YONK-ee, Law — Something just happened. Find your situation."
+            aria-label="Yonke Law — Something just happened. Find your situation."
           >
             Something just happened. Find your situation.
           </h1>
