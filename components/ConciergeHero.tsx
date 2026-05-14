@@ -2,24 +2,50 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 /* -------------------------------------------------------
    ConciergeHero — Section 2 of homepage-spec.md
 
    Behavior:
    1. Full-viewport dark hero with the concierge text input
-   2. Placeholder rotates every ~4.5s to help cold-start users
-   3. On submit:
+   2. Background images cycle every 6s (crossfade)
+   3. Placeholder rotates every ~4.5s to help cold-start users
+   4. On submit:
        - Client-side keyword classification → topic ID
        - Reveal the four-panel response below the input
        - Preserve the user's typed text above the panels
-   4. Empty submit → show the four quick-pick doors prominently
-   5. Quick-pick doors are always visible as a fallback
+   5. Empty submit → show the four quick-pick doors prominently
+   6. Quick-pick doors are always visible as a fallback
 
    The classifier is a temporary client-side keyword match.
    When the Nucleus Concierge backend ships, swap classifyTopic()
    for an API call. Visual / UX layer does not change.
    ------------------------------------------------------- */
+
+const HERO_IMAGES = [
+  "/images/YL client 1.png",
+  "/images/YL client 2.png",
+  "/images/yl-client-3.png",
+  "/images/yl-client-4.png",
+  "/images/YL client 5.png",
+  "/images/YL client 6.png",
+  "/images/YL client 7.png",
+  "/images/YL client 8.png",
+  "/images/YL-client-10.png",
+  "/images/YL client 11.png",
+  "/images/YL client 12.png",
+  "/images/YL client 13.png",
+  "/images/YL client 14.png",
+  "/images/yl-client-19.jpg",
+  "/images/yl-client21.png",
+  "/images/yl-client-22.png",
+  "/images/yl-client-23.png",
+  "/images/yl-client-24.jpg",
+  "/images/yl-client-25.jpg",
+  "/images/yl-client-26.jpg",
+  "/images/Mike Yonke - with client.png",
+] as const;
 
 type TopicId =
   | "car-accident"
@@ -175,6 +201,7 @@ const QUICK_PICK_DOORS = [
 
 export function ConciergeHero() {
   const [placeholderIndex, setPlaceholderIndex] = useState(0);
+  const [bgIndex, setBgIndex] = useState(0);
   const [typedText, setTypedText] = useState("");
   const [submittedText, setSubmittedText] = useState<string | null>(null);
   const [detectedTopic, setDetectedTopic] = useState<TopicId | null>(null);
@@ -188,11 +215,18 @@ export function ConciergeHero() {
     return () => clearInterval(id);
   }, [submittedText]);
 
+  // Cycle background images
+  useEffect(() => {
+    const id = setInterval(() => {
+      setBgIndex((i) => (i + 1) % HERO_IMAGES.length);
+    }, 6000);
+    return () => clearInterval(id);
+  }, []);
+
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const trimmed = typedText.trim();
     if (!trimmed) {
-      // Empty input — surface the four doors but don't classify
       setSubmittedText("");
       setDetectedTopic(null);
       return;
@@ -210,10 +244,30 @@ export function ConciergeHero() {
 
   return (
     <section
-      className="bg-obsidian-graphite min-h-[85vh] flex flex-col justify-center py-20 px-4 lg:px-8"
+      className="relative min-h-[85vh] flex flex-col justify-center py-20 px-4 lg:px-8 overflow-hidden"
       aria-label="What happened? Tell us in plain words."
     >
-      <div className="mx-auto max-w-4xl w-full">
+      {/* Background images — cycle with crossfade */}
+      {HERO_IMAGES.map((src, i) => (
+        <Image
+          key={src}
+          src={src}
+          alt=""
+          fill
+          className={`object-cover transition-opacity duration-[2000ms] ease-in-out ${
+            i === bgIndex ? "opacity-100" : "opacity-0"
+          }`}
+          sizes="100vw"
+          priority={i === 0}
+          aria-hidden="true"
+        />
+      ))}
+
+      {/* Dark overlay for text readability */}
+      <div className="absolute inset-0 bg-obsidian-graphite/75" aria-hidden="true" />
+
+      {/* Content layer */}
+      <div className="relative z-10 mx-auto max-w-4xl w-full">
         {/* Headline */}
         <h1 className="font-display text-4xl md:text-5xl lg:text-6xl text-chrome-highlight text-center leading-[1.15] mb-6">
           We represent people hurt by someone else&apos;s negligence.
