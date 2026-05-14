@@ -49,6 +49,26 @@ const KNOWN_TOPICS = [
 
 type TopicSlug = (typeof KNOWN_TOPICS)[number];
 
+/* Video embeds — YouTube IDs mapped to topics that have videos */
+const TOPIC_VIDEOS: Partial<Record<TopicSlug, { youtubeId: string; title: string }>> = {
+  "car-accident": {
+    youtubeId: "F5c6P4bQamw",
+    title: "Car Accident in Missouri or Kansas — What to Do Next",
+  },
+  "motorcycle-accident": {
+    youtubeId: "SPRExp2R-KY",
+    title: "Motorcycle Accident Cases — What Riders Need to Know",
+  },
+  "truck-accident": {
+    youtubeId: "v1XTlj4plGg",
+    title: "Truck Accident — Why These Cases Are Different",
+  },
+  "medical-malpractice": {
+    youtubeId: "w8Z1u0Hn9x4",
+    title: "Medical Malpractice — When Trust Is Broken",
+  },
+};
+
 const TOPIC_LABELS: Record<TopicSlug, string> = {
   "car-accident": "Car Accident",
   "truck-accident": "Truck or Commercial Vehicle Crash",
@@ -388,6 +408,29 @@ function CarAccidentPage() {
           </div>
         </div>
       </section>
+
+      {/* ===========================================
+          Video — Topic explainer (if available)
+          =========================================== */}
+      {TOPIC_VIDEOS["car-accident"] && (
+        <section className="bg-charcoal-slate py-16 px-4 lg:px-8">
+          <div className="mx-auto max-w-3xl">
+            <div className="aspect-video rounded overflow-hidden border border-steel-silver/10">
+              <iframe
+                src={`https://www.youtube.com/embed/${TOPIC_VIDEOS["car-accident"]!.youtubeId}?rel=0`}
+                title={TOPIC_VIDEOS["car-accident"]!.title}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full"
+                loading="lazy"
+              />
+            </div>
+            <p className="text-sm text-steel-silver mt-4 text-center">
+              {TOPIC_VIDEOS["car-accident"]!.title}
+            </p>
+          </div>
+        </section>
+      )}
 
       {/* ===========================================
           Section 2 — The next 24 hours (LLM citation engine)
@@ -1000,6 +1043,27 @@ function ComingSoonPage({ topic }: { topic: TopicSlug }) {
           </div>
         </div>
       </section>
+
+      {/* Video — Topic explainer (if available) */}
+      {TOPIC_VIDEOS[topic] && (
+        <section className="bg-charcoal-slate py-16 px-4 lg:px-8">
+          <div className="mx-auto max-w-3xl">
+            <div className="aspect-video rounded overflow-hidden border border-steel-silver/10">
+              <iframe
+                src={`https://www.youtube.com/embed/${TOPIC_VIDEOS[topic]!.youtubeId}?rel=0`}
+                title={TOPIC_VIDEOS[topic]!.title}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full"
+                loading="lazy"
+              />
+            </div>
+            <p className="text-sm text-steel-silver mt-4 text-center">
+              {TOPIC_VIDEOS[topic]!.title}
+            </p>
+          </div>
+        </section>
+      )}
 
       {/* Final CTA */}
       <section

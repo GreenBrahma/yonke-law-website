@@ -257,6 +257,27 @@ export default function HomePage() {
       <ConciergeHero />
 
       {/* ===========================================
+          Video — Personal Injury overview
+          =========================================== */}
+      <section className="bg-charcoal-slate py-16 px-4 lg:px-8">
+        <div className="mx-auto max-w-3xl">
+          <div className="aspect-video rounded overflow-hidden border border-steel-silver/10">
+            <iframe
+              src="https://www.youtube.com/embed/wWMcW4GFbmk?rel=0"
+              title="What Is a Personal Injury Case? | Yonke Law"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="w-full h-full"
+              loading="lazy"
+            />
+          </div>
+          <p className="text-sm text-steel-silver mt-4 text-center">
+            What Is a Personal Injury Case? — explained in plain English.
+          </p>
+        </div>
+      </section>
+
+      {/* ===========================================
           Section 3 — The Non-Mill Promise
           =========================================== */}
       <section className="bg-charcoal-slate py-24 px-4 lg:px-8">
