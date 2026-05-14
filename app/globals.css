@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Yonke Law — Design Tokens
+   Source of truth: The Standard (Brand Doctrine) §13–§18
+   ============================================================ */
+
+:root {
+  /* --- Color palette (doctrine §14) --- */
+  --obsidian-graphite: #1C1C1E;   /* Primary background, dominant surfaces */
+  --charcoal-slate:   #2E2F33;   /* Secondary panels, cards */
+  --steel-silver:     #C9CCD1;   /* Logo tone, accents, dividers */
+  --chrome-highlight: #F2F4F7;   /* Contrast text, lifted UI */
+  --deep-forest:      #1F3D2B;   /* Positive states, trust moments (Mood: Green) */
+  --muted-gold:       #B89B5E;   /* Selective outcome highlights, recognition */
+  --signal-red:       #7A1C1C;   /* Alerts, urgent issues (Mood: Red) */
+  --soft-gray:        #E5E7EB;   /* Form fields, quiet backgrounds (Mood: Gray) */
+
+  /* --- Semantic aliases --- */
+  --background:       var(--obsidian-graphite);
+  --foreground:       var(--chrome-highlight);
+  --surface:          var(--charcoal-slate);
+  --accent:           var(--muted-gold);
+  --border:           var(--steel-silver);
+}
+
+/* Expose design tokens to Tailwind v4 */
+@theme inline {
+  --color-obsidian-graphite: var(--obsidian-graphite);
+  --color-charcoal-slate:    var(--charcoal-slate);
+  --color-steel-silver:      var(--steel-silver);
+  --color-chrome-highlight:  var(--chrome-highlight);
+  --color-deep-forest:       var(--deep-forest);
+  --color-muted-gold:        var(--muted-gold);
+  --color-signal-red:        var(--signal-red);
+  --color-soft-gray:         var(--soft-gray);
+
+  /* Semantic color tokens */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface:    var(--surface);
+  --color-accent:     var(--accent);
+  --color-border:     var(--border);
+
+  /* Typography — doctrine §15 */
+  --font-display: var(--font-libre-baskerville), "Georgia", serif;
+  --font-body:    var(--font-inter), "Helvetica Neue", "SF Pro", "Aptos", Arial, sans-serif;
+}
+
+/* ============================================================
+   Base styles
+   ============================================================ */
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body);
+  line-height: 1.6;
+}
+
+/* Headings use display serif (doctrine §15) */
+h1, h2, h3 {
+  font-family: var(--font-display);
+}
+
+/* ============================================================
+   Accessibility: Skip to content link
+   ============================================================ */
+.skip-to-content {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 9999;
+  padding: 0.75rem 1.5rem;
+  background: var(--chrome-highlight);
+  color: var(--obsidian-graphite);
+  font-weight: 600;
+  border-radius: 0.25rem;
+  transition: top 0.2s;
+}
+
+.skip-to-content:focus {
+  top: 0.5rem;
+}
