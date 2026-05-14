@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Libre_Baskerville, Inter } from "next/font/google";
 import { TopNav } from "@/components/TopNav";
 import { Footer } from "@/components/Footer";
+import { ChatBot } from "@/components/chatbot/ChatBot";
 import "./globals.css";
 
 /* -------------------------------------------------------
@@ -76,6 +77,7 @@ export default function RootLayout({
         </main>
 
         <Footer />
+        <ChatBot />
       </body>
     </html>
   );
