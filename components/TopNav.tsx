@@ -30,7 +30,7 @@ export function TopNav() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-[#E5E7EB] border-b border-[#C9CCD1]">
+    <header className="sticky top-0 z-50 w-full bg-[#383839] border-b border-steel-silver/20">
       <nav
         className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 lg:px-8"
         aria-label="Primary navigation"
@@ -57,7 +57,7 @@ export function TopNav() {
             <li key={item.href}>
               <Link
                 href={item.href}
-                className="text-sm text-[#2E2F33] hover:text-[#1C1C1E] font-medium transition-colors duration-200"
+                className="text-sm text-steel-silver hover:text-chrome-highlight font-medium transition-colors duration-200"
               >
                 {item.label}
               </Link>
@@ -69,7 +69,7 @@ export function TopNav() {
         <div className="flex items-center gap-4">
           <a
             href={PHONE_TEL}
-            className="hidden sm:inline-flex text-sm text-[#2E2F33] hover:text-[#1C1C1E] font-medium transition-colors duration-200"
+            className="hidden sm:inline-flex text-sm text-steel-silver hover:text-chrome-highlight font-medium transition-colors duration-200"
           >
             {PHONE_NUMBER}
           </a>
@@ -84,7 +84,7 @@ export function TopNav() {
           {/* ---- Mobile hamburger ---- */}
           <button
             type="button"
-            className="lg:hidden inline-flex items-center justify-center rounded p-2 text-[#2E2F33] hover:text-[#1C1C1E] transition-colors duration-200"
+            className="lg:hidden inline-flex items-center justify-center rounded p-2 text-steel-silver hover:text-chrome-highlight transition-colors duration-200"
             aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileMenuOpen}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -117,13 +117,13 @@ export function TopNav() {
 
       {/* ---- Mobile menu ---- */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-[#C9CCD1] bg-[#E5E7EB]">
+        <div className="lg:hidden border-t border-steel-silver/20 bg-[#383839]">
           <ul className="flex flex-col gap-1 px-4 py-4">
             {NAV_ITEMS.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="block rounded px-3 py-2 text-sm text-[#2E2F33] hover:text-[#1C1C1E] hover:bg-[#D1D5DB] transition-colors duration-200"
+                  className="block rounded px-3 py-2 text-sm text-steel-silver hover:text-chrome-highlight hover:bg-[#444446] transition-colors duration-200"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {item.label}
@@ -133,7 +133,7 @@ export function TopNav() {
             <li className="pt-2 border-t border-steel-silver/20">
               <a
                 href={PHONE_TEL}
-                className="block px-3 py-2 text-sm text-[#2E2F33] hover:text-[#1C1C1E]"
+                className="block px-3 py-2 text-sm text-steel-silver hover:text-chrome-highlight"
               >
                 Call {PHONE_NUMBER}
               </a>
