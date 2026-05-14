@@ -214,13 +214,6 @@ export function ConciergeHero() {
       aria-label="What happened? Tell us in plain words."
     >
       <div className="mx-auto max-w-4xl w-full">
-        {/* Pre-headline / eyebrow */}
-        <div
-          className="text-xs uppercase tracking-[0.2em] text-steel-silver mb-6 text-center"
-        >
-          YONKE LAW
-        </div>
-
         {/* Headline */}
         <h1 className="font-display text-4xl md:text-5xl lg:text-6xl text-chrome-highlight text-center leading-[1.15] mb-6">
           We represent people hurt by someone else&apos;s negligence.
