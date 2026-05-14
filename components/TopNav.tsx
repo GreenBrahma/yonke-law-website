@@ -30,7 +30,7 @@ export function TopNav() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-obsidian-graphite border-b border-steel-silver/20">
+    <header className="sticky top-0 z-50 w-full bg-charcoal-slate border-b border-steel-silver/20">
       <nav
         className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 lg:px-8"
         aria-label="Primary navigation"
