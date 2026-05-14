@@ -2,6 +2,9 @@
 
 # dependencies
 /node_modules
+
+# video files (served via YouTube embed, not from repo)
+/public/videos/
 /.pnp
 .pnp.*
 .yarn/*
