@@ -7,8 +7,8 @@
 
 :root {
   /* --- Color palette (doctrine §14) --- */
-  --obsidian-graphite: #1C1C1E;   /* Primary background, dominant surfaces */
-  --charcoal-slate:   #2E2F33;   /* Secondary panels, cards */
+  --obsidian-graphite: #2C2C30;   /* Primary background, dominant surfaces */
+  --charcoal-slate:   #3C3D42;   /* Secondary panels, cards */
   --steel-silver:     #C9CCD1;   /* Logo tone, accents, dividers */
   --chrome-highlight: #F2F4F7;   /* Contrast text, lifted UI */
   --deep-forest:      #1F3D2B;   /* Positive states, trust moments (Mood: Green) */
