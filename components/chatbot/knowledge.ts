@@ -196,56 +196,190 @@ The standard is whether the owner exercised reasonable care under all circumstan
     statutes: ["RSMo Chapter 198"],
   },
   {
-    keywords: ["damage cap", "maximum", "how much", "compensation", "damages", "what can i get", "recover"],
+    keywords: ["damage cap", "maximum", "how much", "compensation", "damages", "what can i get", "recover", "worth"],
     category: "Damage Caps",
     question: "Are there damage caps in Missouri and Kansas?",
-    answer: `Damage caps vary by claim type:
+    answer: `Damage caps vary by claim type and state:
 
 **Missouri:**
-• General personal injury noneconomic: No cap
-• Med mal noneconomic (standard): $400,000
-• Med mal noneconomic (catastrophic): $700,000
-• Government claims: ~$517,306/person (inflation-adjusted)
+• General personal injury noneconomic: **No cap**
+• Med mal noneconomic (standard): $400,000 (RSMo § 538.210)
+• Med mal noneconomic (catastrophic/death): $700,000 with 1.7% annual escalator
+• Punitive damages: Greater of $500,000 or 5× net judgment (RSMo §§ 510.261, 510.265)
+• Government claims: $300,000/person, $2M/occurrence, inflation-indexed (RSMo § 537.610)
 
 **Kansas:**
-• General PI noneconomic: $350,000
-• Med mal noneconomic: $350,000
-• Wrongful death noneconomic: $250,000
+• General PI noneconomic: **No cap** — the former $250,000 cap was struck as unconstitutional in *Hilburn v. Enerpipe Ltd.*, 309 Kan. 1127 (2019)
+• Wrongful death nonpecuniary: $250,000 aggregate cap remains (KSA § 60-1903)
+• Punitive damages: Lesser of highest gross income over 5 years (or 50% net worth) or $5 million (KSA § 60-3702)
+• Government claims (KTCA): $500,000/occurrence, no punitives (KSA § 75-6105)
 
-These caps apply to noneconomic damages only (pain and suffering, etc.). There are generally no caps on economic damages (medical bills, lost wages) in either state.
-
-Caps are adjusted periodically. Confirm current amounts with an attorney.`,
-    statutes: ["RSMo § 538.210", "KSA § 60-19a02", "KSA § 60-1903"],
+These caps apply to noneconomic damages only. There are generally no caps on economic damages (medical bills, lost wages) in either state.`,
+    statutes: ["RSMo § 538.210", "RSMo § 537.610", "KSA § 60-19a02", "KSA § 60-1903", "KSA § 60-3702"],
   },
   {
     keywords: ["comparative fault", "fault", "percentage", "partial fault", "shared fault", "both at fault"],
     category: "Comparative Fault",
     question: "How does shared fault work?",
     answer: `**Missouri — Pure Comparative Fault (RSMo § 537.765):**
-A person may recover damages even if largely at fault. Damages are reduced by their percentage of fault. Example: 80% at fault → recover 20% of damages.
+A person may recover damages even if largely at fault. Damages are reduced by their percentage of fault. Example: 80% at fault → recover 20% of damages. A defendant 51%+ at fault is jointly and severally liable (RSMo § 537.067); below 51% is severally liable only.
 
 **Kansas — Modified Comparative Fault (KSA § 60-258a):**
-Recovery is only allowed if fault is 49% or less. At 50% or more, recovery is completely barred. Damages are reduced by the percentage of fault assigned.
+Recovery is only allowed if fault is 49% or less. At 50% or more, recovery is completely barred. Kansas abolished joint-and-several liability — each defendant pays only its own share.
 
 This distinction is one of the most important differences between the two states for personal injury claims.`,
-    statutes: ["RSMo § 537.765", "KSA § 60-258a"],
+    statutes: ["RSMo § 537.765", "RSMo § 537.067", "KSA § 60-258a"],
   },
   {
-    keywords: ["motorcycle", "bike", "rider", "biker"],
+    keywords: ["motorcycle", "bike", "rider", "biker", "helmet"],
     category: "Motorcycle Accidents",
     question: "What about motorcycle accident cases?",
     answer: `Motorcycle accidents follow the same negligence framework as car accidents, but riders often face unique challenges:
 
 • Injuries tend to be more severe due to lack of vehicle protection
 • Insurance companies may argue rider behavior contributed to injuries
-• Helmet use (or non-use) may be raised as a comparative fault issue
 
-The same comparative fault rules apply — pure in Missouri, modified 50% bar in Kansas.
+**Missouri:** Operating a motorcycle is specifically NOT evidence of comparative negligence (RSMo § 537.055). Seatbelt non-use may reduce damages by up to 1% only (RSMo § 307.178). Missouri's adult helmet requirement was largely repealed in 2020.
 
-**SOL:** 5 years (Missouri) / 2 years (Kansas).
+**Kansas:** Helmets required for riders under 18 (KSA § 8-1598). Helmet/seatbelt non-use admissibility is case-law-dependent.
 
-Yonke Law has a dedicated video explaining motorcycle accident cases on our YouTube channel.`,
-    statutes: ["RSMo § 537.765", "KSA § 60-258a"],
+**SOL:** 5 years (Missouri) / 2 years (Kansas).`,
+    statutes: ["RSMo § 537.055", "RSMo § 307.178", "KSA § 8-1598"],
+  },
+  {
+    keywords: ["uninsured", "underinsured", "um", "uim", "pip", "no fault", "insurance coverage", "no insurance"],
+    category: "UM/UIM & PIP",
+    question: "How do uninsured/underinsured motorist coverage and PIP work?",
+    answer: `**Missouri UM/UIM:**
+• Mandatory UM coverage at minimum BI limits (RSMo § 379.203)
+• UIM is recognized within the UM framework by case law
+• UM follows the insured personally — hit-and-run is covered without physical contact
+• Stacking permitted absent enforceable policy exclusion
+• **No PIP mandate** in Missouri
+
+**Kansas PIP (No-Fault — KAIRA):**
+• Mandatory PIP under KSA § 40-3107: $4,500 medical, $4,500 rehab, $900/month income (1 year)
+• To sue for pain and suffering, the **tort threshold** must be met (KSA § 40-3117): medical bills over $2,000, permanent injury, fracture, or death
+• UM/UIM mandatory unless rejected in writing (KSA § 40-284)
+• PIP subrogation only for duplicative damages (KSA § 40-3113a)
+
+If the at-fault driver is uninsured, your own UM/UIM coverage may apply in both states.`,
+    statutes: ["RSMo § 379.203", "KSA § 40-3107", "KSA § 40-3117", "KSA § 40-284"],
+  },
+  {
+    keywords: ["dram shop", "bar", "tavern", "alcohol", "drunk", "intoxicated", "served", "bartender"],
+    category: "Dram Shop / Alcohol Liability",
+    question: "Can a bar be held liable for serving an intoxicated person?",
+    answer: `**Missouri — Limited Statutory Liability (RSMo § 537.053):**
+A licensed seller of liquor by the drink (bars, restaurants) may be liable when they served alcohol to:
+• A person **under 21**, or
+• A **visibly intoxicated** person
+Standard of proof: clear and convincing evidence. Persons over 21 cannot recover for their own voluntary intoxication.
+
+**Kansas — No Civil Dram Shop Statute:**
+KSA § 41-715 is **criminal only** — it prohibits serving visibly intoxicated persons but creates no civil remedy. The Kansas Supreme Court has declined to recognize a common-law civil dram shop cause of action. The injured party's civil recourse is typically against the intoxicated individual only.
+
+This is a significant cross-border difference for Kansas City-area cases.`,
+    statutes: ["RSMo § 537.053", "KSA § 41-715"],
+  },
+  {
+    keywords: ["security", "assault", "attacked", "crime", "criminal", "parking", "robbery", "mugged"],
+    category: "Negligent Security",
+    question: "Can a business be liable for a criminal attack on its property?",
+    answer: `**Missouri — Statutory Rule (RSMo § 537.787):**
+A business has **no duty** to guard against third-party criminal acts unless it:
+• Knew or had reason to know that criminal acts were being committed or were reasonably likely in that area, AND
+• Had sufficient time to prevent the injury
+
+Defenses include: reasonable security measures already in place, trespasser status, and the business being closed at the time.
+
+**Kansas — Common Law:**
+Duty arises only when the harm is reasonably foreseeable — most often shown by prior similar incidents on the premises or in the immediate area.
+
+Evidence of prior crimes at the location, inadequate lighting, broken locks, and absence of security personnel can all support a negligent security claim.`,
+    statutes: ["RSMo § 537.787"],
+  },
+  {
+    keywords: ["lien", "hospital lien", "medicaid", "subrogation", "settlement", "disbursement", "payback"],
+    category: "Liens & Subrogation",
+    question: "What liens must be addressed in a personal injury settlement?",
+    answer: `Before any settlement can be disbursed, several potential liens must be resolved:
+
+**Missouri:**
+• **Hospital lien** — RSMo § 430.230
+• **Provider lien** (clinics, practitioners) — RSMo § 430.225, capped at 50% of net proceeds
+• Hospital liens do **not** attach to wrongful-death settlements
+• **Workers' comp** employer subrogation — RSMo § 287.150
+• **Medicaid** reimbursement — RSMo § 208.215
+• **Medicare** super-lien — 42 U.S.C. § 1395y(b)
+
+**Kansas:**
+• **Hospital lien** — KSA § 65-406 to 65-409; $5,000 fully enforceable, over $5,000 subject to equitable distribution
+• Strict notice compliance required per *Via Christi v. Reed*, 290 Kan. 540 (2010)
+• **Workers' comp** subrogation — KSA § 44-504
+• **PIP subrogation** — only for duplicative damages (KSA § 40-3113a)
+
+An attorney must identify and negotiate all liens before disbursement.`,
+    statutes: ["RSMo § 430.230", "RSMo § 430.225", "KSA § 65-406"],
+  },
+  {
+    keywords: ["government", "city", "state", "municipality", "public", "sovereign immunity", "government claim", "notice"],
+    category: "Government Liability",
+    question: "Can I sue a government entity for personal injury?",
+    answer: `Government entities have limited immunity from lawsuits, but there are important exceptions:
+
+**Missouri (RSMo § 537.600):**
+Two principal waivers of sovereign immunity:
+1. Negligent operation of motor vehicles by public employees
+2. **Dangerous condition of public property** — requires proof of foreseeable risk and that the entity had notice with time to remedy
+
+**Caps:** $300,000/person, $2,000,000/occurrence (inflation-indexed). No punitives.
+**Notice:** 90-day notice may be required for municipal claims under RSMo § 82.210.
+
+**Kansas (KTCA — KSA § 75-6101 et seq.):**
+Government entities are liable like private persons, subject to broad exceptions (discretionary functions, failure to inspect, police/fire protection, snow/ice, etc.)
+
+**Caps:** $500,000/occurrence, no punitives (KSA § 75-6105).
+**Notice:** Pre-suit notice **required** for municipal claims under KSA § 12-105b — 120-day waiting period. Failure to comply strictly can result in dismissal.`,
+    statutes: ["RSMo § 537.600", "RSMo § 537.610", "KSA § 75-6101", "KSA § 12-105b"],
+  },
+  {
+    keywords: ["sexual abuse", "sexual assault", "child abuse", "childhood", "molestation"],
+    category: "Sexual Abuse Civil Claims",
+    question: "What civil remedies exist for sexual abuse survivors?",
+    answer: `Both states recognize civil claims for battery, assault, and intentional infliction of emotional distress in sexual abuse cases, along with negligent hiring/retention/supervision against employers or institutions.
+
+**Missouri (RSMo § 537.046):**
+Extended statute of limitations for childhood sexual abuse — allows filing years after the abuse occurred. Civil claims are independent of any criminal proceedings.
+
+**Kansas (KSA § 60-523):**
+SOL extends to **three years after the person discovers or reasonably should have discovered the injury was caused by the abuse**, regardless of age. The KTCA includes a carve-back making certain government immunities unavailable in childhood sexual-abuse claims (KSA § 75-6104).
+
+**Important:** SOL laws in this area are in active legislative motion in both states. Current statute text should always be verified before filing.`,
+    statutes: ["RSMo § 537.046", "KSA § 60-523", "KSA § 75-6104"],
+  },
+  {
+    keywords: ["product", "defective", "recall", "manufacturer", "dangerous product", "consumer"],
+    category: "Product Liability",
+    question: "What if a defective product caused my injury?",
+    answer: `**Missouri — Strict Liability (RSMo §§ 537.760–537.765):**
+You do NOT need to prove the manufacturer was negligent. The elements are:
+1. Defendant transferred the product in commerce
+2. Product was used as reasonably anticipated
+3. Product was defective and **unreasonably dangerous**
+4. The defect caused the injury
+
+Defenses: innocent seller dismissal (§ 537.762), state-of-the-art defense (§ 537.764). Pure comparative fault applies. SOL: 5 years.
+
+**Kansas — Product Liability Act (KSA § 60-3301 et seq.):**
+Governs ALL product theories — strict liability, negligence, warranty. Key features:
+• **10-year useful-safe-life repose** from delivery (KSA § 60-3303) with a latent-disease exception
+• Seller-shield defense (KSA § 60-3306)
+• Regulatory-compliance defense (KSA § 60-3304)
+• Modified comparative fault, 50% bar applies. SOL: 2 years.
+
+**Critical:** Preserve the defective product as evidence. Do not discard, repair, or return it.`,
+    statutes: ["RSMo § 537.760", "RSMo § 537.765", "KSA § 60-3301"],
   },
   {
     keywords: ["contact", "call", "phone", "talk", "consultation", "free", "reach", "help", "lawyer", "attorney", "hire"],
