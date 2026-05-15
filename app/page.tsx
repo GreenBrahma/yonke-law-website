@@ -385,7 +385,7 @@ export default function HomePage() {
 
           <div className="text-center mt-12">
             <Link
-              href="/how-it-works"
+              href="/people-first"
               className="inline-flex items-center gap-2 text-chrome-highlight hover:text-muted-gold transition-colors duration-200"
             >
               See the full process <span aria-hidden="true">→</span>

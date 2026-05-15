@@ -17,7 +17,7 @@ import { useState } from "react";
 
 const NAV_ITEMS = [
   { label: "Just Happened?", href: "/just-happened" },
-  { label: "People First", href: "/how-it-works" },
+  { label: "People First", href: "/people-first" },
   { label: "Spotlight Corner", href: "/spotlight-corner" },
   { label: "What We Handle", href: "/what-we-handle" },
   { label: "Talk to Us", href: "/talk-to-us" },

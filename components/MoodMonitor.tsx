@@ -133,7 +133,7 @@ export function MoodMonitor() {
 
         <div className="text-center mt-10">
           <Link
-            href="/how-it-works/people-portal"
+            href="/people-first/people-portal"
             className="inline-flex items-center gap-2 text-chrome-highlight hover:text-muted-gold transition-colors duration-200"
           >
             See how the People Portal works{" "}

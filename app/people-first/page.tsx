@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "How It Works — The Process",
+  title: "People First — The Process | Yonke Law",
   description:
     "How a personal injury case moves from incident to resolution. Process transparency from Yonke Law in Kansas City.",
+  alternates: { canonical: "https://yonke.law/people-first/" },
 };
 
-export default function HowItWorksPage() {
+export default function PeopleFirstPage() {
   return (
     <div className="flex flex-col items-center justify-center py-24 px-4 text-center">
       <p className="text-sm uppercase tracking-widest text-steel-silver mb-4">
-        How It Works
+        People First
       </p>
       <h1 className="font-display text-4xl font-bold text-chrome-highlight mb-6">
         The process, in plain English.

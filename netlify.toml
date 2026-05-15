@@ -7,3 +7,14 @@
 
 [build.environment]
   NODE_VERSION = "20"
+
+# Redirects — old /how-it-works → new /people-first
+[[redirects]]
+  from = "/how-it-works"
+  to = "/people-first"
+  status = 301
+
+[[redirects]]
+  from = "/how-it-works/*"
+  to = "/people-first/:splat"
+  status = 301

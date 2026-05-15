@@ -46,8 +46,8 @@ const FOOTER_COLUMNS = {
     heading: "Resources",
     links: [
       { label: "Just Happened?", href: "/just-happened" },
-      { label: "How It Works", href: "/how-it-works" },
-      { label: "The People Portal", href: "/how-it-works/people-portal" },
+      { label: "People First", href: "/people-first" },
+      { label: "The People Portal", href: "/people-first/people-portal" },
       { label: "Checklists", href: "/resources" },
       { label: "FAQ", href: "/resources" },
       { label: "Missouri Law", href: "/resources" },

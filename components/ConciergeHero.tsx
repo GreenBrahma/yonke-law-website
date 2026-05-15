@@ -159,7 +159,7 @@ const TOPIC_TO_JUST_HAPPENED: Record<TopicId, string> = {
   "slip-and-fall": "/just-happened/slip-and-fall",
   motorcycle: "/just-happened/motorcycle-accident",
   "have-offer": "/resources/offer-review",
-  researching: "/how-it-works",
+  researching: "/people-first",
   general: "/just-happened",
 };
 
@@ -192,7 +192,7 @@ const QUICK_PICK_DOORS = [
     label: "Someone I love was hurt",
     href: "/just-happened/family-perspective",
   },
-  { label: "I'm researching my options", href: "/how-it-works" },
+  { label: "I'm researching my options", href: "/people-first" },
   {
     label: "I have an offer I'm not sure about",
     href: "/resources/offer-review",
@@ -458,7 +458,7 @@ function ConciergePanels({
               resolution.
             </p>
             <Link
-              href="/how-it-works"
+              href="/people-first"
               className="inline-flex items-center gap-2 text-chrome-highlight hover:text-muted-gold transition-colors"
             >
               See the full process <span aria-hidden="true">→</span>
