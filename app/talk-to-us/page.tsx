@@ -40,7 +40,7 @@ export default function TalkToUsPage() {
               Send us a message
             </h2>
             {/* Form submissions route to Mike's MS365 email.
-                TODO: Integration point — People Portal digital intake (not yet built). */}
+                TODO: Integration point — People First digital intake (not yet built). */}
             <form
               action="https://formsubmit.co/mike@yonke.law"
               method="POST"

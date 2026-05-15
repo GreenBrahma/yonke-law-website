@@ -14,7 +14,7 @@ import Link from "next/link";
    Red    → --signal-red   → "Mike is notified directly…"
 
    This is a UI demo only. The real Mood Monitor lives in the
-   People Portal. Per AGENTS.md, this version must work — not
+   People First. Per AGENTS.md, this version must work — not
    just describe.
    ------------------------------------------------------- */
 
@@ -37,7 +37,7 @@ export function MoodMonitor() {
       <div className="mx-auto max-w-3xl">
         <div className="text-center mb-12">
           <div className="text-xs uppercase tracking-wider text-muted-gold mb-3">
-            The People Portal
+            People First
           </div>
           <h2 className="font-display text-3xl md:text-4xl text-chrome-highlight leading-tight mb-3">
             Most law firms never ask how you&apos;re actually doing.
@@ -133,10 +133,10 @@ export function MoodMonitor() {
 
         <div className="text-center mt-10">
           <Link
-            href="/people-first/people-portal"
+            href="/people-first"
             className="inline-flex items-center gap-2 text-chrome-highlight hover:text-muted-gold transition-colors duration-200"
           >
-            See how the People Portal works{" "}
+            See how People First works{" "}
             <span aria-hidden="true">→</span>
           </Link>
         </div>

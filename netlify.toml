@@ -18,3 +18,9 @@
   from = "/how-it-works/*"
   to = "/people-first/:splat"
   status = 301
+
+# Redirect retired /people-first/people-portal → /people-first
+[[redirects]]
+  from = "/people-first/people-portal"
+  to = "/people-first"
+  status = 301

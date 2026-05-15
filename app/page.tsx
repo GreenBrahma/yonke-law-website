@@ -530,7 +530,7 @@ export default function HomePage() {
           </p>
 
           {/* TODO: Wire form submission to /api/intake → Mike's MS365.
-              Per AGENTS.md, this is the People Portal account creation
+              Per AGENTS.md, this is the People First account creation
               fallback until the Portal is live. */}
           <form
             method="POST"

@@ -810,7 +810,7 @@ function CarAccidentPage() {
               >
                 Start the digital intake <span aria-hidden="true">→</span>
               </Link>
-              {/* TODO: Wire digital intake to People Portal account creation when Nucleus ships.
+              {/* TODO: Wire digital intake to People First account creation when Nucleus ships.
                   Per AGENTS.md, intake submissions route to Mike's MS365 in the interim. */}
             </div>
           </div>

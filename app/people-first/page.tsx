@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "People First — The Process | Yonke Law",
+  title: "People First — How We Stay Connected | Yonke Law",
   description:
-    "How a personal injury case moves from incident to resolution. Process transparency from Yonke Law in Kansas City.",
+    "People First is how Yonke Law stays connected with the people we represent. Real-time check-ins, visibility, and communication — not silence.",
   alternates: { canonical: "https://yonke.law/people-first/" },
 };
 
@@ -14,12 +14,12 @@ export default function PeopleFirstPage() {
         People First
       </p>
       <h1 className="font-display text-4xl font-bold text-chrome-highlight mb-6">
-        The process, in plain English.
+        Most law firms never ask how you&apos;re actually doing.
       </h1>
       <p className="text-lg text-steel-silver max-w-xl">
-        Placeholder — process transparency + People Portal preview.
+        Placeholder — People First preview + Mood Monitor demo.
       </p>
-      {/* TODO: Build 7-phase timeline per homepage-spec.md Section 4 */}
+      {/* TODO: Build full People First preview per People_First_Preview__Antigravity_Prompt.md */}
     </div>
   );
 }

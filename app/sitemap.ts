@@ -15,7 +15,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/just-happened`, lastModified: new Date() },
     { url: `${baseUrl}/what-we-handle`, lastModified: new Date() },
     { url: `${baseUrl}/people-first`, lastModified: new Date() },
-    { url: `${baseUrl}/people-first/people-portal`, lastModified: new Date() },
     { url: `${baseUrl}/spotlight-corner`, lastModified: new Date() },
     { url: `${baseUrl}/talk-to-us`, lastModified: new Date() },
     { url: `${baseUrl}/resources`, lastModified: new Date() },
