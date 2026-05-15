@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Breadcrumb } from "@/components/Breadcrumb";
 import { PRACTICE_AREAS } from "../practiceAreaData";
 import { PRACTICE_AREAS_2 } from "../practiceAreaData2";
 
@@ -41,6 +42,11 @@ export default async function PracticeAreaPage({
 
   return (
     <>
+      <Breadcrumb items={[
+        { label: "What We Handle", href: "/what-we-handle" },
+        { label: area.name },
+      ]} />
+
       {/* S1: Hero */}
       <section className="relative bg-obsidian-graphite py-24 px-4 lg:px-8 overflow-hidden">
         <div className="absolute inset-0">

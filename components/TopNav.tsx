@@ -44,9 +44,10 @@ export function TopNav() {
           <Image
             src="/yl-logo.png"
             alt="Yonke Law monogram"
-            width={40}
-            height={40}
+            width={60}
+            height={60}
             className="rounded-full"
+            style={{ boxShadow: "0 0 14px 4px rgba(184, 155, 94, 0.45), 0 0 30px 8px rgba(184, 155, 94, 0.15)" }}
             priority
           />
         </Link>
