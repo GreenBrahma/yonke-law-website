@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { ConciergeHero } from "@/components/ConciergeHero";
 import { MoodMonitor } from "@/components/MoodMonitor";
 
@@ -437,11 +438,14 @@ export default function HomePage() {
           =========================================== */}
       <section className="bg-charcoal-slate py-24 px-4 lg:px-8">
         <div className="mx-auto max-w-5xl grid md:grid-cols-5 gap-12 items-center">
-          <div className="md:col-span-2 aspect-[4/5] bg-obsidian-graphite border border-steel-silver/20 rounded flex items-center justify-center">
-            {/* TODO: Replace with Mike's portrait — YONKE-MIKE-PORTRAIT-02 from Drive folder ID 1Sea3j5hCkU8xQLcVNqYjYMj8bjPj57XI */}
-            <span className="text-steel-silver/40 text-sm">
-              [ Mike portrait ]
-            </span>
+          <div className="md:col-span-2 aspect-[4/5] bg-obsidian-graphite border border-steel-silver/20 rounded overflow-hidden relative">
+            <Image
+              src="/images/Mike Yonke - Headshot.png"
+              alt="Michael T. Yonke — founding partner of Yonke Law in Kansas City"
+              fill
+              className="object-cover object-top"
+              sizes="(max-width: 768px) 100vw, 40vw"
+            />
           </div>
 
           <div className="md:col-span-3 space-y-6">

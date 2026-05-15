@@ -71,6 +71,66 @@ const AREAS = [
     desc: "Crosswalk collisions, hit-and-run, cyclist right-hooks, dooring incidents, and backing accidents.",
     image: "/images/pa-pedestrian-bicycle.png",
   },
+  {
+    slug: "rideshare-accidents",
+    name: "Rideshare Accidents",
+    desc: "Uber, Lyft, and app-based driver crashes with multi-policy insurance disputes.",
+    image: "/images/pa-car-accidents.png",
+  },
+  {
+    slug: "surgical-error",
+    name: "Surgical Error",
+    desc: "Wrong-site surgery, anesthesia mistakes, retained objects, and post-operative complications from negligent care.",
+    image: "/images/pa-medical-malpractice.png",
+  },
+  {
+    slug: "diagnostic-error",
+    name: "Diagnostic Error",
+    desc: "Missed cancer, delayed stroke diagnosis, misread imaging, and failures to refer to the right specialist.",
+    image: "/images/pa-medical-malpractice.png",
+  },
+  {
+    slug: "medication-error",
+    name: "Medication Error",
+    desc: "Wrong drug, wrong dose, dangerous interactions, and pharmacy or hospital medication mix-ups.",
+    image: "/images/pa-medical-malpractice.png",
+  },
+  {
+    slug: "birth-injury",
+    name: "Birth Injury",
+    desc: "Oxygen deprivation, delayed C-section, improper use of delivery tools, and maternal injury from negligent care.",
+    image: "/images/pa-medical-malpractice.png",
+  },
+  {
+    slug: "dog-bite",
+    name: "Dog Bite",
+    desc: "Dog attacks, facial scarring, child bite cases, knockdown injuries, and owner liability claims.",
+    image: "/images/pa-premises-liability.png",
+  },
+  {
+    slug: "construction-injury",
+    name: "Construction Injury",
+    desc: "Falls, struck-by accidents, equipment failures, electrical injuries, and third-party claims beyond workers' comp.",
+    image: "/images/pa-workplace-injuries.png",
+  },
+  {
+    slug: "sexual-abuse",
+    name: "Sexual Abuse",
+    desc: "Civil claims for abuse, assault, or exploitation — including institutional failure and cover-up cases.",
+    image: "/images/pa-nursing-home.png",
+  },
+  {
+    slug: "active-shooter",
+    name: "Active Shooter Incident",
+    desc: "Negligent security, ignored warnings, emergency response failures, and wrongful death claims.",
+    image: "/images/pa-premises-liability.png",
+  },
+  {
+    slug: "family-perspective",
+    name: "When Someone You Love Was Hurt",
+    desc: "Guidance for spouses, parents, and family members helping a loved one after a serious injury.",
+    image: "/images/pa-wrongful-death.png",
+  },
 ];
 
 export default function WhatWeHandlePage() {
@@ -89,7 +149,7 @@ export default function WhatWeHandlePage() {
             Where we focus. Where we know what to do.
           </h1>
           <p className="text-lg md:text-xl text-steel-silver leading-relaxed max-w-2xl mx-auto">
-            Ten practice areas. Decades of focused experience in each.
+            Practice areas we handle. Decades of focused experience in each.
             Every case is personal injury — and every case is personal.
           </p>
         </div>

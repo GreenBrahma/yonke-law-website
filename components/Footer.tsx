@@ -20,11 +20,8 @@ const FOOTER_COLUMNS = {
     heading: "About",
     links: [
       { label: "Michael T. Yonke", href: "/about" },
-      { label: "David Smith", href: "/about" },
-      { label: "Janelle Yonke", href: "/about" },
-      { label: "Outcomes", href: "/about" },
-      { label: "Testimonials", href: "/about" },
-      { label: "Recognition", href: "/about" },
+      { label: "Testimonials", href: "/about/testimonials" },
+      { label: "Recognition", href: "/about/recognition" },
     ],
   },
   practiceAreas: {

@@ -47,7 +47,7 @@ export function TopNav() {
             width={60}
             height={60}
             className="rounded-full"
-            style={{ boxShadow: "0 0 14px 4px rgba(184, 155, 94, 0.45), 0 0 30px 8px rgba(184, 155, 94, 0.15)" }}
+            style={{ boxShadow: "0 0 10px 2px rgba(255, 255, 255, 0.40), 0 0 20px 4px rgba(255, 255, 255, 0.10)" }}
             priority
           />
         </Link>

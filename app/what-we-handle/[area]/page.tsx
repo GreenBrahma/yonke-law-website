@@ -5,8 +5,10 @@ import { notFound } from "next/navigation";
 
 import { PRACTICE_AREAS } from "../practiceAreaData";
 import { PRACTICE_AREAS_2 } from "../practiceAreaData2";
+import { PRACTICE_AREAS_3 } from "../practiceAreaData3";
+import { PRACTICE_AREAS_4 } from "../practiceAreaData4";
 
-const ALL_AREAS = [...PRACTICE_AREAS, ...PRACTICE_AREAS_2];
+const ALL_AREAS = [...PRACTICE_AREAS, ...PRACTICE_AREAS_2, ...PRACTICE_AREAS_3, ...PRACTICE_AREAS_4];
 
 function getArea(slug: string) {
   return ALL_AREAS.find((a) => a.slug === slug);

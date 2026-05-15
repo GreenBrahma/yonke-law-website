@@ -2,25 +2,17 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
-import {
-  KNOWLEDGE_BASE,
-  SYSTEM_DISCLAIMER,
-  GREETING,
-  type KnowledgeEntry,
-} from "./knowledge";
 
 /* ===========================================================
-   ChatBot — Yonke Law informational assistant
+   ChatBot — Yonke Law conversational assistant
 
-   Architecture: 100% client-side, zero API calls.
-   Answers are pattern-matched against a pre-verified
-   knowledge base sourced from the MO/KS legal catalog.
-   
-   GUARDRAILS:
-   - Cannot hallucinate (no generative model — lookup only)
-   - Cannot give legal advice (disclaimer on every response)
-   - Cannot drift (no memory beyond current session)
-   - Falls back to "contact us" for any unrecognized question
+   Full conversational chat powered by /api/chat.
+   Features:
+   - Multi-turn conversation with memory
+   - Document upload intent (guides to Talk to Us)
+   - Emotional, supportive, person-first tone
+   - Contact info always available
+   - Falls back gracefully if API unavailable
    =========================================================== */
 
 interface Message {
@@ -28,96 +20,23 @@ interface Message {
   text: string;
 }
 
-function scoreMatch(query: string, entry: KnowledgeEntry): number {
-  const q = query.toLowerCase();
-  let score = 0;
-  for (const kw of entry.keywords) {
-    if (q.includes(kw.toLowerCase())) {
-      score += kw.length; // longer keyword matches score higher
-    }
-  }
-  // Bonus for category match
-  if (q.includes(entry.category.toLowerCase())) {
-    score += 10;
-  }
-  return score;
-}
+const GREETING = `Hey — I'm glad you're here.
 
-function findBestAnswer(query: string): string {
-  const q = query.toLowerCase().trim();
+Whether something just happened or you've been carrying this for a while, I can help you understand your options and figure out a path forward.
 
-  // Guard: refuse to give specific legal advice
-  const advicePatterns = [
-    "should i sue",
-    "how much can i get",
-    "how much is my case worth",
-    "what should i do",
-    "am i going to win",
-    "will i win",
-    "do i have a case",
-    "can i sue",
-    "should i settle",
-    "how much money",
-    "what would you recommend",
-    "give me legal advice",
-  ];
+**One thing upfront:** I share general legal information — not advice specific to your situation. For that, you'd talk directly with the team. But there's a lot we can work through together right here.
 
-  for (const pattern of advicePatterns) {
-    if (q.includes(pattern)) {
-      return `I can't evaluate specific situations or provide legal advice — that requires an attorney who understands the details of your case.
+So — what's going on? Tell me in your own words.`;
 
-**What I can do:** Explain general legal concepts, filing deadlines, and how Missouri and Kansas law works.
-
-**For your specific situation:** Contact Yonke Law for a free, confidential consultation.
-📞 **816-221-6400**
-
-${SYSTEM_DISCLAIMER}`;
-    }
-  }
-
-  // Score all entries
-  const scored = KNOWLEDGE_BASE.map((entry) => ({
-    entry,
-    score: scoreMatch(query, entry),
-  }))
-    .filter((s) => s.score > 0)
-    .sort((a, b) => b.score - a.score);
-
-  if (scored.length > 0) {
-    const best = scored[0].entry;
-    let response = best.answer;
-    if (best.statutes && best.statutes.length > 0) {
-      response += `\n\n**Referenced statutes:** ${best.statutes.join(", ")}`;
-    }
-    response += `\n\n---\n_${SYSTEM_DISCLAIMER}_`;
-    return response;
-  }
-
-  // Fallback — no match
-  return `I don't have specific information on that topic in my knowledge base, but the team at Yonke Law can help.
-
-**Reach out directly:**
-📞 **816-221-6400**
-🌐 [Talk to Us](/talk-to-us)
-
-Free consultation. No fee unless we recover for you.
-
-_${SYSTEM_DISCLAIMER}_`;
-}
-
-/* Simple markdown-to-HTML for bold, italic, links, line breaks */
+/* Simple markdown-to-HTML for bold, italic, links, line breaks, lists */
 function renderMarkdown(text: string): string {
   return text
     .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
     .replace(/_(.+?)_/g, "<em>$1</em>")
     .replace(
       /\[(.+?)\]\((.+?)\)/g,
-      '<a href="$2" class="text-muted-gold underline hover:text-chrome-highlight">$1</a>'
+      '<a href="$2" class="text-muted-gold underline hover:text-chrome-highlight transition-colors">$1</a>'
     )
-    .replace(/📞/g, "📞")
-    .replace(/📍/g, "📍")
-    .replace(/🕘/g, "🕘")
-    .replace(/🌐/g, "🌐")
     .replace(/\n---\n/g, '<hr class="border-steel-silver/20 my-3" />')
     .replace(/\n/g, "<br />");
 }
@@ -130,7 +49,7 @@ export function ChatBot() {
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const scrollToBottom = useCallback(() => {
     if (scrollRef.current) {
@@ -140,7 +59,7 @@ export function ChatBot() {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages, scrollToBottom]);
+  }, [messages, isTyping, scrollToBottom]);
 
   useEffect(() => {
     if (isOpen && inputRef.current) {
@@ -148,22 +67,108 @@ export function ChatBot() {
     }
   }, [isOpen]);
 
-  const handleSend = useCallback(() => {
+  // Auto-resize textarea
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.style.height = "auto";
+      inputRef.current.style.height = `${Math.min(inputRef.current.scrollHeight, 120)}px`;
+    }
+  }, [input]);
+
+  // Listen for ConciergeHero search → open chat with pre-loaded message
+  useEffect(() => {
+    function handleOpenChat(e: Event) {
+      const detail = (e as CustomEvent).detail;
+      if (detail?.message) {
+        setIsOpen(true);
+        // Send the message through the chat
+        const userMsg: Message = { role: "user", text: detail.message };
+        const updated = [...messages, userMsg];
+        setMessages(updated);
+        setIsTyping(true);
+
+        fetch("/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ messages: updated }),
+        })
+          .then((res) => (res.ok ? res.json() : null))
+          .then((data) => {
+            if (data?.text) {
+              setMessages((prev) => [...prev, { role: "assistant", text: data.text }]);
+            }
+          })
+          .catch(() => {
+            setMessages((prev) => [
+              ...prev,
+              {
+                role: "assistant",
+                text: "I'm having trouble connecting. Call **816-221-6400** — the team is ready to help.",
+              },
+            ]);
+          })
+          .finally(() => setIsTyping(false));
+      }
+    }
+
+    window.addEventListener("yonke:open-chat", handleOpenChat);
+    return () => window.removeEventListener("yonke:open-chat", handleOpenChat);
+  }, [messages]);
+
+  const handleSend = useCallback(async () => {
     const trimmed = input.trim();
-    if (!trimmed) return;
+    if (!trimmed || isTyping) return;
 
     const userMsg: Message = { role: "user", text: trimmed };
-    setMessages((prev) => [...prev, userMsg]);
+    const updatedMessages = [...messages, userMsg];
+    setMessages(updatedMessages);
     setInput("");
     setIsTyping(true);
 
-    // Simulate brief "thinking" delay for natural feel
-    setTimeout(() => {
-      const answer = findBestAnswer(trimmed);
-      setMessages((prev) => [...prev, { role: "assistant", text: answer }]);
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: updatedMessages }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setMessages((prev) => [
+          ...prev,
+          { role: "assistant", text: data.text },
+        ]);
+      } else {
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "assistant",
+            text: "I'm having trouble connecting right now. You can reach the team directly at **816-221-6400** or through the [Talk to Us](/talk-to-us) page. I'm sorry about that.",
+          },
+        ]);
+      }
+    } catch {
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          text: "Something went wrong on my end. Please call **816-221-6400** or visit [Talk to Us](/talk-to-us) — the team will take care of you.",
+        },
+      ]);
+    } finally {
       setIsTyping(false);
-    }, 600 + Math.random() * 400);
-  }, [input]);
+    }
+  }, [input, messages, isTyping]);
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        handleSend();
+      }
+    },
+    [handleSend]
+  );
 
   return (
     <>
@@ -206,29 +211,40 @@ export function ChatBot() {
       {/* Chat panel */}
       {isOpen && (
         <div
-          className="fixed bottom-24 right-6 z-[9998] w-[380px] max-w-[calc(100vw-2rem)] bg-obsidian-graphite border border-steel-silver/20 rounded-xl shadow-2xl flex flex-col overflow-hidden"
+          className="fixed bottom-24 right-6 z-[9998] w-[400px] max-w-[calc(100vw-2rem)] bg-obsidian-graphite border border-steel-silver/20 rounded-xl shadow-2xl flex flex-col overflow-hidden"
           style={{
-            maxHeight: "min(600px, calc(100vh - 8rem))",
+            maxHeight: "min(650px, calc(100vh - 8rem))",
             boxShadow:
               "0 0 30px rgba(0,0,0,0.5), 0 4px 60px rgba(0,0,0,0.3)",
           }}
         >
           {/* Header */}
-          <div className="bg-charcoal-slate px-5 py-4 border-b border-steel-silver/15 flex items-center gap-3 shrink-0">
-            <Image
-              src="/yl-logo.png"
-              alt=""
-              width={32}
-              height={32}
-              className="rounded-full"
-            />
-            <div>
-              <div className="text-chrome-highlight font-semibold text-sm">
-                Yonke Law Assistant
+          <div className="bg-charcoal-slate px-5 py-4 border-b border-steel-silver/15 flex items-center justify-between shrink-0">
+            <div className="flex items-center gap-3">
+              <Image
+                src="/yl-logo.png"
+                alt=""
+                width={32}
+                height={32}
+                className="rounded-full"
+              />
+              <div>
+                <div className="text-chrome-highlight font-semibold text-sm">
+                  Yonke Law
+                </div>
+                <div className="text-steel-silver text-xs">
+                  Here to help · Not legal advice
+                </div>
               </div>
-              <div className="text-steel-silver text-xs">
-                General legal information · Not legal advice
-              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <a
+                href="tel:+18162216400"
+                className="text-[10px] text-muted-gold hover:text-chrome-highlight transition-colors px-2 py-1 border border-muted-gold/30 rounded"
+                title="Call Yonke Law"
+              >
+                📞 Call
+              </a>
             </div>
           </div>
 
@@ -259,34 +275,78 @@ export function ChatBot() {
               <div className="flex justify-start">
                 <div className="bg-charcoal-slate rounded-lg px-4 py-3 rounded-bl-sm">
                   <div className="flex gap-1">
-                    <span className="w-2 h-2 bg-steel-silver/50 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
-                    <span className="w-2 h-2 bg-steel-silver/50 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
-                    <span className="w-2 h-2 bg-steel-silver/50 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+                    <span
+                      className="w-2 h-2 bg-steel-silver/50 rounded-full animate-bounce"
+                      style={{ animationDelay: "0ms" }}
+                    />
+                    <span
+                      className="w-2 h-2 bg-steel-silver/50 rounded-full animate-bounce"
+                      style={{ animationDelay: "150ms" }}
+                    />
+                    <span
+                      className="w-2 h-2 bg-steel-silver/50 rounded-full animate-bounce"
+                      style={{ animationDelay: "300ms" }}
+                    />
                   </div>
                 </div>
               </div>
             )}
           </div>
 
+          {/* Quick actions */}
+          {messages.length <= 2 && (
+            <div className="px-4 pb-2 flex flex-wrap gap-2">
+              {[
+                "I was in an accident",
+                "Someone I love was hurt",
+                "I have a settlement offer",
+                "I need to send documents",
+              ].map((prompt) => (
+                <button
+                  key={prompt}
+                  onClick={() => {
+                    setInput(prompt);
+                    setTimeout(() => {
+                      handleSend();
+                    }, 50);
+                  }}
+                  className="text-xs bg-charcoal-slate border border-steel-silver/15 text-steel-silver hover:text-chrome-highlight hover:border-muted-gold/40 rounded-full px-3 py-1.5 transition-all"
+                >
+                  {prompt}
+                </button>
+              ))}
+            </div>
+          )}
+
           {/* Input */}
           <div className="border-t border-steel-silver/15 px-4 py-3 bg-charcoal-slate/50 shrink-0">
-            <div className="flex gap-2">
-              <input
+            <div className="flex gap-2 items-end">
+              <textarea
                 ref={inputRef}
-                type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleSend()}
-                placeholder="Ask about MO/KS injury law..."
-                className="flex-1 bg-obsidian-graphite border border-steel-silver/20 rounded-lg px-3 py-2 text-sm text-chrome-highlight placeholder:text-steel-silver/50 focus:outline-none focus:border-muted-gold/50 transition-colors"
+                onKeyDown={handleKeyDown}
+                placeholder="Tell me what happened…"
+                rows={1}
+                className="flex-1 bg-obsidian-graphite border border-steel-silver/20 rounded-lg px-3 py-2 text-sm text-chrome-highlight placeholder:text-steel-silver/50 focus:outline-none focus:border-muted-gold/50 transition-colors resize-none"
+                style={{ maxHeight: "120px" }}
               />
               <button
                 onClick={handleSend}
-                disabled={!input.trim()}
-                className="bg-muted-gold text-obsidian-graphite px-4 py-2 rounded-lg font-semibold text-sm hover:bg-muted-gold/90 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                disabled={!input.trim() || isTyping}
+                className="bg-muted-gold text-obsidian-graphite px-4 py-2 rounded-lg font-semibold text-sm hover:bg-muted-gold/90 transition-colors disabled:opacity-30 disabled:cursor-not-allowed shrink-0"
               >
                 Send
               </button>
+            </div>
+            <div className="mt-2 text-[10px] text-steel-silver/40 text-center">
+              General information only · For your specific situation, call{" "}
+              <a
+                href="tel:+18162216400"
+                className="text-steel-silver/60 hover:text-muted-gold transition-colors"
+              >
+                816-221-6400
+              </a>
             </div>
           </div>
         </div>

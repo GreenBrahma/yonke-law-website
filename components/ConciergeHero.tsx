@@ -231,9 +231,13 @@ export function ConciergeHero() {
       setDetectedTopic(null);
       return;
     }
-    const topic = classifyTopic(trimmed);
-    setSubmittedText(trimmed);
-    setDetectedTopic(topic);
+
+    // Open the conversational chat with this message pre-loaded
+    window.dispatchEvent(
+      new CustomEvent("yonke:open-chat", { detail: { message: trimmed } })
+    );
+    setTypedText("");
+    return;
   }
 
   function handleReset() {

@@ -34,8 +34,8 @@ export function HeroSection() {
         {/* Visual — right column */}
         <div className="relative aspect-[4/5] md:aspect-[3/4] rounded overflow-hidden">
           <Image
-            src="/images/Mike Yonke - Headshot.png"
-            alt="Mike Yonke, personal injury attorney at Yonke Law"
+            src="/images/Yonke Law LLC Personal Injury.png"
+            alt="Yonke Law LLC — personal injury attorneys in Kansas City"
             fill
             className="object-cover"
             sizes="(max-width: 768px) 100vw, 50vw"
