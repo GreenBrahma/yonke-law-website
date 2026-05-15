@@ -1,24 +1,164 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import Image from "next/image";
 
 export const metadata: Metadata = {
-  title: "What We Handle — Practice Areas",
+  title: "What We Handle — Practice Areas | Yonke Law",
   description:
-    "Yonke Law handles personal injury, medical malpractice, wrongful death, vehicle accidents, premises liability, and more in Kansas City.",
+    "Yonke Law handles personal injury, medical malpractice, wrongful death, vehicle accidents, premises liability, and more in Kansas City, Missouri and Kansas.",
+  alternates: { canonical: "https://yonke.law/what-we-handle/" },
 };
+
+const AREAS = [
+  {
+    slug: "car-accidents",
+    name: "Car Accidents",
+    desc: "Rear-end collisions, intersection crashes, highway pile-ups, distracted and drunk driving cases.",
+    image: "/images/yl-client-24.jpg",
+  },
+  {
+    slug: "truck-accidents",
+    name: "Truck Accidents",
+    desc: "18-wheelers, FMCSA violations, jackknife crashes, cargo spills, and multi-party commercial vehicle cases.",
+    image: "/images/yl-client-25.jpg",
+  },
+  {
+    slug: "medical-malpractice",
+    name: "Medical Malpractice",
+    desc: "Surgical errors, diagnostic failures, medication mistakes, birth injuries, and hospital negligence.",
+    image: "/images/yl-client-26.jpg",
+  },
+  {
+    slug: "wrongful-death",
+    name: "Wrongful Death",
+    desc: "When negligence, recklessness, or intentional conduct takes a life. Claims for surviving family members.",
+    image: "/images/yl-client-19.jpg",
+  },
+  {
+    slug: "nursing-home-abuse",
+    name: "Nursing Home Abuse & Neglect",
+    desc: "Physical abuse, neglect, bedsores, falls, medication errors, and financial exploitation in long-term care.",
+    image: "/images/YL client 5.png",
+  },
+  {
+    slug: "workplace-injuries",
+    name: "Workplace Injuries",
+    desc: "Construction accidents, defective equipment, industrial incidents, and third-party claims beyond workers' comp.",
+    image: "/images/yl-client-22.png",
+  },
+  {
+    slug: "motorcycle-accidents",
+    name: "Motorcycle Accidents",
+    desc: "Left-turn collisions, lane-change crashes, road hazards, and the unique challenges riders face after a crash.",
+    image: "/images/yl-client-23.png",
+  },
+  {
+    slug: "premises-liability",
+    name: "Premises Liability",
+    desc: "Slip and fall, trip hazards, inadequate security, swimming pool accidents, and dangerous property conditions.",
+    image: "/images/YL client 6.png",
+  },
+  {
+    slug: "product-liability",
+    name: "Product Liability",
+    desc: "Defective vehicles, medical devices, dangerous drugs, consumer products, and industrial equipment failures.",
+    image: "/images/YL client 7.png",
+  },
+  {
+    slug: "pedestrian-bicycle",
+    name: "Pedestrian & Bicycle Accidents",
+    desc: "Crosswalk collisions, hit-and-run, cyclist right-hooks, dooring incidents, and backing accidents.",
+    image: "/images/YL client 8.png",
+  },
+];
 
 export default function WhatWeHandlePage() {
   return (
-    <div className="flex flex-col items-center justify-center py-24 px-4 text-center">
-      <p className="text-sm uppercase tracking-widest text-steel-silver mb-4">
-        What We Handle
-      </p>
-      <h1 className="font-display text-4xl font-bold text-chrome-highlight mb-6">
-        Where we focus. Where we know what to do.
-      </h1>
-      <p className="text-lg text-steel-silver max-w-xl">
-        Placeholder — practice areas hub page.
-      </p>
-      {/* TODO: Build practice area grid per homepage-spec.md Section 6 */}
-    </div>
+    <>
+      {/* Hero */}
+      <section className="bg-obsidian-graphite py-20 px-4 lg:px-8">
+        <div className="mx-auto max-w-4xl text-center">
+          <p className="text-xs uppercase tracking-[0.2em] text-muted-gold mb-6">
+            What We Handle
+          </p>
+          <h1
+            className="font-display text-4xl md:text-5xl lg:text-6xl text-chrome-highlight leading-[1.15] mb-6"
+            aria-label="Yonke, pronounced YONK-ee, Law practice areas"
+          >
+            Where we focus. Where we know what to do.
+          </h1>
+          <p className="text-lg md:text-xl text-steel-silver leading-relaxed max-w-2xl mx-auto">
+            Ten practice areas. Decades of focused experience in each.
+            Every case is personal injury — and every case is personal.
+          </p>
+        </div>
+      </section>
+
+      {/* Practice Area Grid */}
+      <section className="bg-charcoal-slate py-20 px-4 lg:px-8">
+        <div className="mx-auto max-w-6xl">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {AREAS.map((area) => (
+              <Link
+                key={area.slug}
+                href={`/what-we-handle/${area.slug}`}
+                className="group relative bg-obsidian-graphite border border-steel-silver/10 rounded-lg overflow-hidden hover:border-muted-gold/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-muted-gold/5"
+              >
+                {/* Image */}
+                <div className="relative h-48 overflow-hidden">
+                  <Image
+                    src={area.image}
+                    alt={area.name}
+                    fill
+                    className="object-cover opacity-40 group-hover:opacity-50 group-hover:scale-105 transition-all duration-500"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-obsidian-graphite via-obsidian-graphite/60 to-transparent" />
+                </div>
+
+                {/* Content */}
+                <div className="relative p-6 -mt-12">
+                  <h2 className="font-display text-xl text-chrome-highlight mb-2 group-hover:text-muted-gold transition-colors duration-300">
+                    {area.name}
+                  </h2>
+                  <p className="text-steel-silver text-sm leading-relaxed mb-4">
+                    {area.desc}
+                  </p>
+                  <span className="text-muted-gold text-sm font-semibold group-hover:translate-x-1 transition-transform duration-300 inline-block">
+                    Learn more →
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="bg-obsidian-graphite py-16 px-4 lg:px-8">
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="font-display text-2xl md:text-3xl text-chrome-highlight mb-4">
+            Not sure where your situation fits?
+          </h2>
+          <p className="text-steel-silver mb-8">
+            Tell us what happened. We&apos;ll help you understand your options.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              href="/talk-to-us"
+              className="bg-muted-gold text-obsidian-graphite font-semibold px-8 py-4 rounded hover:bg-muted-gold/90 transition-colors"
+            >
+              Talk to Us
+            </Link>
+            <a
+              href="tel:8162216400"
+              className="text-steel-silver hover:text-chrome-highlight transition-colors"
+            >
+              or call 816-221-6400
+            </a>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
