@@ -20,7 +20,7 @@ export const PRACTICE_AREAS: PracticeArea[] = [
     slug: "car-accidents",
     name: "Car Accidents",
     subhead: "After a crash on the road.",
-    heroImage: "/images/yl-client-24.jpg",
+    heroImage: "/images/pa-car-accidents.png",
     youtubeId: "F5c6P4bQamw",
     mikeCredential: "AV Preeminent rated. 25+ years handling motor vehicle collision cases across Missouri and Kansas.",
     definition: [
@@ -78,7 +78,7 @@ export const PRACTICE_AREAS: PracticeArea[] = [
     slug: "truck-accidents",
     name: "Truck Accidents",
     subhead: "When a commercial vehicle causes the crash.",
-    heroImage: "/images/yl-client-25.jpg",
+    heroImage: "/images/pa-truck-accidents.png",
     youtubeId: "v1XTlj4plGg",
     mikeCredential: "AV Preeminent rated. Extensive experience with FMCSA regulatory violations and multi-defendant trucking litigation.",
     definition: [
@@ -136,7 +136,7 @@ export const PRACTICE_AREAS: PracticeArea[] = [
     slug: "medical-malpractice",
     name: "Medical Malpractice",
     subhead: "When something goes wrong in your medical care.",
-    heroImage: "/images/yl-client-26.jpg",
+    heroImage: "/images/pa-medical-malpractice.png",
     youtubeId: "w8Z1u0Hn9x4",
     mikeCredential: "Top 25 Medical Malpractice Trial Lawyer. Keenan Trial Institute faculty. Extensive experience with surgical errors, diagnostic failures, and hospital negligence.",
     definition: [
@@ -198,7 +198,7 @@ export const PRACTICE_AREAS: PracticeArea[] = [
     slug: "wrongful-death",
     name: "Wrongful Death",
     subhead: "When negligence takes someone's life.",
-    heroImage: "/images/yl-client-19.jpg",
+    heroImage: "/images/pa-wrongful-death.png",
     mikeCredential: "AV Preeminent rated. Decades of wrongful death litigation across motor vehicle, medical malpractice, and workplace contexts.",
     definition: [
       "A wrongful death claim arises when a person dies as a result of another party's negligence, recklessness, or intentional act. If the deceased would have had a valid personal injury claim had they survived, their family may pursue a wrongful death action.",
@@ -255,7 +255,7 @@ export const PRACTICE_AREAS: PracticeArea[] = [
     slug: "nursing-home-abuse",
     name: "Nursing Home Abuse & Neglect",
     subhead: "When a facility fails the people in its care.",
-    heroImage: "/images/YL client 5.png",
+    heroImage: "/images/pa-nursing-home.png",
     mikeCredential: "AV Preeminent rated. Experienced in institutional negligence, elder abuse litigation, and regulatory compliance cases.",
     definition: [
       "Nursing home abuse and neglect cases arise when long-term care facilities — nursing homes, assisted living centers, memory care units — fail to provide the standard of care their residents are entitled to. Missouri RSMo Chapter 198 specifically protects nursing home residents from abuse and neglect.",

@@ -5,7 +5,7 @@ export const PRACTICE_AREAS_2: PracticeArea[] = [
     slug: "workplace-injuries",
     name: "Workplace Injuries",
     subhead: "When the job site fails you.",
-    heroImage: "/images/yl-client-22.png",
+    heroImage: "/images/pa-workplace-injuries.png",
     mikeCredential: "AV Preeminent rated. Extensive experience with third-party workplace injury claims and workers' compensation overlays.",
     definition: [
       "Workplace injury cases involve harm suffered on the job — on construction sites, in factories, warehouses, offices, or any work environment. Workers' compensation provides no-fault benefits, but a separate personal injury claim may exist against third parties whose negligence contributed to the injury.",
@@ -59,7 +59,7 @@ export const PRACTICE_AREAS_2: PracticeArea[] = [
     slug: "motorcycle-accidents",
     name: "Motorcycle Accidents",
     subhead: "When a rider is hurt by someone else's negligence.",
-    heroImage: "/images/yl-client-23.png",
+    heroImage: "/images/pa-motorcycle-accidents.png",
     youtubeId: "7dsFP4EIiQo",
     mikeCredential: "AV Preeminent rated. Extensive experience representing riders in Missouri and Kansas motorcycle collision cases.",
     definition: [
@@ -113,7 +113,7 @@ export const PRACTICE_AREAS_2: PracticeArea[] = [
     slug: "premises-liability",
     name: "Premises Liability",
     subhead: "When a dangerous property causes harm.",
-    heroImage: "/images/YL client 6.png",
+    heroImage: "/images/pa-premises-liability.png",
     mikeCredential: "AV Preeminent rated. Experienced in slip-and-fall, inadequate security, and dangerous property condition cases across Missouri and Kansas.",
     definition: [
       "Premises liability cases arise when someone is injured due to a dangerous condition on another party's property — a slippery floor, a broken stairway, inadequate lighting, falling objects, or lack of security. Property owners and managers have a legal duty to maintain safe conditions or warn of known hazards.",
@@ -167,7 +167,7 @@ export const PRACTICE_AREAS_2: PracticeArea[] = [
     slug: "product-liability",
     name: "Product Liability",
     subhead: "When a defective product causes injury.",
-    heroImage: "/images/YL client 7.png",
+    heroImage: "/images/pa-product-liability.png",
     mikeCredential: "AV Preeminent rated. Experience with defective product claims against manufacturers, distributors, and retailers.",
     definition: [
       "Product liability cases arise when a defective product causes injury to a consumer. Missouri law provides a strict liability cause of action under RSMo §§ 537.760–537.765 — meaning you don't have to prove the manufacturer was careless, only that the product was defective and unreasonably dangerous.",
@@ -220,7 +220,7 @@ export const PRACTICE_AREAS_2: PracticeArea[] = [
     slug: "pedestrian-bicycle",
     name: "Pedestrian & Bicycle Accidents",
     subhead: "When walkers and cyclists are struck.",
-    heroImage: "/images/YL client 8.png",
+    heroImage: "/images/pa-pedestrian-bicycle.png",
     mikeCredential: "AV Preeminent rated. Experienced in pedestrian and cyclist collision cases with complex liability and severe injury profiles.",
     definition: [
       "Pedestrian and bicycle accident cases arise when a walker or cyclist is struck by a motor vehicle. These collisions often result in severe injuries because the person has no structural protection. Drivers owe pedestrians and cyclists the same duty of care as any other road user.",
