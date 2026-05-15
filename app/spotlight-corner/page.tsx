@@ -24,6 +24,55 @@ interface PublishedArticle {
   isDemo: boolean;
 }
 
+/* -------------------------------------------------------
+   Static fallback articles — shown when DATABASE_URL is
+   not set. All sourced from verified public records.
+   Once the DB is connected and seeded, these are replaced
+   automatically by dynamic content.
+   ------------------------------------------------------- */
+const STATIC_ARTICLES: PublishedArticle[] = [
+  {
+    slug: "2026-05-09-mshp-cass-county-motorcycle-ejection",
+    publishedAt: new Date("2026-05-09T23:45:00Z"),
+    jsonLd: {},
+    headline:
+      "Cass County Motorcycle Crash Illustrates Ejection Risk Without Helmets",
+    dek: "On the evening of May 9, 2026, a motorcycle left the roadway on Route YY west of Knight Road in Cass County, Missouri, overturned, and ejected both occupants. The passenger was pronounced deceased at Research Medical Center.",
+    topicTags: ["motorcycle-accidents", "wrongful-death"],
+    isDemo: false,
+  },
+  {
+    slug: "2026-05-13-kcpd-usps-hit-run-benton-blvd",
+    publishedAt: new Date("2026-05-13T22:00:00Z"),
+    jsonLd: {},
+    headline:
+      "Hit-and-Run at 30th and Benton Kills USPS Driver — What Happens When the At-Fault Driver Flees",
+    dek: "On the evening of May 13, 2026, a USPS mail carrier was killed in a hit-and-run crash at the intersection of East 30th Street and Benton Boulevard in Kansas City. The driver of the striking vehicle fled on foot.",
+    topicTags: ["car-accidents", "wrongful-death"],
+    isDemo: false,
+  },
+  {
+    slug: "2026-05-15-nws-record-severe-weather-season",
+    publishedAt: new Date("2026-05-15T12:00:00Z"),
+    jsonLd: {},
+    headline:
+      "Kansas City's Record-Setting Severe Weather Season — What Property Owners Need to Know",
+    dek: "Through late April 2026, the NWS Kansas City office had issued 252 severe thunderstorm and tornado warnings — more than any prior year on record. Baseball-to-softball-sized hail and damaging winds have hit the metro repeatedly since March.",
+    topicTags: ["premises-liability", "car-accidents"],
+    isDemo: false,
+  },
+  {
+    slug: "2026-05-15-311-dangerous-buildings-prior-notice",
+    publishedAt: new Date("2026-05-15T14:00:00Z"),
+    jsonLd: {},
+    headline:
+      "Over 300 Active Dangerous Building Cases in Kansas City — What Prior Notice Means",
+    dek: "The City of Kansas City maintains a public dataset of properties flagged as dangerous buildings. As of May 2026, that list contains over 300 active cases, with properties in various stages from initial case opening through demolition.",
+    topicTags: ["premises-liability", "civic-accountability"],
+    isDemo: false,
+  },
+];
+
 async function getPublishedArticles(): Promise<PublishedArticle[]> {
   try {
     const rows = await db
@@ -39,6 +88,8 @@ async function getPublishedArticles(): Promise<PublishedArticle[]> {
         eq(spotlightPublishes.draftId, spotlightDrafts.id)
       )
       .orderBy(desc(spotlightPublishes.publishedAt));
+
+    if (rows.length === 0) return STATIC_ARTICLES;
 
     return rows.map((row) => {
       const ld = (row.jsonLd ?? {}) as Record<string, unknown>;
@@ -59,8 +110,8 @@ async function getPublishedArticles(): Promise<PublishedArticle[]> {
       };
     });
   } catch {
-    // DB not available — return empty (build-time or no DATABASE_URL)
-    return [];
+    // DB not available — use static fallback articles
+    return STATIC_ARTICLES;
   }
 }
 
