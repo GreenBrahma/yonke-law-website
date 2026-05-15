@@ -3,6 +3,7 @@ import { HeroSection } from "@/components/people-first-page/HeroSection";
 import { TheStanceSection } from "@/components/people-first-page/TheStanceSection";
 import { TransparencyPromiseSection } from "@/components/people-first-page/TransparencyPromiseSection";
 import { GetStartedSection } from "@/components/people-first-page/GetStartedSection";
+import { WhatYouSeeSection } from "@/components/people-first-page/WhatYouSeeSection";
 
 export const metadata: Metadata = {
   title: "People First — How We Stay Connected | Yonke Law",
@@ -20,7 +21,8 @@ export default function PeopleFirstPage() {
       {/* Section 4.2 — The Stance */}
       <TheStanceSection />
 
-      {/* Section 4.3 — What You See (panels overview) — Phase 3 */}
+      {/* Section 4.3 — What You See (panels overview) */}
+      <WhatYouSeeSection />
 
       {/* Section 4.4 — Interactive Demo — Phase 4 */}
 
