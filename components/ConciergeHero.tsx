@@ -44,7 +44,7 @@ const HERO_IMAGES = [
   "/images/yl-client-24.jpg",
   "/images/yl-client-25.jpg",
   "/images/yl-client-26.jpg",
-  "/images/Mike Yonke - with client.png",
+  "/images/Mike Yonke - with people.png",
 ] as const;
 
 type TopicId =

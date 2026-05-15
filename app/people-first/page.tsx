@@ -1,25 +1,36 @@
 import type { Metadata } from "next";
+import { HeroSection } from "@/components/people-first-page/HeroSection";
+import { TheStanceSection } from "@/components/people-first-page/TheStanceSection";
+import { TransparencyPromiseSection } from "@/components/people-first-page/TransparencyPromiseSection";
+import { GetStartedSection } from "@/components/people-first-page/GetStartedSection";
 
 export const metadata: Metadata = {
   title: "People First — How We Stay Connected | Yonke Law",
   description:
-    "People First is how Yonke Law stays connected with the people we represent. Real-time check-ins, visibility, and communication — not silence.",
+    "People First is how Yonke Law stays connected with the people we represent. Every file, every meeting, every step — visible in real time. See it in action.",
   alternates: { canonical: "https://yonke.law/people-first/" },
 };
 
 export default function PeopleFirstPage() {
   return (
-    <div className="flex flex-col items-center justify-center py-24 px-4 text-center">
-      <p className="text-sm uppercase tracking-widest text-steel-silver mb-4">
-        People First
-      </p>
-      <h1 className="font-display text-4xl font-bold text-chrome-highlight mb-6">
-        Most law firms never ask how you&apos;re actually doing.
-      </h1>
-      <p className="text-lg text-steel-silver max-w-xl">
-        Placeholder — People First preview + Mood Monitor demo.
-      </p>
-      {/* TODO: Build full People First preview per People_First_Preview__Antigravity_Prompt.md */}
-    </div>
+    <>
+      {/* Section 4.1 — Hero */}
+      <HeroSection />
+
+      {/* Section 4.2 — The Stance */}
+      <TheStanceSection />
+
+      {/* Section 4.3 — What You See (panels overview) — Phase 3 */}
+
+      {/* Section 4.4 — Interactive Demo — Phase 4 */}
+
+      {/* Section 4.5 — Mood Monitor — Phase 5 */}
+
+      {/* Section 4.6 — The Transparency Promise */}
+      <TransparencyPromiseSection />
+
+      {/* Section 4.7 — Get Started */}
+      <GetStartedSection />
+    </>
   );
 }

@@ -75,7 +75,7 @@ export default function TestimonialsPage() {
       <section className="relative bg-obsidian-graphite py-24 px-4 lg:px-8 overflow-hidden">
         <div className="absolute inset-0">
           <Image
-            src="/images/Mike Yonke - with client.png"
+            src="/images/Mike Yonke - with people.png"
             alt=""
             fill
             className="object-cover opacity-15"
