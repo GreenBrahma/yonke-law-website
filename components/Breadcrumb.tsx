@@ -120,7 +120,7 @@ export default function Breadcrumb() {
                 </span>
                 {isLast ? (
                   <span
-                    className="text-chrome-highlight"
+                    className="text-white font-semibold"
                     aria-current="page"
                   >
                     {crumb.label}

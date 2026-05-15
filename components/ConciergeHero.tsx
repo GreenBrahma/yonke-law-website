@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -203,17 +203,26 @@ export function ConciergeHero() {
   const [placeholderIndex, setPlaceholderIndex] = useState(0);
   const [bgIndex, setBgIndex] = useState(0);
   const [typedText, setTypedText] = useState("");
-  const [submittedText, setSubmittedText] = useState<string | null>(null);
-  const [detectedTopic, setDetectedTopic] = useState<TopicId | null>(null);
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [messages, setMessages] = useState<{ role: "user" | "assistant"; text: string }[]>([]);
+  const [isTyping, setIsTyping] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   // Rotate placeholder examples
   useEffect(() => {
-    if (submittedText) return;
+    if (isChatOpen) return;
     const id = setInterval(() => {
       setPlaceholderIndex((i) => (i + 1) % PLACEHOLDER_EXAMPLES.length);
     }, 4500);
     return () => clearInterval(id);
-  }, [submittedText]);
+  }, [isChatOpen]);
+
+  // Scroll to bottom of chat
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [messages, isTyping]);
 
   // Cycle background images
   useEffect(() => {
@@ -223,27 +232,59 @@ export function ConciergeHero() {
     return () => clearInterval(id);
   }, []);
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const trimmed = typedText.trim();
-    if (!trimmed) {
-      setSubmittedText("");
-      setDetectedTopic(null);
-      return;
-    }
+    if (!trimmed || isTyping) return;
 
-    // Open the conversational chat with this message pre-loaded
-    window.dispatchEvent(
-      new CustomEvent("yonke:open-chat", { detail: { message: trimmed } })
-    );
+    const userMsg = { role: "user" as const, text: trimmed };
+    const updatedMessages = [...messages, userMsg];
+    
+    setMessages(updatedMessages);
+    setIsChatOpen(true);
     setTypedText("");
-    return;
+    setIsTyping(true);
+
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: updatedMessages }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setMessages((prev) => [...prev, { role: "assistant", text: data.text }]);
+      } else {
+        setMessages((prev) => [...prev, { role: "assistant", text: "I'm having trouble connecting right now. Please call us at 816-221-6400." }]);
+      }
+    } catch {
+      setMessages((prev) => [...prev, { role: "assistant", text: "Something went wrong. Please call us at 816-221-6400." }]);
+    } finally {
+      setIsTyping(false);
+    }
   }
 
   function handleReset() {
-    setSubmittedText(null);
-    setDetectedTopic(null);
+    setIsChatOpen(false);
+    setMessages([]);
     setTypedText("");
+  }
+
+  function renderMarkdown(text: string): string {
+    return text
+      .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+      .replace(/_(.+?)_/g, "<em>$1</em>")
+      .replace(
+        /\[(.+?)\]\((https:\/\/www\.youtube\.com\/embed\/[A-Za-z0-9_-]+)\)/g,
+        '<div class="mt-3 aspect-video rounded overflow-hidden border border-steel-silver/10"><iframe src="$2?rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="w-full h-full"></iframe></div>'
+      )
+      .replace(
+        /\[(.+?)\]\((.+?)\)/g,
+        '<a href="$2" class="text-muted-gold underline hover:text-chrome-highlight transition-colors" target="_blank" rel="noopener noreferrer">$1</a>'
+      )
+      .replace(/\n---\n/g, '<hr class="border-steel-silver/20 my-3" />')
+      .replace(/\n/g, "<br />");
   }
 
   return (
@@ -284,7 +325,7 @@ export function ConciergeHero() {
           Tell us what happened — we&apos;ll help you find your way.
         </p>
 
-        {!submittedText && submittedText !== "" ? (
+        {!isChatOpen ? (
           <>
             {/* Concierge input */}
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -327,11 +368,95 @@ export function ConciergeHero() {
             </div>
           </>
         ) : (
-          <ConciergePanels
-            typedText={submittedText ?? ""}
-            topic={detectedTopic}
-            onReset={handleReset}
-          />
+          <div className="bg-charcoal-slate border border-steel-silver/30 rounded-xl overflow-hidden flex flex-col mx-auto w-full max-w-4xl shadow-2xl transition-all duration-500 ease-in-out" style={{ height: "500px" }}>
+            {/* Chat header */}
+            <div className="bg-obsidian-graphite px-6 py-4 flex items-center justify-between border-b border-steel-silver/20 shrink-0">
+              <div className="flex items-center gap-3">
+                <Image
+                  src="/images/retro_operator.png"
+                  alt="Assistant"
+                  width={36}
+                  height={36}
+                  className="rounded-full border border-muted-gold"
+                />
+                <div>
+                  <div className="text-chrome-highlight font-semibold">Help Representative</div>
+                  <div className="text-steel-silver text-xs">Yonke Law Assistant</div>
+                </div>
+              </div>
+              <button onClick={handleReset} className="text-steel-silver hover:text-chrome-highlight text-sm underline underline-offset-2 transition-colors">
+                Start Over
+              </button>
+            </div>
+
+            {/* Chat Messages */}
+            <div ref={scrollRef} className="flex-1 overflow-y-auto px-6 py-6 space-y-6">
+              {messages.map((msg, idx) => (
+                <div key={idx} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
+                  {msg.role === "assistant" && (
+                    <div className="mr-3 shrink-0">
+                      <Image
+                        src="/images/retro_operator.png"
+                        alt="Assistant"
+                        width={28}
+                        height={28}
+                        className="rounded-full border border-muted-gold/50"
+                      />
+                    </div>
+                  )}
+                  <div
+                    className={`max-w-[85%] rounded-xl px-5 py-3.5 text-[15px] leading-relaxed shadow-sm ${
+                      msg.role === "user"
+                        ? "bg-muted-gold/15 text-chrome-highlight rounded-br-sm border border-muted-gold/20"
+                        : "bg-obsidian-graphite text-steel-silver rounded-bl-sm border border-steel-silver/10"
+                    }`}
+                    dangerouslySetInnerHTML={{ __html: renderMarkdown(msg.text) }}
+                  />
+                </div>
+              ))}
+              {isTyping && (
+                <div className="flex justify-start">
+                  <div className="mr-3 shrink-0">
+                    <Image
+                      src="/images/retro_operator.png"
+                      alt="Assistant"
+                      width={28}
+                      height={28}
+                      className="rounded-full border border-muted-gold/50"
+                    />
+                  </div>
+                  <div className="bg-obsidian-graphite rounded-xl px-5 py-4 rounded-bl-sm border border-steel-silver/10 flex items-center shadow-sm">
+                    <div className="flex gap-1.5">
+                      <span className="w-2 h-2 bg-steel-silver/50 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
+                      <span className="w-2 h-2 bg-steel-silver/50 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
+                      <span className="w-2 h-2 bg-steel-silver/50 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Chat Input */}
+            <div className="bg-obsidian-graphite p-4 border-t border-steel-silver/20 shrink-0">
+              <form onSubmit={handleSubmit} className="flex gap-3">
+                <input
+                  type="text"
+                  value={typedText}
+                  onChange={(e) => setTypedText(e.target.value)}
+                  placeholder="Type your response..."
+                  className="flex-1 bg-charcoal-slate border border-steel-silver/30 rounded-lg px-5 py-3 text-chrome-highlight placeholder:text-steel-silver/50 focus:outline-none focus:border-muted-gold transition-colors"
+                  autoComplete="off"
+                />
+                <button
+                  type="submit"
+                  disabled={!typedText.trim() || isTyping}
+                  className="bg-muted-gold text-obsidian-graphite font-semibold px-6 py-3 rounded-lg hover:bg-muted-gold/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
+                >
+                  Send
+                </button>
+              </form>
+            </div>
+          </div>
         )}
       </div>
     </section>

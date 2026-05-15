@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { PageHero } from "@/components/PageHero";
 
 const TOPIC_LABELS: Record<string, string> = {
   "car-accident": "Car Accident",
@@ -117,40 +118,36 @@ export default function JustHappenedHubPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      {/* ===========================================
-          Section 1 — Hero
-          =========================================== */}
-      <section className="bg-obsidian-graphite py-24 px-4 lg:px-8">
-        <div className="mx-auto max-w-3xl text-center">
-          <div className="text-xs uppercase tracking-[0.2em] text-steel-silver mb-6">
-            Just Happened
-          </div>
-          <h1
-            className="font-display text-4xl md:text-5xl lg:text-6xl text-chrome-highlight leading-[1.15] mb-6"
-            aria-label="Yonke Law — Something just happened. Find your situation."
+      <PageHero
+        title="Something just happened. Find your situation."
+        subtitle="The path forward starts with knowing where you stand. Find your situation below for clear, plain-English guidance on what to do next."
+        eyebrow="Just Happened"
+        images={[
+          "/images/YL client 1.png",
+          "/images/YL client 2.png",
+          "/images/yl-client-3.png",
+          "/images/yl-client-4.png",
+          "/images/YL client 5.png",
+          "/images/YL client 6.png",
+          "/images/YL client 7.png",
+          "/images/YL client 8.png",
+        ]}
+      >
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <Link
+            href="#situations"
+            className="bg-muted-gold text-obsidian-graphite font-semibold px-8 py-4 rounded hover:bg-muted-gold/90 transition-colors duration-200"
           >
-            Something just happened. Find your situation.
-          </h1>
-          <p className="text-lg md:text-xl text-steel-silver leading-relaxed mb-10 max-w-2xl mx-auto">
-            The path forward starts with knowing where you stand. Find your
-            situation below for clear, plain-English guidance on what to do next.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              href="#situations"
-              className="bg-muted-gold text-obsidian-graphite font-semibold px-8 py-4 rounded hover:bg-muted-gold/90 transition-colors duration-200"
-            >
-              Find your situation ↓
-            </Link>
-            <Link
-              href="#consultation"
-              className="text-steel-silver hover:text-chrome-highlight transition-colors duration-200 underline-offset-4 hover:underline"
-            >
-              Or talk to someone now →
-            </Link>
-          </div>
+            Find your situation ↓
+          </Link>
+          <Link
+            href="#consultation"
+            className="text-steel-silver hover:text-chrome-highlight transition-colors duration-200 underline-offset-4 hover:underline"
+          >
+            Or talk to someone now →
+          </Link>
         </div>
-      </section>
+      </PageHero>
 
       {/* ===========================================
           Section 2 — Situation Grid

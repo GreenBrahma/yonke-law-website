@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { PageHero } from "@/components/PageHero";
 
 /* ===========================================================
    /just-happened/[topic] — Dynamic route
@@ -377,37 +378,27 @@ function CarAccidentPage() {
       {/* ===========================================
           Section 1 — Hero
           =========================================== */}
-      <section className="bg-obsidian-graphite py-24 px-4 lg:px-8">
-        <div className="mx-auto max-w-3xl text-center">
-          <div className="text-xs uppercase tracking-[0.2em] text-steel-silver mb-6">
-            Just Happened
-          </div>
-          <h1
-            className="font-display text-4xl md:text-5xl lg:text-6xl text-chrome-highlight leading-[1.15] mb-6"
-            aria-label="Yonke Law — You were just in a car accident. Take a breath."
+      <PageHero
+        title="You were just in a car accident. Take a breath."
+        subtitle="Whether it was an hour ago or three days ago, this is the clearest path forward. No fluff. No pressure. Just what you need to know."
+        eyebrow="Just Happened"
+        images={["/images/pa-car-accidents.png"]}
+      >
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a
+            href="#next-24"
+            className="bg-muted-gold text-obsidian-graphite font-semibold px-8 py-4 rounded hover:bg-muted-gold/90 transition-colors duration-200"
           >
-            You were just in a car accident. Take a breath.
-          </h1>
-          <p className="text-lg md:text-xl text-steel-silver leading-relaxed mb-10 max-w-2xl mx-auto">
-            Whether it was an hour ago or three days ago, this is the clearest
-            path forward. No fluff. No pressure. Just what you need to know.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a
-              href="#next-24"
-              className="bg-muted-gold text-obsidian-graphite font-semibold px-8 py-4 rounded hover:bg-muted-gold/90 transition-colors duration-200"
-            >
-              Read the next 24 hours →
-            </a>
-            <a
-              href="#consultation"
-              className="text-steel-silver hover:text-chrome-highlight transition-colors duration-200 underline-offset-4 hover:underline"
-            >
-              Or talk to someone now →
-            </a>
-          </div>
+            Read the next 24 hours →
+          </a>
+          <a
+            href="#consultation"
+            className="text-steel-silver hover:text-chrome-highlight transition-colors duration-200 underline-offset-4 hover:underline"
+          >
+            Or talk to someone now →
+          </a>
         </div>
-      </section>
+      </PageHero>
 
       {/* ===========================================
           Video — Topic explainer (if available)

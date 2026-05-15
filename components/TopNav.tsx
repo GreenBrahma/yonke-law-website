@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 /* -------------------------------------------------------
    TopNav — Sticky top navigation
@@ -28,6 +29,7 @@ const PHONE_TEL = "tel:+18162216400";
 
 export function TopNav() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <header className="sticky top-0 z-50 w-full bg-[#383839] border-b border-steel-silver/20">
@@ -54,16 +56,23 @@ export function TopNav() {
 
         {/* ---- Desktop nav links ---- */}
         <ul className="hidden lg:flex items-center gap-6">
-          {NAV_ITEMS.map((item) => (
-            <li key={item.href}>
-              <Link
-                href={item.href}
-                className="text-sm text-steel-silver hover:text-chrome-highlight font-medium transition-colors duration-200"
-              >
-                {item.label}
-              </Link>
-            </li>
-          ))}
+          {NAV_ITEMS.map((item) => {
+            const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+            return (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className={`text-sm transition-colors duration-200 ${
+                    isActive
+                      ? "text-white font-semibold"
+                      : "text-steel-silver hover:text-white font-medium"
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
 
         {/* ---- Right side: phone + CTA ---- */}
@@ -120,17 +129,24 @@ export function TopNav() {
       {mobileMenuOpen && (
         <div className="lg:hidden border-t border-steel-silver/20 bg-[#383839]">
           <ul className="flex flex-col gap-1 px-4 py-4">
-            {NAV_ITEMS.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className="block rounded px-3 py-2 text-sm text-steel-silver hover:text-chrome-highlight hover:bg-[#444446] transition-colors duration-200"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
+            {NAV_ITEMS.map((item) => {
+              const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+              return (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className={`block rounded px-3 py-2 text-sm transition-colors duration-200 ${
+                      isActive
+                        ? "text-white font-semibold bg-[#444446]"
+                        : "text-steel-silver hover:text-white hover:bg-[#444446]"
+                    }`}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              );
+            })}
             <li className="pt-2 border-t border-steel-silver/20">
               <a
                 href={PHONE_TEL}

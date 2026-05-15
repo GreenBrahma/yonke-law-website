@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { GoogleMap } from "@/components/GoogleMap";
+import { PageHero } from "@/components/PageHero";
 
 export const metadata: Metadata = {
   title: "Talk to Us — Free Consultation | Yonke Law",
@@ -13,23 +14,14 @@ export default function TalkToUsPage() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-obsidian-graphite py-20 px-4 lg:px-8">
-        <div className="mx-auto max-w-4xl text-center">
-          <p className="text-xs uppercase tracking-[0.2em] text-muted-gold mb-6">
-            Talk to Us
-          </p>
-          <h1
-            className="font-display text-4xl md:text-5xl lg:text-6xl text-chrome-highlight leading-[1.15] mb-6"
-            aria-label="Contact Yonke, pronounced YONK-ee, Law"
-          >
-            Ready when you are.
-          </h1>
-          <p className="text-lg md:text-xl text-steel-silver leading-relaxed max-w-2xl mx-auto">
-            Free consultation. No commitment. We listen, ask questions, and give
-            you a straight read on your situation.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        title="Ready when you are."
+        subtitle="Free consultation. No commitment. We listen, ask questions, and give you a straight read on your situation."
+        eyebrow="Talk to Us"
+        images={[
+          "/images/Mike Yonke - with people.png"
+        ]}
+      />
 
       {/* Contact form + Office info */}
       <section className="bg-charcoal-slate py-20 px-4 lg:px-8">

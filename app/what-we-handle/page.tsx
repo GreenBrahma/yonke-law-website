@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+import { PageHero } from "@/components/PageHero";
 
 
 export const metadata: Metadata = {
@@ -137,23 +138,14 @@ export default function WhatWeHandlePage() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-obsidian-graphite py-20 px-4 lg:px-8">
-        <div className="mx-auto max-w-4xl text-center">
-          <p className="text-xs uppercase tracking-[0.2em] text-muted-gold mb-6">
-            What We Handle
-          </p>
-          <h1
-            className="font-display text-4xl md:text-5xl lg:text-6xl text-chrome-highlight leading-[1.15] mb-6"
-            aria-label="Yonke, pronounced YONK-ee, Law practice areas"
-          >
-            Where we focus. Where we know what to do.
-          </h1>
-          <p className="text-lg md:text-xl text-steel-silver leading-relaxed max-w-2xl mx-auto">
-            Practice areas we handle. Decades of focused experience in each.
-            Every case is personal injury — and every case is personal.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        title="Where we focus. Where we know what to do."
+        subtitle="Practice areas we handle. Decades of focused experience in each. Every case is personal injury — and every case is personal."
+        eyebrow="What We Handle"
+        images={[
+          "/images/mike_with_clients_hero.png"
+        ]}
+      />
 
       {/* Practice Area Grid */}
       <section className="bg-charcoal-slate py-20 px-4 lg:px-8">

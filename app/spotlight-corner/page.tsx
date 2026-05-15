@@ -3,6 +3,7 @@ import Link from "next/link";
 import { db } from "@/db/client";
 import { spotlightPublishes, spotlightDrafts } from "@/db/schema/spotlight";
 import { eq, desc } from "drizzle-orm";
+import { PageHero } from "@/components/PageHero";
 
 export const metadata: Metadata = {
   title: "Spotlight Corner — Kansas City Legal News | Yonke Law",
@@ -137,45 +138,37 @@ export default async function SpotlightCornerPage() {
       )}
 
       {/* Hero */}
-      <section className="bg-obsidian-graphite py-20 px-4 lg:px-8">
-        <div className="mx-auto max-w-4xl text-center">
-          <p className="text-xs uppercase tracking-[0.2em] text-muted-gold mb-6">
-            Spotlight Corner
-          </p>
-          <h1
-            className="font-display text-4xl md:text-5xl lg:text-6xl text-chrome-highlight leading-[1.15] mb-6"
-            aria-label="Yonke, pronounced YONK-ee, Law Spotlight Corner"
+      <PageHero
+        title="What's happening in Kansas City that matters."
+        subtitle="Source-verified reporting on local incidents, safety patterns, and civic accountability. Every claim is grounded in public records and confirmed by at least two independent sources."
+        eyebrow="Spotlight Corner"
+        images={[
+          "/images/Mike Yonke - Headshot.png",
+          "/images/Mike Head Shot - Mike Headshot (2).png"
+        ]}
+      >
+        <a
+          href="/spotlight-corner/feed.xml"
+          className="inline-flex items-center gap-2 text-sm text-muted-gold hover:text-chrome-highlight transition-colors mt-8"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           >
-            What&apos;s happening in Kansas City that matters.
-          </h1>
-          <p className="text-lg md:text-xl text-steel-silver leading-relaxed max-w-2xl mx-auto mb-8">
-            Source-verified reporting on local incidents, safety patterns, and
-            civic accountability. Every claim is grounded in public records and
-            confirmed by at least two independent sources.
-          </p>
-          <a
-            href="/spotlight-corner/feed.xml"
-            className="inline-flex items-center gap-2 text-sm text-muted-gold hover:text-chrome-highlight transition-colors"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M4 11a9 9 0 0 1 9 9" />
-              <path d="M4 4a16 16 0 0 1 16 16" />
-              <circle cx="5" cy="19" r="1" />
-            </svg>
-            RSS Feed
-          </a>
-        </div>
-      </section>
+            <path d="M4 11a9 9 0 0 1 9 9" />
+            <path d="M4 4a16 16 0 0 1 16 16" />
+            <circle cx="5" cy="19" r="1" />
+          </svg>
+          RSS Feed
+        </a>
+      </PageHero>
 
       {/* Article Grid */}
       <section className="bg-charcoal-slate py-20 px-4 lg:px-8">
