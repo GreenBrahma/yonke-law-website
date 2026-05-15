@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { Breadcrumb } from "@/components/Breadcrumb";
+
 
 export const metadata: Metadata = {
   title: "What We Handle — Practice Areas | Yonke Law",
@@ -76,8 +76,6 @@ const AREAS = [
 export default function WhatWeHandlePage() {
   return (
     <>
-      <Breadcrumb items={[{ label: "What We Handle" }]} />
-
       {/* Hero */}
       <section className="bg-obsidian-graphite py-20 px-4 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">

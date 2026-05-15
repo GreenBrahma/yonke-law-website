@@ -3,6 +3,7 @@ import { Libre_Baskerville, Inter } from "next/font/google";
 import { TopNav } from "@/components/TopNav";
 import { Footer } from "@/components/Footer";
 import { ChatBot } from "@/components/chatbot/ChatBot";
+import Breadcrumb from "@/components/Breadcrumb";
 import "./globals.css";
 
 /* -------------------------------------------------------
@@ -71,6 +72,7 @@ export default function RootLayout({
         </a>
 
         <TopNav />
+        <Breadcrumb />
 
         <main id="main-content" className="flex-1">
           {children}
