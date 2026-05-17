@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { GoogleMap } from "@/components/GoogleMap";
 import { PageHero } from "@/components/PageHero";
+import { TalkToUsFileInput } from "@/components/TalkToUsFileInput";
 
 export const metadata: Metadata = {
   title: "Talk to Us — Free Consultation | Yonke Law",
@@ -37,6 +38,7 @@ export default function TalkToUsPage() {
             <form
               action="https://formsubmit.co/mike@yonke.law"
               method="POST"
+              encType="multipart/form-data"
               className="space-y-6"
             >
               <input type="hidden" name="_captcha" value="false" />
@@ -122,6 +124,8 @@ export default function TalkToUsPage() {
                   placeholder="Share as much or as little as you're comfortable with. Everything is confidential."
                 />
               </div>
+
+              <TalkToUsFileInput />
 
               <button
                 type="submit"

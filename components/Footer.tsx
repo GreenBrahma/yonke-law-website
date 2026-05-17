@@ -43,7 +43,7 @@ const FOOTER_COLUMNS = {
     heading: "Resources",
     links: [
       { label: "Just Happened?", href: "/just-happened" },
-      { label: "People First", href: "/people-first" },
+      { label: "People First Portal", href: "/people-first" },
       { label: "Checklists", href: "/resources" },
       { label: "FAQ", href: "/resources" },
       { label: "Missouri Law", href: "/resources" },

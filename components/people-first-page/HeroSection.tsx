@@ -6,7 +6,7 @@ export function HeroSection() {
     <PageHero
       title="This is what it looks like to be seen."
       subtitle="Most law firms hand you a phone number and a folder. We hand you the whole machine — every file, every meeting, every step we are taking to prepare your case for trial. We call it People First."
-      eyebrow="People First"
+      eyebrow="People First Portal"
       images={[
         "/images/yl-client-19.jpg",
         "/images/yl-client-24.jpg",

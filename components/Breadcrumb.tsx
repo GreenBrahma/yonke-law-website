@@ -20,7 +20,7 @@ import { usePathname } from "next/navigation";
 const LABEL_OVERRIDES: Record<string, string> = {
   "just-happened": "Just Happened?",
   "what-we-handle": "What We Handle",
-  "people-first": "People First",
+  "people-first": "People First Portal",
   "talk-to-us": "Talk to Us",
   "spotlight-corner": "Spotlight Corner",
   "how-it-works": "How It Works",

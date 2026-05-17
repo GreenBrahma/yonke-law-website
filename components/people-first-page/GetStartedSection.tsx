@@ -5,7 +5,7 @@ export function GetStartedSection() {
     <section className="bg-obsidian-graphite py-16 md:py-24 px-4 lg:px-8">
       <div className="mx-auto max-w-3xl text-center">
         <h2 className="font-display text-3xl md:text-4xl lg:text-5xl text-chrome-highlight leading-[1.15] mb-6">
-          Ready to see your own People First space?
+          Ready to see your own People First Portal space?
         </h2>
         <p className="text-lg text-steel-silver leading-relaxed mb-10">
           Tell us what happened. If Yonke Law is the right fit, you will have a
