@@ -8,10 +8,11 @@ interface PageHeroProps {
   subtitle?: string;
   images: readonly string[];
   eyebrow?: string;
+  imagePosition?: string;
   children?: React.ReactNode;
 }
 
-export function PageHero({ title, subtitle, images, eyebrow, children }: PageHeroProps) {
+export function PageHero({ title, subtitle, images, eyebrow, imagePosition = "object-center", children }: PageHeroProps) {
   const [bgIndex, setBgIndex] = useState(0);
 
   useEffect(() => {
@@ -31,7 +32,7 @@ export function PageHero({ title, subtitle, images, eyebrow, children }: PageHer
           src={src}
           alt=""
           fill
-          className={`object-cover transition-opacity duration-[2000ms] ease-in-out ${
+          className={`object-cover ${imagePosition} transition-opacity duration-[2000ms] ease-in-out ${
             i === bgIndex ? "opacity-100" : "opacity-0"
           }`}
           sizes="100vw"

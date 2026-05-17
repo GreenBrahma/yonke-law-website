@@ -18,6 +18,7 @@ export default function TalkToUsPage() {
         title="Ready when you are."
         subtitle="Free consultation. No commitment. We listen, ask questions, and give you a straight read on your situation."
         eyebrow="Talk to Us"
+        imagePosition="object-top"
         images={[
           "/images/Mike Yonke - with people.png"
         ]}
