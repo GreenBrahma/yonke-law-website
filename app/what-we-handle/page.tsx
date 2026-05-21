@@ -142,9 +142,9 @@ export default function WhatWeHandlePage() {
         title="Where we focus. Where we know what to do."
         subtitle="Practice areas we handle. Decades of focused experience in each. Every case is personal injury — and every case is personal."
         eyebrow="What We Handle"
-        imagePosition="object-top"
+        imagePosition="center 30%"
         images={[
-          "/images/mike_with_clients_hero.png"
+          "/images/yl-where-we-focus.jpg"
         ]}
       />
 
