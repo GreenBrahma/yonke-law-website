@@ -142,9 +142,8 @@ export default async function SpotlightCornerPage() {
         title="What's happening in Kansas City that matters."
         subtitle="Source-verified reporting on local incidents, safety patterns, and civic accountability. Every claim is grounded in public records and confirmed by at least two independent sources."
         eyebrow="Spotlight Corner"
-        imagePosition="object-top"
+        imagePosition="object-[20%]"
         images={[
-          "/images/Mike Yonke - Headshot.png",
           "/images/Mike Head Shot - Mike Headshot (2).png"
         ]}
       >
