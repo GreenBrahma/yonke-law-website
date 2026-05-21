@@ -405,13 +405,24 @@ export default function HomePage() {
           =========================================== */}
       <section className="bg-obsidian-graphite py-24 px-4 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <div className="text-center mb-16">
-            <div className="text-xs uppercase tracking-wider text-muted-gold mb-3">
-              What we handle
+          {/* Section banner image */}
+          <div className="relative w-full aspect-[21/9] mb-16 rounded overflow-hidden border border-steel-silver/10">
+            <Image
+              src="/images/yl-where-we-focus.jpg"
+              alt="People gathered together reviewing legal documents — the moment when understanding begins."
+              fill
+              className="object-cover object-top"
+              sizes="(max-width: 768px) 100vw, 1280px"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-obsidian-graphite via-obsidian-graphite/40 to-transparent" />
+            <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-10">
+              <div className="text-xs uppercase tracking-wider text-muted-gold mb-3">
+                What we handle
+              </div>
+              <h2 className="font-display text-3xl md:text-4xl lg:text-5xl text-chrome-highlight leading-tight">
+                Where we focus. Where we know what to do.
+              </h2>
             </div>
-            <h2 className="font-display text-4xl lg:text-5xl text-chrome-highlight leading-tight">
-              Where we focus. Where we know what to do.
-            </h2>
           </div>
 
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">

@@ -299,7 +299,7 @@ export function ConciergeHero() {
           src={src}
           alt=""
           fill
-          className={`object-cover transition-opacity duration-[2000ms] ease-in-out ${
+          className={`object-cover object-top transition-opacity duration-[2000ms] ease-in-out ${
             i === bgIndex ? "opacity-100" : "opacity-0"
           }`}
           sizes="100vw"
