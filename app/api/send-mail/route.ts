@@ -2,10 +2,12 @@
  * Send Mail API — Microsoft Graph
  *
  * POST /api/send-mail
- * Body: { to: string, subject: string, body: string }
+ * Body: { to: string | string[], subject: string, body: string }
  *
  * Sends email via Graph endpoint POST /users/{MS365_SENDER_EMAIL}/sendMail
  * using app-only client credentials (no user login).
+ *
+ * `to` accepts a single address or an array of addresses for multi-recipient.
  *
  * Reply-to is set to MS365_ATTORNEY_EMAIL so client replies
  * land in Mike's inbox, not the system sender mailbox.
@@ -22,7 +24,7 @@ import { getGraphToken } from "@/lib/graph/client";
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 interface SendMailBody {
-  to: string;
+  to: string | string[];
   subject: string;
   body: string;
 }
@@ -59,6 +61,19 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Normalize recipients — accept string or string[]
+    const recipients = Array.isArray(payload.to) ? payload.to : [payload.to];
+
+    if (recipients.length === 0 || recipients.some((r) => !r)) {
+      return NextResponse.json(
+        {
+          error: "Invalid request",
+          detail: "'to' must be a non-empty email address or array of addresses.",
+        },
+        { status: 400 }
+      );
+    }
+
     // Acquire Graph token
     const token = await getGraphToken();
 
@@ -70,13 +85,9 @@ export async function POST(request: NextRequest) {
           contentType: "HTML",
           content: payload.body,
         },
-        toRecipients: [
-          {
-            emailAddress: {
-              address: payload.to,
-            },
-          },
-        ],
+        toRecipients: recipients.map((address) => ({
+          emailAddress: { address },
+        })),
         replyTo: [
           {
             emailAddress: {

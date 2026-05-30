@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { GoogleMap } from "@/components/GoogleMap";
 import { PageHero } from "@/components/PageHero";
-import { TalkToUsFileInput } from "@/components/TalkToUsFileInput";
+import { TalkToUsForm } from "@/components/TalkToUsForm";
 
 export const metadata: Metadata = {
   title: "Talk to Us — Free Consultation | Yonke Law",
@@ -33,112 +33,7 @@ export default function TalkToUsPage() {
             <h2 className="font-display text-2xl text-chrome-highlight mb-8">
               Send us a message
             </h2>
-            {/* Form submissions route to Mike's MS365 email.
-                TODO: Integration point — People First digital intake (not yet built). */}
-            <form
-              action="https://formsubmit.co/mike@yonke.law"
-              method="POST"
-              encType="multipart/form-data"
-              className="space-y-6"
-            >
-              <input type="hidden" name="_captcha" value="false" />
-              <input type="hidden" name="_subject" value="New inquiry from yonke.law" />
-              <input type="hidden" name="_next" value="https://yonkelawwebsite.netlify.app/talk-to-us?sent=true" />
-
-              <div className="grid sm:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="name" className="block text-sm text-steel-silver mb-2">
-                    Your name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    required
-                    className="w-full bg-obsidian-graphite border border-steel-silver/20 rounded-lg px-4 py-3 text-chrome-highlight placeholder:text-steel-silver/40 focus:outline-none focus:border-muted-gold/50 transition-colors"
-                    placeholder="First and last name"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="phone" className="block text-sm text-steel-silver mb-2">
-                    Phone number
-                  </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    className="w-full bg-obsidian-graphite border border-steel-silver/20 rounded-lg px-4 py-3 text-chrome-highlight placeholder:text-steel-silver/40 focus:outline-none focus:border-muted-gold/50 transition-colors"
-                    placeholder="(xxx) xxx-xxxx"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label htmlFor="email" className="block text-sm text-steel-silver mb-2">
-                  Email address
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  required
-                  className="w-full bg-obsidian-graphite border border-steel-silver/20 rounded-lg px-4 py-3 text-chrome-highlight placeholder:text-steel-silver/40 focus:outline-none focus:border-muted-gold/50 transition-colors"
-                  placeholder="you@example.com"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="case-type" className="block text-sm text-steel-silver mb-2">
-                  What happened?
-                </label>
-                <select
-                  id="case-type"
-                  name="case_type"
-                  className="w-full bg-obsidian-graphite border border-steel-silver/20 rounded-lg px-4 py-3 text-chrome-highlight focus:outline-none focus:border-muted-gold/50 transition-colors"
-                >
-                  <option value="">Select a category</option>
-                  <option value="car-accident">Car Accident</option>
-                  <option value="truck-accident">Truck Accident</option>
-                  <option value="motorcycle-accident">Motorcycle Accident</option>
-                  <option value="medical-malpractice">Medical Malpractice</option>
-                  <option value="wrongful-death">Wrongful Death</option>
-                  <option value="nursing-home">Nursing Home Abuse/Neglect</option>
-                  <option value="workplace-injury">Workplace Injury</option>
-                  <option value="premises-liability">Slip and Fall / Premises</option>
-                  <option value="product-liability">Defective Product</option>
-                  <option value="pedestrian-bicycle">Pedestrian / Bicycle</option>
-                  <option value="other">Other / Not sure</option>
-                </select>
-              </div>
-
-              <div>
-                <label htmlFor="message" className="block text-sm text-steel-silver mb-2">
-                  Tell us what happened
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  rows={5}
-                  required
-                  className="w-full bg-obsidian-graphite border border-steel-silver/20 rounded-lg px-4 py-3 text-chrome-highlight placeholder:text-steel-silver/40 focus:outline-none focus:border-muted-gold/50 transition-colors resize-y"
-                  placeholder="Share as much or as little as you're comfortable with. Everything is confidential."
-                />
-              </div>
-
-              <TalkToUsFileInput />
-
-              <button
-                type="submit"
-                className="bg-muted-gold text-obsidian-graphite font-semibold px-8 py-4 rounded hover:bg-muted-gold/90 transition-colors w-full sm:w-auto"
-              >
-                Send Message
-              </button>
-
-              <p className="text-steel-silver/60 text-xs leading-relaxed">
-                By submitting this form, you are not establishing an attorney-client relationship.
-                All information is kept confidential and used only to evaluate your inquiry.
-              </p>
-            </form>
+            <TalkToUsForm />
           </div>
 
           {/* Office info sidebar */}

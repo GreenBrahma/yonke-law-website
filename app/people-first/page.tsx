@@ -4,6 +4,7 @@ import { TheStanceSection } from "@/components/people-first-page/TheStanceSectio
 import { TransparencyPromiseSection } from "@/components/people-first-page/TransparencyPromiseSection";
 import { GetStartedSection } from "@/components/people-first-page/GetStartedSection";
 import { WhatYouSeeSection } from "@/components/people-first-page/WhatYouSeeSection";
+import { PeopleFirstActions } from "@/components/people-first-page/PeopleFirstActions";
 
 export const metadata: Metadata = {
   title: "People First Portal — How We Stay Connected | Yonke Law",
@@ -24,20 +25,8 @@ export default function PeopleFirstPage() {
       {/* Section 4.3 — What You See (panels overview) */}
       <WhatYouSeeSection />
 
-      {/* Section 4.4 — Interactive Demo — Phase 4 */}
-      <section id="interactive-demo" className="bg-obsidian-graphite py-20 px-4 lg:px-8 border-y border-steel-silver/10">
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className="font-display text-2xl md:text-3xl text-chrome-highlight mb-4">
-            Walk Through It
-          </h2>
-          <p className="text-lg text-muted-gold mb-6 font-medium">
-            A simulated walkthrough of the People First Portal is under construction.
-          </p>
-          <p className="text-steel-silver leading-relaxed">
-            When it goes live, you will be able to click through each panel exactly as a person we represent would see it. Until then, the panel descriptions above show you what is inside.
-          </p>
-        </div>
-      </section>
+      {/* Section 4.4 — Contact & Schedule */}
+      <PeopleFirstActions />
 
       {/* Section 4.5 — Mood Monitor — Phase 5 */}
 
