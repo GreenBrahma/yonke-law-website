@@ -74,6 +74,22 @@ export default function TalkToUsPage() {
               </div>
             </div>
 
+            <div className="bg-obsidian-graphite border border-muted-gold/30 rounded-lg p-8">
+              <h3 className="text-chrome-highlight font-semibold mb-3">While you wait</h3>
+              <p className="text-steel-silver text-sm leading-relaxed mb-4">
+                Download our Personal Injury Checklist — essential steps to
+                protect your health, your rights, and your claim.
+              </p>
+              <a
+                href="/resources/yl-personal-injury-checklist.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-muted-gold hover:text-chrome-highlight transition-colors text-sm font-semibold"
+              >
+                Get the checklist (PDF) ↓
+              </a>
+            </div>
+
             <div className="bg-obsidian-graphite border border-steel-silver/10 rounded-lg p-8">
               <h3 className="text-chrome-highlight font-semibold mb-3">No fee unless we recover.</h3>
               <p className="text-steel-silver text-sm leading-relaxed">

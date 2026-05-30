@@ -28,6 +28,29 @@ export default function PeopleFirstPage() {
       {/* Section 4.4 — Contact & Schedule */}
       <PeopleFirstActions />
 
+      {/* Checklist download — starting-point resource */}
+      <section className="bg-charcoal-slate py-12 px-4 lg:px-8">
+        <div className="mx-auto max-w-3xl">
+          <a
+            href="/resources/yl-personal-injury-checklist.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-4 bg-obsidian-graphite border border-muted-gold/30 rounded-lg p-6 hover:border-muted-gold transition-colors duration-200 group"
+          >
+            <span className="text-3xl shrink-0" aria-hidden="true">📋</span>
+            <div>
+              <p className="text-chrome-highlight font-semibold group-hover:text-muted-gold transition-colors">
+                Start with the Personal Injury Checklist
+              </p>
+              <p className="text-steel-silver text-sm">
+                Essential steps to protect your health, your rights, and your claim — download, print, and keep.
+              </p>
+            </div>
+            <span className="text-muted-gold ml-auto shrink-0" aria-hidden="true">↓</span>
+          </a>
+        </div>
+      </section>
+
       {/* Section 4.5 — Mood Monitor — Phase 5 */}
 
       {/* Section 4.6 — The Transparency Promise */}

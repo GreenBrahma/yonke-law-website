@@ -400,6 +400,29 @@ function CarAccidentPage() {
         </div>
       </PageHero>
 
+      {/* Personal Injury Checklist download */}
+      <section className="bg-charcoal-slate py-8 px-4 lg:px-8">
+        <div className="mx-auto max-w-[1000px]">
+          <a
+            href="/resources/yl-personal-injury-checklist.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-4 bg-obsidian-graphite border border-muted-gold/30 rounded-lg p-5 hover:border-muted-gold transition-colors duration-200 group"
+          >
+            <span className="text-2xl" aria-hidden="true">📋</span>
+            <div>
+              <p className="text-chrome-highlight font-semibold group-hover:text-muted-gold transition-colors">
+                Download the Personal Injury Checklist
+              </p>
+              <p className="text-steel-silver text-sm">
+                Essential steps to protect your health, your rights, and your claim.
+              </p>
+            </div>
+            <span className="text-muted-gold ml-auto shrink-0" aria-hidden="true">↓</span>
+          </a>
+        </div>
+      </section>
+
       {/* ===========================================
           Video — Topic explainer (if available)
           =========================================== */}
@@ -478,12 +501,14 @@ function CarAccidentPage() {
           <div className="mt-12 pt-8 border-t border-steel-silver/20">
             <p className="text-steel-silver text-sm">
               Want a printable checklist version?{" "}
-              <Link
-                href="/resources/checklists/car-accident-response"
+              <a
+                href="/resources/yl-personal-injury-checklist.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-chrome-highlight hover:text-muted-gold underline underline-offset-4 transition-colors"
               >
-                Download the Accident Response Checklist →
-              </Link>
+                Download the Personal Injury Checklist ↓
+              </a>
             </p>
           </div>
         </div>
@@ -771,12 +796,14 @@ function CarAccidentPage() {
                 your glove compartment. Covers the 12 steps above plus the
                 documents to collect and the people to call.
               </p>
-              <Link
-                href="/resources/checklists/car-accident-response"
+              <a
+                href="/resources/yl-personal-injury-checklist.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-chrome-highlight hover:text-muted-gold transition-colors"
               >
-                Download the PDF <span aria-hidden="true">→</span>
-              </Link>
+                Download the checklist (PDF) <span aria-hidden="true">↓</span>
+              </a>
             </div>
             <div className="bg-obsidian-graphite border border-steel-silver/10 p-8 rounded">
               <div className="text-xs uppercase tracking-wider text-muted-gold mb-3">
@@ -1018,6 +1045,14 @@ function ComingSoonPage({ topic }: { topic: TopicSlug }) {
             now, you can talk to us directly — free consultation, same business
             day response.
           </p>
+          <a
+            href="/resources/yl-personal-injury-checklist.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-muted-gold hover:text-chrome-highlight transition-colors mb-8"
+          >
+            📋 Get the Personal Injury Checklist while you wait →
+          </a>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a
               href="#consultation"

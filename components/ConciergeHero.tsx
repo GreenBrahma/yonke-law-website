@@ -560,6 +560,22 @@ export function ConciergeHero() {
                           </Link>
                         )}
 
+                        {/* Personal Injury Checklist PDF */}
+                        <a
+                          href="/resources/yl-personal-injury-checklist.pdf"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="bg-obsidian-graphite border border-steel-silver/10 rounded-xl p-4 shadow-sm hover:border-muted-gold transition-colors group block"
+                        >
+                          <div className="text-xs uppercase tracking-wider text-muted-gold mb-2">Download</div>
+                          <p className="text-chrome-highlight text-sm leading-relaxed mb-3">
+                            Personal Injury Checklist — essential steps to protect your claim.
+                          </p>
+                          <span className="text-steel-silver group-hover:text-muted-gold text-sm transition-colors">
+                            Get the checklist (PDF) ↓
+                          </span>
+                        </a>
+
                         {/* Share info card */}
                         {!contactSent && (
                           <button

@@ -197,7 +197,7 @@ export default async function PracticeAreaPage({
         <div className="mx-auto max-w-[1000px]">
           <div className="grid md:grid-cols-[280px_1fr] gap-10 items-start">
             <div className="relative aspect-[3/4] rounded-lg overflow-hidden">
-              <Image src="/images/Mike Yonke - Headshot.png" alt="Michael T. Yonke" fill className="object-cover" sizes="280px" />
+              <Image src="/images/Mike Yonke - Headshot Clean.jpg" alt="Michael T. Yonke" fill className="object-cover" sizes="280px" />
             </div>
             <div>
               <p className="text-xs uppercase tracking-[0.2em] text-steel-silver mb-3">Who You&apos;ll Work With</p>
@@ -240,13 +240,13 @@ export default async function PracticeAreaPage({
           <div className="grid md:grid-cols-2 gap-8">
             <div className="bg-obsidian-graphite border border-steel-silver/10 rounded-lg p-8 hover:border-muted-gold/30 transition-colors duration-300">
               <p className="text-xs uppercase tracking-[0.2em] text-steel-silver mb-3">Printable</p>
-              <h3 className="font-display text-xl text-chrome-highlight mb-3">Evidence & Records Checklist</h3>
+              <h3 className="font-display text-xl text-chrome-highlight mb-3">Personal Injury Checklist</h3>
               <p className="text-steel-silver text-sm leading-relaxed mb-6">
-                What to gather, who to contact, and the deadlines that matter for your {area.name.toLowerCase()} case.
+                Essential steps to protect your health, your rights, and your claim. Covers what to gather, who to contact, and the deadlines that matter for your {area.name.toLowerCase()} case.
               </p>
-              <Link href="/resources" className="text-muted-gold hover:text-chrome-highlight transition-colors text-sm font-semibold">
-                View Resources →
-              </Link>
+              <a href="/resources/yl-personal-injury-checklist.pdf" target="_blank" rel="noopener noreferrer" className="text-muted-gold hover:text-chrome-highlight transition-colors text-sm font-semibold">
+                Download the checklist (PDF) ↓
+              </a>
             </div>
             <div className="bg-obsidian-graphite border border-steel-silver/10 rounded-lg p-8 hover:border-muted-gold/30 transition-colors duration-300">
               <p className="text-xs uppercase tracking-[0.2em] text-steel-silver mb-3">Or — Walk Through It Digitally</p>
