@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Resources — Checklists, FAQ & Legal Reference | Yonke Law",
@@ -55,12 +54,6 @@ export default function ResourcesPage() {
                   >
                     Download Checklist (PDF) ↓
                   </a>
-                  <Link
-                    href="/talk-to-us"
-                    className="inline-flex items-center justify-center border border-steel-silver/30 text-chrome-highlight font-semibold px-8 py-4 rounded hover:bg-charcoal-slate transition-colors"
-                  >
-                    Talk to Us →
-                  </Link>
                 </div>
               </div>
             </div>
