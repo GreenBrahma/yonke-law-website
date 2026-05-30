@@ -34,7 +34,7 @@ export function TopNav() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-[#383839] border-b border-steel-silver/20">
+    <header className="sticky top-0 z-50 w-full bg-obsidian-graphite border-b border-steel-silver/20">
       <nav
         className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 lg:px-8"
         aria-label="Primary navigation"
@@ -129,7 +129,7 @@ export function TopNav() {
 
       {/* ---- Mobile menu ---- */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-steel-silver/20 bg-[#383839]">
+        <div className="lg:hidden border-t border-steel-silver/20 bg-obsidian-graphite">
           <ul className="flex flex-col gap-1 px-4 py-4">
             {NAV_ITEMS.map((item) => {
               const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
@@ -139,8 +139,8 @@ export function TopNav() {
                     href={item.href}
                     className={`block rounded px-3 py-2 text-sm transition-colors duration-200 ${
                       isActive
-                        ? "text-white font-semibold bg-[#444446]"
-                        : "text-steel-silver hover:text-white hover:bg-[#444446]"
+                        ? "text-white font-semibold bg-charcoal-slate"
+                        : "text-steel-silver hover:text-white hover:bg-charcoal-slate"
                     }`}
                     onClick={() => setMobileMenuOpen(false)}
                   >
