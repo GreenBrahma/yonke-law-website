@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PageHero } from "@/components/PageHero";
 
 const TOPIC_LABELS: Record<string, string> = {
   "car-accident": "Car Accident",
@@ -118,43 +117,12 @@ export default function JustHappenedHubPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <PageHero
-        title="Something just happened. Find your situation."
-        subtitle="The path forward starts with knowing where you stand. Find your situation below for clear, plain-English guidance on what to do next."
-        eyebrow="Just Happened"
-        images={[
-          "/images/YL client 1.png",
-          "/images/YL client 2.png",
-          "/images/yl-client-3.png",
-          "/images/yl-client-4.png",
-          "/images/YL client 5.png",
-          "/images/YL client 6.png",
-          "/images/YL client 7.png",
-          "/images/YL client 8.png",
-        ]}
-      >
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Link
-            href="#situations"
-            className="bg-muted-gold text-obsidian-graphite font-semibold px-8 py-4 rounded hover:bg-muted-gold/90 transition-colors duration-200"
-          >
-            Find your situation ↓
-          </Link>
-          <Link
-            href="#consultation"
-            className="text-steel-silver hover:text-chrome-highlight transition-colors duration-200 underline-offset-4 hover:underline"
-          >
-            Or talk to someone now →
-          </Link>
-        </div>
-      </PageHero>
-
       {/* ===========================================
-          Section 2 — Situation Grid
+          Section 1 — Situation Grid (flush under nav)
           =========================================== */}
       <section
         id="situations"
-        className="bg-charcoal-slate py-24 px-4 lg:px-8 scroll-mt-20"
+        className="bg-charcoal-slate pt-12 pb-24 px-4 lg:px-8"
       >
         <div className="mx-auto max-w-5xl">
           <div className="space-y-16">
