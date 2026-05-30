@@ -144,7 +144,7 @@ export default async function SpotlightCornerPage() {
         eyebrow="Spotlight Corner"
         imagePosition="center 25%"
         images={[
-          "/images/Mike Head Shot - Mike Headshot (2).png"
+          "/images/Mike Yonke - Headshot Clean.jpg"
         ]}
       >
         <a

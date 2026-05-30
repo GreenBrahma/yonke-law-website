@@ -5,7 +5,7 @@ import Link from "next/link";
 /* ===========================================================
    /about — Michael T. Yonke
    Content sourced from yonke.law/michael-t-yonke
-   Image: /images/Mike Head Shot - Mike Headshot (2).png
+   Image: /images/Mike Yonke - Headshot Clean.jpg
    =========================================================== */
 
 export const metadata: Metadata = {
@@ -48,7 +48,7 @@ export default function AboutPage() {
           <div className="md:col-span-2 flex justify-center">
             <div className="relative w-72 h-96 md:w-full md:h-[480px] rounded-lg overflow-hidden border border-steel-silver/10">
               <Image
-                src="/images/Mike Head Shot - Mike Headshot (2).png"
+                src="/images/Mike Yonke - Headshot Clean.jpg"
                 alt="Michael T. Yonke, founding partner of Yonke Law in Kansas City"
                 fill
                 className="object-cover object-top"

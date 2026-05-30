@@ -472,7 +472,7 @@ export default function HomePage() {
         <div className="mx-auto max-w-5xl grid md:grid-cols-5 gap-12 items-center">
           <div className="md:col-span-2 aspect-[4/5] bg-obsidian-graphite border border-steel-silver/20 rounded overflow-hidden relative">
             <Image
-              src="/images/Mike Yonke - Headshot.png"
+              src="/images/Mike Yonke - Headshot Clean.jpg"
               alt="Michael T. Yonke — founding partner of Yonke Law in Kansas City"
               fill
               className="object-cover object-top"
