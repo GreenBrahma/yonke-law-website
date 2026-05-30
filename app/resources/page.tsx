@@ -45,15 +45,30 @@ export default function ResourcesPage() {
                   how to document everything, when to seek medical care, and the
                   deadlines that matter. Print it. Keep it in your car.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <a
-                    href="/resources/yl-personal-injury-checklist.pdf"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 bg-muted-gold text-obsidian-graphite font-semibold px-8 py-4 rounded hover:bg-muted-gold/90 transition-colors"
-                  >
-                    Download Checklist (PDF) ↓
-                  </a>
+                <div className="flex flex-col sm:flex-row items-start gap-6">
+                  <div className="flex flex-col gap-4">
+                    <a
+                      href="/resources/yl-personal-injury-checklist.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 bg-muted-gold text-obsidian-graphite font-semibold px-8 py-4 rounded hover:bg-muted-gold/90 transition-colors"
+                    >
+                      Download Checklist (PDF) ↓
+                    </a>
+                  </div>
+                  <div className="flex flex-col items-center gap-2">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src="/images/pi-checklist-qr.png"
+                      alt="QR code — scan to download or share the Personal Injury Checklist"
+                      width={120}
+                      height={120}
+                      className="rounded"
+                    />
+                    <p className="text-steel-silver text-xs text-center max-w-[140px]">
+                      Scan to download or text it to someone
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
