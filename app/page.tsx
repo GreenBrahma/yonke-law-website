@@ -278,26 +278,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ===========================================
-          Video — Deposition preparation
-          =========================================== */}
-      <section className="bg-charcoal-slate py-16 px-4 lg:px-8">
-        <div className="mx-auto max-w-3xl">
-          <div className="aspect-video rounded overflow-hidden border border-steel-silver/10">
-            <iframe
-              src="https://www.youtube.com/embed/om6L1RHfKic?rel=0"
-              title="Preparing You for a Deposition | Yonke Law"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="w-full h-full"
-              loading="lazy"
-            />
-          </div>
-          <p className="text-sm text-steel-silver mt-4 text-center">
-            Preparing you for a deposition.
-          </p>
-        </div>
-      </section>
+
 
       {/* ===========================================
           Section 3 — The Non-Mill Promise

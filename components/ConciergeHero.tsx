@@ -447,17 +447,14 @@ export function ConciergeHero() {
             {/* Explainer video */}
             <div className="mt-10 mx-auto max-w-3xl">
               <div className="aspect-video rounded-xl overflow-hidden border border-steel-silver/10">
-                <video
-                  controls
-                  preload="metadata"
+                <iframe
+                  src="https://www.youtube.com/embed/lcxuwZ_R3lE?rel=0"
+                  title="The Standard — Yonke Law"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
                   className="w-full h-full"
-                >
-                  <source
-                    src="/videos/Yonke_Law_-_The_Standard.mp4"
-                    type="video/mp4"
-                  />
-                  Your browser does not support the video tag.
-                </video>
+                  loading="lazy"
+                />
               </div>
             </div>
           </>
