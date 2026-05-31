@@ -446,6 +446,54 @@ export default function HomePage() {
             </div>
           </div>
 
+          {/* Featured: Depositions panel */}
+          <div className="mb-8">
+            <div className="bg-charcoal-slate rounded-xl border border-muted-gold/30 overflow-hidden">
+              <div className="grid md:grid-cols-2 gap-0">
+                {/* Left: Video */}
+                <div className="aspect-video md:aspect-auto md:min-h-[320px]">
+                  <iframe
+                    src="https://www.youtube.com/embed/om6L1RHfKic?rel=0"
+                    title="Preparing You for a Deposition | Yonke Law"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="w-full h-full"
+                    loading="lazy"
+                  />
+                </div>
+                {/* Right: Context */}
+                <div className="p-8 md:p-10 flex flex-col justify-center">
+                  <p className="text-xs uppercase tracking-widest text-muted-gold mb-3">
+                    Every case. Every situation.
+                  </p>
+                  <h3 className="font-display text-2xl md:text-3xl text-chrome-highlight mb-4">
+                    Preparing you for a deposition.
+                  </h3>
+                  <div className="space-y-3 text-steel-silver leading-relaxed text-sm">
+                    <p>
+                      A deposition is one of the most important moments in any
+                      case. It&apos;s the other side&apos;s chance to question
+                      you under oath — and what you say becomes permanent
+                      record.
+                    </p>
+                    <p>
+                      Whether your case involves a car accident, a workplace
+                      injury, medical malpractice, or wrongful death — if it
+                      goes to litigation, you will almost certainly be deposed.
+                      The difference between being prepared and being surprised
+                      can shape the entire outcome.
+                    </p>
+                    <p>
+                      We prepare every client personally. This video walks you
+                      through what to expect, how to answer, and the mistakes
+                      that cost people money.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {PRACTICE_AREAS.map((area) => (
               <Link
