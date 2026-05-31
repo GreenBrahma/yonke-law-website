@@ -14,33 +14,27 @@ export const metadata: Metadata = {
 export default function TalkToUsPage() {
   return (
     <>
-      {/* Hero */}
-      <section className="bg-obsidian-graphite pt-20 pb-16 px-4 lg:px-8">
-        <div className="mx-auto max-w-4xl text-center">
-          <p className="text-sm uppercase tracking-widest text-muted-gold mb-6">
-            Talk to Us
-          </p>
-
-          {/* Three options with icons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-12 mb-8">
-            <a href="#consultation" className="group flex flex-col items-center gap-3">
-              <span className="text-4xl group-hover:scale-110 transition-transform">📞</span>
-              <span className="text-chrome-highlight font-display text-lg">Ready when you are</span>
-            </a>
-            <a href="#consultation" className="group flex flex-col items-center gap-3">
-              <span className="text-4xl group-hover:scale-110 transition-transform">⚖️</span>
-              <span className="text-chrome-highlight font-display text-lg">For a consultation</span>
-            </a>
-            <a href="#testimonial" className="group flex flex-col items-center gap-3">
-              <span className="text-4xl group-hover:scale-110 transition-transform">🗣️</span>
-              <span className="text-chrome-highlight font-display text-lg">Or your testimony</span>
-            </a>
+      {/* Hero — Mike in court */}
+      <section className="relative min-h-[40vh] flex items-end overflow-hidden">
+        <Image
+          src="/images/mike-in-court.png"
+          alt="Mike Yonke in the courtroom — Yonke Law"
+          fill
+          className="object-cover object-center"
+          sizes="100vw"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-obsidian-graphite via-obsidian-graphite/60 to-transparent" />
+        <div className="relative z-10 w-full px-4 lg:px-8 pb-12 pt-24">
+          <div className="mx-auto max-w-4xl text-center">
+            <p className="text-sm uppercase tracking-widest text-muted-gold mb-4">
+              Talk to Us
+            </p>
+            <p className="text-lg text-steel-silver max-w-2xl mx-auto leading-relaxed">
+              It&apos;s free. There&apos;s no commitment. We listen and get busy
+              on your behalf.
+            </p>
           </div>
-
-          <p className="text-lg text-steel-silver max-w-2xl mx-auto leading-relaxed">
-            It&apos;s free. There&apos;s no commitment. We listen and get busy
-            on your behalf.
-          </p>
         </div>
       </section>
 
@@ -53,9 +47,19 @@ export default function TalkToUsPage() {
             <p className="text-xs uppercase tracking-widest text-muted-gold mb-3">
               Free Review (Prior to Consultation*)
             </p>
-            <h2 className="font-display text-3xl md:text-4xl text-chrome-highlight">
-              Send us a message
-            </h2>
+            <div className="flex items-center justify-center gap-4">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/qr-send-message.png"
+                alt="QR code — Send us a message"
+                width={64}
+                height={64}
+                className="rounded hidden sm:block"
+              />
+              <h2 className="font-display text-3xl md:text-4xl text-chrome-highlight">
+                Send us a message
+              </h2>
+            </div>
           </div>
 
           <div className="grid md:grid-cols-[1fr_360px] gap-12">
@@ -66,15 +70,15 @@ export default function TalkToUsPage() {
 
             {/* Mike sidebar */}
             <div className="space-y-6">
-              {/* Mike full body */}
+              {/* Mike headshot — fills full column */}
               <div className="bg-obsidian-graphite border border-steel-silver/10 rounded-xl overflow-hidden">
-                <div className="relative aspect-[3/4] max-h-[400px]">
+                <div className="relative w-full" style={{ aspectRatio: "3/4" }}>
                   <Image
-                    src="/images/Mike Yonke - with people.png"
+                    src="/images/Mike Yonke - Headshot Clean.jpg"
                     alt="Mike Yonke — Yonke Law"
                     fill
                     className="object-cover object-top"
-                    sizes="360px"
+                    sizes="(max-width: 768px) 100vw, 360px"
                   />
                 </div>
                 <div className="p-6">
@@ -150,10 +154,20 @@ export default function TalkToUsPage() {
             <p className="text-xs uppercase tracking-widest text-muted-gold mb-3">
               Share Your Experience
             </p>
-            <h2 className="font-display text-3xl md:text-4xl text-chrome-highlight mb-4">
-              Leave a recommendation
-            </h2>
-            <p className="text-steel-silver max-w-xl mx-auto leading-relaxed">
+            <div className="flex items-center justify-center gap-4">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/qr-leave-recommendation.png"
+                alt="QR code — Leave a recommendation"
+                width={64}
+                height={64}
+                className="rounded hidden sm:block"
+              />
+              <h2 className="font-display text-3xl md:text-4xl text-chrome-highlight">
+                Leave a recommendation
+              </h2>
+            </div>
+            <p className="text-steel-silver max-w-xl mx-auto leading-relaxed mt-4">
               Your words help the next person find the right team. Rate us,
               leave a note, and — if you&apos;re willing — share it so others
               know what to expect.

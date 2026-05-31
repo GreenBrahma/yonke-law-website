@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, type FormEvent, type ChangeEvent } from "react";
-import Image from "next/image";
 
 type FormState = "idle" | "sending" | "sent" | "error";
 
@@ -72,7 +71,7 @@ export function TestimonialForm() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          to: ["mike@yonke.law", "janell@yonke.law"],
+          to: ["mike@yonke.law", "myonke@yonke-law.com", "geoff@yonke.law"],
           subject: `New Testimonial: ${name} — ${stars > 0 ? stars + " Stars" : "Review"}`,
           body: htmlBody,
         }),
