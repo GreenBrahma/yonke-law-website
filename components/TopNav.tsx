@@ -88,10 +88,17 @@ export function TopNav() {
 
           <Link
             href="/talk-to-us"
+            className="hidden sm:inline-flex rounded border border-steel-silver/30 px-4 py-2 text-sm font-semibold text-chrome-highlight hover:border-muted-gold hover:text-muted-gold transition-colors duration-200"
+          >
+            Send Us a Message
+          </Link>
+
+          <a
+            href={PHONE_TEL}
             className="rounded bg-muted-gold px-4 py-2 text-sm font-semibold text-obsidian-graphite hover:bg-muted-gold/90 transition-colors duration-200"
           >
             Talk to Us
-          </Link>
+          </a>
 
           {/* ---- Mobile hamburger ---- */}
           <button
