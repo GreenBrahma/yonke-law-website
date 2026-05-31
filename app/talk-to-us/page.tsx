@@ -47,14 +47,14 @@ export default function TalkToUsPage() {
             <p className="text-xs uppercase tracking-widest text-muted-gold mb-3">
               Free Review (Prior to Consultation*)
             </p>
-            <div className="flex items-center justify-center gap-4">
+            <div className="flex items-center justify-center gap-6">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/images/qr-send-message.png"
                 alt="QR code — Send us a message"
-                width={64}
-                height={64}
-                className="rounded hidden sm:block"
+                width={120}
+                height={120}
+                className="rounded"
               />
               <h2 className="font-display text-3xl md:text-4xl text-chrome-highlight">
                 Send us a message
@@ -154,14 +154,14 @@ export default function TalkToUsPage() {
             <p className="text-xs uppercase tracking-widest text-muted-gold mb-3">
               Share Your Experience
             </p>
-            <div className="flex items-center justify-center gap-4">
+            <div className="flex items-center justify-center gap-6">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/images/qr-leave-recommendation.png"
                 alt="QR code — Leave a recommendation"
-                width={64}
-                height={64}
-                className="rounded hidden sm:block"
+                width={120}
+                height={120}
+                className="rounded"
               />
               <h2 className="font-display text-3xl md:text-4xl text-chrome-highlight">
                 Leave a recommendation
