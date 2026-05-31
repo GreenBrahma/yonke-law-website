@@ -17,8 +17,8 @@ export default function TalkToUsPage() {
       {/* Hero — Mike in court */}
       <section className="relative min-h-[40vh] flex items-end overflow-hidden">
         <Image
-          src="/images/mike-in-court.png"
-          alt="Mike Yonke in the courtroom — Yonke Law"
+          src="/images/yl-person-laptop-kc.png"
+          alt="Person on their laptop browsing Facebook from a studio apartment overlooking downtown Kansas City"
           fill
           className="object-cover object-center"
           sizes="100vw"
