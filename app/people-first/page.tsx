@@ -9,7 +9,7 @@ import { PeopleFirstActions } from "@/components/people-first-page/PeopleFirstAc
 export const metadata: Metadata = {
   title: "People First — How We Stay Connected | Yonke Law",
   description:
-    "People First Portal is how Yonke Law stays connected with the people we represent. Every file, every meeting, every step — visible in real time. See it in action.",
+    "People First is how Yonke Law stays connected with the people we represent. Every file, every meeting, every step — visible in real time. See it in action.",
   alternates: { canonical: "https://yonke.law/people-first/" },
 };
 
