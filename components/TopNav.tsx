@@ -77,7 +77,7 @@ export function TopNav() {
           })}
         </ul>
 
-        {/* ---- Right side: phone + CTA ---- */}
+        {/* ---- Right side: phone + stacked CTAs ---- */}
         <div className="flex items-center gap-4">
           <a
             href={PHONE_TEL}
@@ -86,16 +86,25 @@ export function TopNav() {
             {PHONE_NUMBER}
           </a>
 
-          <Link
-            href="/talk-to-us"
-            className="hidden sm:inline-flex rounded border border-steel-silver/30 px-4 py-2 text-sm font-semibold text-chrome-highlight hover:border-muted-gold hover:text-muted-gold transition-colors duration-200"
-          >
-            Send Us a Message
-          </Link>
+          <div className="hidden sm:flex flex-col gap-1">
+            <Link
+              href="/talk-to-us"
+              className="rounded border border-steel-silver/30 px-3 py-1 text-xs font-semibold text-chrome-highlight hover:border-muted-gold hover:text-muted-gold transition-colors duration-200 text-center whitespace-nowrap"
+            >
+              Send Us a Message
+            </Link>
+            <a
+              href={PHONE_TEL}
+              className="rounded bg-muted-gold px-3 py-1 text-xs font-semibold text-obsidian-graphite hover:bg-muted-gold/90 transition-colors duration-200 text-center whitespace-nowrap"
+            >
+              Talk to Us
+            </a>
+          </div>
 
+          {/* Mobile: single gold button */}
           <a
             href={PHONE_TEL}
-            className="rounded bg-muted-gold px-4 py-2 text-sm font-semibold text-obsidian-graphite hover:bg-muted-gold/90 transition-colors duration-200"
+            className="sm:hidden rounded bg-muted-gold px-3 py-1.5 text-xs font-semibold text-obsidian-graphite hover:bg-muted-gold/90 transition-colors duration-200"
           >
             Talk to Us
           </a>
