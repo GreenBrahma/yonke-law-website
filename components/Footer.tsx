@@ -151,11 +151,11 @@ export function Footer() {
           />
 
           <div className="flex items-center gap-4 text-xs text-steel-silver/50">
-            <Link href="#" className="hover:text-chrome-highlight transition-colors duration-200">
+            <Link href="/privacy-policy" className="hover:text-chrome-highlight transition-colors duration-200">
               Privacy
             </Link>
             <span aria-hidden="true">·</span>
-            <Link href="#" className="hover:text-chrome-highlight transition-colors duration-200">
+            <Link href="/disclaimer" className="hover:text-chrome-highlight transition-colors duration-200">
               Disclaimer
             </Link>
             <span aria-hidden="true">·</span>
