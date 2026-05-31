@@ -205,18 +205,7 @@ function classifyTopic(text: string): TopicId {
   return "general";
 }
 
-const QUICK_PICK_DOORS = [
-  { label: "I was just in an accident", href: "/just-happened" },
-  {
-    label: "Someone I love was hurt",
-    href: "/just-happened/family-perspective",
-  },
-  { label: "I'm researching my options", href: "/people-first" },
-  {
-    label: "I have an offer I'm not sure about",
-    href: "/resources/offer-review",
-  },
-] as const;
+
 
 export function ConciergeHero() {
   const [placeholderIndex, setPlaceholderIndex] = useState(0);
@@ -431,43 +420,44 @@ export function ConciergeHero() {
 
         {!isChatOpen ? (
           <>
-            {/* Concierge input */}
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <label htmlFor="concierge-input" className="sr-only">
-                Tell us what happened
-              </label>
-              <input
-                id="concierge-input"
-                type="text"
-                value={typedText}
-                onChange={(e) => setTypedText(e.target.value)}
-                placeholder={PLACEHOLDER_EXAMPLES[placeholderIndex]}
-                className="w-full bg-charcoal-slate border border-steel-silver/30 rounded-lg px-6 py-5 text-lg text-chrome-highlight placeholder:text-steel-silver/60 focus:outline-none focus:border-muted-gold transition-colors duration-200"
-                autoComplete="off"
-              />
-              <button
-                type="submit"
-                className="w-full md:w-auto md:mx-auto md:block bg-muted-gold text-obsidian-graphite font-semibold px-8 py-4 rounded-lg hover:bg-muted-gold/90 transition-colors duration-200"
-              >
-                Help me understand →
-              </button>
+            {/* Concierge input — single row */}
+            <form onSubmit={handleSubmit}>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <label htmlFor="concierge-input" className="sr-only">
+                  Tell us what happened
+                </label>
+                <input
+                  id="concierge-input"
+                  type="text"
+                  value={typedText}
+                  onChange={(e) => setTypedText(e.target.value)}
+                  placeholder={PLACEHOLDER_EXAMPLES[placeholderIndex]}
+                  className="flex-1 bg-charcoal-slate border border-steel-silver/30 rounded-lg px-6 py-5 text-lg text-chrome-highlight placeholder:text-steel-silver/60 focus:outline-none focus:border-muted-gold transition-colors duration-200"
+                  autoComplete="off"
+                />
+                <button
+                  type="submit"
+                  className="sm:w-auto bg-muted-gold text-obsidian-graphite font-semibold px-8 py-5 rounded-lg hover:bg-muted-gold/90 transition-colors duration-200 whitespace-nowrap"
+                >
+                  Help me understand →
+                </button>
+              </div>
             </form>
 
-            {/* Fallback row: quick-pick doors */}
-            <div className="mt-16">
-              <div className="text-xs uppercase tracking-wider text-steel-silver text-center mb-4">
-                Or pick a starting point —
-              </div>
-              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                {QUICK_PICK_DOORS.map((door) => (
-                  <Link
-                    key={door.href}
-                    href={door.href}
-                    className="bg-charcoal-slate border border-steel-silver/15 hover:border-muted-gold rounded p-4 text-sm text-chrome-highlight text-center transition-colors duration-200"
-                  >
-                    {door.label}
-                  </Link>
-                ))}
+            {/* Explainer video */}
+            <div className="mt-10 mx-auto max-w-3xl">
+              <div className="aspect-video rounded-xl overflow-hidden border border-steel-silver/10">
+                <video
+                  controls
+                  preload="metadata"
+                  className="w-full h-full"
+                >
+                  <source
+                    src="/videos/Yonke_Law_-_The_Standard.mp4"
+                    type="video/mp4"
+                  />
+                  Your browser does not support the video tag.
+                </video>
               </div>
             </div>
           </>
@@ -746,18 +736,21 @@ function ConciergePanels({
       {isEmpty && (
         <div className="bg-charcoal-slate p-6 rounded text-center">
           <p className="text-chrome-highlight mb-4">
-            Not sure where to start? Pick a starting point.
+            Not sure where to start?
           </p>
-          <div className="grid gap-3 sm:grid-cols-2 mt-4">
-            {QUICK_PICK_DOORS.map((door) => (
-              <Link
-                key={door.href}
-                href={door.href}
-                className="bg-obsidian-graphite border border-steel-silver/15 hover:border-muted-gold rounded p-4 text-sm text-chrome-highlight text-center transition-colors duration-200"
-              >
-                {door.label}
-              </Link>
-            ))}
+          <div className="flex flex-col sm:flex-row gap-3 justify-center mt-4">
+            <Link
+              href="/just-happened"
+              className="bg-obsidian-graphite border border-steel-silver/15 hover:border-muted-gold rounded px-5 py-3 text-sm text-chrome-highlight text-center transition-colors duration-200"
+            >
+              Something just happened
+            </Link>
+            <Link
+              href="/people-first"
+              className="bg-obsidian-graphite border border-steel-silver/15 hover:border-muted-gold rounded px-5 py-3 text-sm text-chrome-highlight text-center transition-colors duration-200"
+            >
+              I&apos;m researching my options
+            </Link>
           </div>
           <button
             type="button"
