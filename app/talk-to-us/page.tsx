@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Image from "next/image";
 import { GoogleMap } from "@/components/GoogleMap";
-import { PageHero } from "@/components/PageHero";
 import { TalkToUsForm } from "@/components/TalkToUsForm";
+import { TestimonialForm } from "@/components/TestimonialForm";
 
 export const metadata: Metadata = {
-  title: "Talk to Us — Free Consultation | Yonke Law",
+  title: "Talk to Us — Free Consultation & Testimonials | Yonke Law",
   description:
-    "Contact Yonke Law for a free consultation. No fee unless we win. Personal injury, medical malpractice, and wrongful death attorneys in Kansas City, Missouri.",
+    "Contact Yonke Law for a free consultation or share your testimonial. No fee unless we win. Personal injury, medical malpractice, and wrongful death attorneys in Kansas City.",
   alternates: { canonical: "https://yonke.law/talk-to-us/" },
 };
 
@@ -15,94 +15,187 @@ export default function TalkToUsPage() {
   return (
     <>
       {/* Hero */}
-      <PageHero
-        title="Ready when you are."
-        subtitle="Free consultation. No commitment. We listen, ask questions, and give you a straight read on your situation."
-        eyebrow="Talk to Us"
-        imagePosition="center 25%"
-        images={[
-          "/images/Mike Yonke - with people.png"
-        ]}
-      />
+      <section className="bg-obsidian-graphite pt-20 pb-16 px-4 lg:px-8">
+        <div className="mx-auto max-w-4xl text-center">
+          <p className="text-sm uppercase tracking-widest text-muted-gold mb-6">
+            Talk to Us
+          </p>
 
-      {/* Contact form + Office info */}
-      <section className="bg-charcoal-slate py-20 px-4 lg:px-8">
-        <div className="mx-auto max-w-5xl grid md:grid-cols-[1fr_380px] gap-12">
-          {/* Form */}
-          <div>
-            <h2 className="font-display text-2xl text-chrome-highlight mb-8">
-              Send us a message
-            </h2>
-            <TalkToUsForm />
+          {/* Three options with icons */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-12 mb-8">
+            <a href="#consultation" className="group flex flex-col items-center gap-3">
+              <span className="text-4xl group-hover:scale-110 transition-transform">📞</span>
+              <span className="text-chrome-highlight font-display text-lg">Ready when you are</span>
+            </a>
+            <a href="#consultation" className="group flex flex-col items-center gap-3">
+              <span className="text-4xl group-hover:scale-110 transition-transform">⚖️</span>
+              <span className="text-chrome-highlight font-display text-lg">For a consultation</span>
+            </a>
+            <a href="#testimonial" className="group flex flex-col items-center gap-3">
+              <span className="text-4xl group-hover:scale-110 transition-transform">🗣️</span>
+              <span className="text-chrome-highlight font-display text-lg">Or your testimony</span>
+            </a>
           </div>
 
-          {/* Office info sidebar */}
-          <div className="space-y-8">
-            <div className="bg-obsidian-graphite border border-steel-silver/10 rounded-lg p-8">
-              <h3 className="text-chrome-highlight font-semibold text-lg mb-6">
-                Office
-              </h3>
-              <div className="space-y-5">
-                <div>
-                  <p className="text-muted-gold text-xs uppercase tracking-widest mb-1">Address</p>
-                  <p className="text-chrome-highlight text-sm leading-relaxed">
-                    700 West 47th Street<br />
-                    Suite 550<br />
-                    Kansas City, MO 64112
+          <p className="text-lg text-steel-silver max-w-2xl mx-auto leading-relaxed">
+            It&apos;s free. There&apos;s no commitment. We listen and get busy
+            on your behalf.
+          </p>
+        </div>
+      </section>
+
+      {/* ─────────────────────────────────────────────────────────
+          Section 1: Free Review / Consultation + Send a Message
+          ───────────────────────────────────────────────────────── */}
+      <section id="consultation" className="bg-charcoal-slate py-20 px-4 lg:px-8">
+        <div className="mx-auto max-w-5xl">
+          <div className="text-center mb-12">
+            <p className="text-xs uppercase tracking-widest text-muted-gold mb-3">
+              Free Review (Prior to Consultation*)
+            </p>
+            <h2 className="font-display text-3xl md:text-4xl text-chrome-highlight">
+              Send us a message
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-[1fr_360px] gap-12">
+            {/* Form */}
+            <div>
+              <TalkToUsForm />
+            </div>
+
+            {/* Mike sidebar */}
+            <div className="space-y-6">
+              {/* Mike full body */}
+              <div className="bg-obsidian-graphite border border-steel-silver/10 rounded-xl overflow-hidden">
+                <div className="relative aspect-[3/4] max-h-[400px]">
+                  <Image
+                    src="/images/Mike Yonke - with people.png"
+                    alt="Mike Yonke — Yonke Law"
+                    fill
+                    className="object-cover object-top"
+                    sizes="360px"
+                  />
+                </div>
+                <div className="p-6">
+                  <p className="text-chrome-highlight font-display text-lg mb-3">
+                    A note from Mike
                   </p>
+                  <div className="text-steel-silver text-sm leading-relaxed space-y-3">
+                    <p>
+                      Your message will be reviewed within the next 36 hours.
+                      You&apos;ll receive a response letting you know that
+                      counsel has agreed to a 30-minute video conference call.
+                    </p>
+                    <p>
+                      You&apos;ll be able to pick a time from my calendar —
+                      available slots are weekdays between{" "}
+                      <span className="text-muted-gold font-semibold">
+                        9:00 AM – 12:00 PM
+                      </span>.
+                    </p>
+                  </div>
+                  <div className="mt-4 pt-4 border-t border-steel-silver/10">
+                    <p className="text-chrome-highlight font-semibold text-sm">
+                      Mike Yonke
+                    </p>
+                    <p className="text-steel-silver/60 text-xs">
+                      Founder &amp; Trial Attorney
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-muted-gold text-xs uppercase tracking-widest mb-1">Phone</p>
-                  <a href="tel:+18162216400" className="text-chrome-highlight text-sm hover:text-muted-gold transition-colors">
-                    816-221-6400
-                  </a>
+              </div>
+
+              {/* Checklist download */}
+              <div className="bg-obsidian-graphite border border-muted-gold/30 rounded-lg p-6">
+                <h3 className="text-chrome-highlight font-semibold mb-3">
+                  While you wait
+                </h3>
+                <p className="text-steel-silver text-sm leading-relaxed mb-4">
+                  Download our Personal Injury Checklist — essential steps to
+                  protect your health, your rights, and your claim.
+                </p>
+                <a
+                  href="/resources/yl-personal-injury-checklist.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-muted-gold hover:text-chrome-highlight transition-colors text-sm font-semibold"
+                >
+                  Get the checklist (PDF) ↓
+                </a>
+              </div>
+
+              {/* No fee card */}
+              <div className="bg-obsidian-graphite border border-steel-silver/10 rounded-lg p-6">
+                <h3 className="text-chrome-highlight font-semibold mb-3">
+                  No fee unless we recover.
+                </h3>
+                <p className="text-steel-silver text-sm leading-relaxed">
+                  Every case is handled on contingency. You pay nothing upfront
+                  and nothing out of pocket. If we don&apos;t win, you
+                  don&apos;t pay.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ─────────────────────────────────────────────────────────
+          Section 2: Testimonial / Recommendation
+          ───────────────────────────────────────────────────────── */}
+      <section id="testimonial" className="bg-obsidian-graphite py-20 px-4 lg:px-8">
+        <div className="mx-auto max-w-5xl">
+          <div className="text-center mb-12">
+            <p className="text-xs uppercase tracking-widest text-muted-gold mb-3">
+              Share Your Experience
+            </p>
+            <h2 className="font-display text-3xl md:text-4xl text-chrome-highlight mb-4">
+              Leave a recommendation
+            </h2>
+            <p className="text-steel-silver max-w-xl mx-auto leading-relaxed">
+              Your words help the next person find the right team. Rate us,
+              leave a note, and — if you&apos;re willing — share it so others
+              know what to expect.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-[1fr_380px] gap-12">
+            {/* Form */}
+            <div>
+              <TestimonialForm />
+            </div>
+
+            {/* Celebration image sidebar */}
+            <div className="space-y-6">
+              <div className="bg-charcoal-slate border border-steel-silver/10 rounded-xl overflow-hidden">
+                <div className="relative aspect-[4/3]">
+                  <Image
+                    src="/images/yl-celebration.png"
+                    alt="Mike Yonke celebrating a successful case outcome with a client at an outdoor table — Congratulations cake on the table"
+                    fill
+                    className="object-cover"
+                    sizes="380px"
+                  />
                 </div>
-                <div>
-                  <p className="text-muted-gold text-xs uppercase tracking-widest mb-1">Hours</p>
-                  <p className="text-steel-silver text-sm">
-                    Monday – Friday<br />
-                    9:00 AM – 5:00 PM
+                <div className="p-6">
+                  <p className="font-display text-lg text-chrome-highlight mb-2">
+                    This is what victory looks like.
                   </p>
-                </div>
-                <div>
-                  <p className="text-muted-gold text-xs uppercase tracking-widest mb-1">After Hours</p>
-                  <p className="text-steel-silver text-sm">
-                    Leave a message or use this form.<br />
-                    We respond within one business day.
+                  <p className="text-steel-silver text-sm leading-relaxed">
+                    Every case we take is a commitment to the person behind it.
+                    When we win, we celebrate — because the outcome means
+                    something real changed for someone who needed it.
                   </p>
                 </div>
               </div>
-            </div>
-
-            <div className="bg-obsidian-graphite border border-muted-gold/30 rounded-lg p-8">
-              <h3 className="text-chrome-highlight font-semibold mb-3">While you wait</h3>
-              <p className="text-steel-silver text-sm leading-relaxed mb-4">
-                Download our Personal Injury Checklist — essential steps to
-                protect your health, your rights, and your claim.
-              </p>
-              <a
-                href="/resources/yl-personal-injury-checklist.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-muted-gold hover:text-chrome-highlight transition-colors text-sm font-semibold"
-              >
-                Get the checklist (PDF) ↓
-              </a>
-            </div>
-
-            <div className="bg-obsidian-graphite border border-steel-silver/10 rounded-lg p-8">
-              <h3 className="text-chrome-highlight font-semibold mb-3">No fee unless we recover.</h3>
-              <p className="text-steel-silver text-sm leading-relaxed">
-                Every case is handled on contingency. You pay nothing upfront and nothing out of pocket.
-                If we don&apos;t win, you don&apos;t pay.
-              </p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Google Map */}
-      <section className="bg-obsidian-graphite py-16 px-4 lg:px-8">
+      <section className="bg-charcoal-slate py-16 px-4 lg:px-8">
         <div className="mx-auto max-w-5xl">
           <h2 className="font-display text-2xl text-chrome-highlight mb-8 text-center">
             Find Us
@@ -112,7 +205,7 @@ export default function TalkToUsPage() {
       </section>
 
       {/* Final CTA */}
-      <section className="bg-charcoal-slate py-16 px-4 lg:px-8">
+      <section className="bg-obsidian-graphite py-16 px-4 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-steel-silver mb-4">Prefer to call?</p>
           <a
@@ -122,7 +215,8 @@ export default function TalkToUsPage() {
             816-221-6400
           </a>
           <p className="text-steel-silver/60 text-sm mt-4">
-            Every inquiry is reviewed personally by our team — not a call center.
+            Every inquiry is reviewed personally by our team — not a call
+            center.
           </p>
         </div>
       </section>
