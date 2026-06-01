@@ -23,7 +23,6 @@ const NAV_ITEMS = [
   { label: "What We Handle", href: "/what-we-handle" },
   { label: "Talk to Us", href: "/talk-to-us" },
   { label: "Client Login", href: "/client-login" },
-  { label: "Admin Login", href: "/admin" },
 ] as const;
 
 const PHONE_NUMBER = "816-221-6400";
