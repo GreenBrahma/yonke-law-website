@@ -1,110 +1,63 @@
-"use client";
+import type { Metadata } from "next";
+import { HeroSection } from "@/components/people-first-page/HeroSection";
+import { TheStanceSection } from "@/components/people-first-page/TheStanceSection";
+import { TransparencyPromiseSection } from "@/components/people-first-page/TransparencyPromiseSection";
+import { GetStartedSection } from "@/components/people-first-page/GetStartedSection";
+import { WhatYouSeeSection } from "@/components/people-first-page/WhatYouSeeSection";
+import { PeopleFirstActions } from "@/components/people-first-page/PeopleFirstActions";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useAuth } from "@/components/people-first/auth-context";
-import { Panel } from "@/components/people-first/Panel";
-import { Pulse } from "@/components/people-first/Pulse";
-import {
-  DEMO_PERSON,
-  STEPS,
-  ACTION_NEEDED,
-  CALENDAR_DATA,
-} from "@/components/people-first/demo-data";
+export const metadata: Metadata = {
+  title: "People First — How We Stay Connected | Yonke Law",
+  description:
+    "People First is how Yonke Law stays connected with the people we represent. Every file, every meeting, every step — visible in real time. See it in action.",
+  alternates: { canonical: "https://yonke.law/people-first/" },
+};
 
-/* ──────────────────────────────────────────────────────────────
-   People First — Three-Panel Home (§6).
-   FR-HOME-01: Three panels, no scroll, fixed viewport.
-   FR-HOME-02: Mobile-first; panels read in ~3 seconds.
-   FR-HOME-03: Each panel taps to its detail page.
-   ────────────────────────────────────────────────────────────── */
-
-export default function PeopleFirstHome() {
-  const { isAuthenticated } = useAuth();
-  const router = useRouter();
-  const [actionState] = useState(ACTION_NEEDED.state);
-  const [hasUnread] = useState(CALENDAR_DATA.hasUnread);
-
-  // Auth gate: redirect to sign-in if not authenticated
-  if (!isAuthenticated) {
-    // Use effect-free redirect for SSR compatibility
-    if (typeof window !== "undefined") {
-      router.replace("/people-first/sign-in");
-    }
-    return (
-      <div className="min-h-screen bg-[var(--obsidian-graphite)] flex items-center justify-center">
-        <p className="text-white/30 text-sm">Redirecting…</p>
-      </div>
-    );
-  }
-
-  const currentStep = STEPS.find((s) => s.key === DEMO_PERSON.currentStepKey);
-
+export default function PeopleFirstPage() {
   return (
     <>
-      <div className="min-h-[calc(100vh-64px)] bg-[var(--obsidian-graphite)] flex flex-col justify-center px-4 py-6 lg:px-8">
-        {/* Greeting */}
-        <div className="max-w-2xl mx-auto w-full mb-6">
-          <p className="text-xs uppercase tracking-widest text-[var(--muted-gold)] mb-1">
-            People First
-          </p>
-          <p className="text-white/50 text-sm">
-            Welcome back, {DEMO_PERSON.name.split(".")[0]}.
-          </p>
-        </div>
+      {/* Section 4.1 — Hero */}
+      <HeroSection />
 
-        {/* Three panels */}
-        <div className="max-w-2xl mx-auto w-full flex flex-col gap-3">
-          {/* Panel 1 — Where You Are */}
-          <Panel
-            href="/people-first/where-you-are"
-            title="Where You Are"
-            variant="status"
-          >
-            <p>
-              Right now:{" "}
-              <span className="text-white">
-                {currentStep?.plainTitle.toLowerCase() || "gathering your medical records"}.
-              </span>
-            </p>
-          </Panel>
+      {/* Section 4.2 — The Stance */}
+      <TheStanceSection />
 
-          {/* Panel 2 — Anything You Need To Do */}
-          <Panel
-            href="/people-first/needed"
-            title="Anything You Need To Do"
-            variant={actionState === "yes" ? "action-yes" : "action-no"}
+      {/* Section 4.3 — What You See (panels overview) */}
+      <WhatYouSeeSection />
+
+      {/* Section 4.4 — Contact & Schedule */}
+      <PeopleFirstActions />
+
+      {/* Checklist download — starting-point resource */}
+      <section className="bg-charcoal-slate py-12 px-4 lg:px-8">
+        <div className="mx-auto max-w-3xl">
+          <a
+            href="/resources/yl-personal-injury-checklist.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-4 bg-obsidian-graphite border border-muted-gold/30 rounded-lg p-6 hover:border-muted-gold transition-colors duration-200 group"
           >
-            {actionState === "yes" ? (
-              <p>
-                <span className="font-semibold text-[var(--affirmative-green)]">
-                  Yes
-                </span>{" "}
-                — {ACTION_NEEDED.title.toLowerCase()}.
+            <span className="text-3xl shrink-0" aria-hidden="true">📋</span>
+            <div>
+              <p className="text-chrome-highlight font-semibold group-hover:text-muted-gold transition-colors">
+                Start with the Personal Injury Checklist
               </p>
-            ) : (
-              <p>Nothing for you right now. We&apos;ve got it.</p>
-            )}
-          </Panel>
-
-          {/* Panel 3 — Your Calendar & Messages */}
-          <Panel
-            href="/people-first/calendar"
-            title="Your Calendar & Messages"
-            variant="calendar"
-            hasUnread={hasUnread}
-          >
-            <p>
-              {CALENDAR_DATA.events[0]
-                ? `Next: ${CALENDAR_DATA.events[0].title} — ${new Date(CALENDAR_DATA.events[0].date).toLocaleDateString("en-US", { month: "short", day: "numeric" })} at ${CALENDAR_DATA.events[0].time}`
-                : "No upcoming events."}
-            </p>
-          </Panel>
+              <p className="text-steel-silver text-sm">
+                Essential steps to protect your health, your rights, and your claim — download, print, and keep.
+              </p>
+            </div>
+            <span className="text-muted-gold ml-auto shrink-0" aria-hidden="true">↓</span>
+          </a>
         </div>
-      </div>
+      </section>
 
-      {/* Persistent Pulse — on every page (§7, FR-PULSE-01) */}
-      <Pulse />
+      {/* Section 4.5 — Mood Monitor — Phase 5 */}
+
+      {/* Section 4.6 — The Transparency Promise */}
+      <TransparencyPromiseSection />
+
+      {/* Section 4.7 — Get Started */}
+      <GetStartedSection />
     </>
   );
 }

@@ -5,23 +5,23 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 /* ──────────────────────────────────────────────────────────────
-   Sign-In Wall — The credential gate (§2).
-   FR-AUTH-01…04. Three choices, all resolve to demo person.
+   Client Login — The credential wall (§2).
+   Three choices, all resolve to demo person.
    ────────────────────────────────────────────────────────────── */
 
-export default function SignInPage() {
+export default function ClientLoginPage() {
   const { isAuthenticated, signIn } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
     if (isAuthenticated) {
-      router.replace("/people-first");
+      router.replace("/client-login/dashboard");
     }
   }, [isAuthenticated, router]);
 
   function handleSignIn(method: "apple" | "google" | "email") {
     signIn(method);
-    router.push("/people-first");
+    router.push("/client-login/dashboard");
   }
 
   return (

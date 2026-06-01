@@ -4,13 +4,12 @@ import { type ReactNode } from "react";
 import { AuthProvider } from "@/components/people-first/auth-context";
 
 /* ──────────────────────────────────────────────────────────────
-   Gated layout for /people-first/*.
-   - Wraps all children in AuthProvider.
-   - Auth gate + Pulse mount handled by the PeopleFirstShell
-     (rendered inside the provider so it can read auth state).
+   Gated layout for /client-login/*.
+   Wraps all children in AuthProvider.
+   Auth gate + Pulse handled by individual pages.
    ────────────────────────────────────────────────────────────── */
 
-export default function PeopleFirstLayout({
+export default function ClientLoginLayout({
   children,
 }: {
   children: ReactNode;
