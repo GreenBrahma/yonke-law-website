@@ -5,8 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 /* ──────────────────────────────────────────────────────────────
-   Client Login — The credential wall (§2).
-   Three choices, all resolve to demo person.
+   Client Login — Credential wall with full-page background.
    ────────────────────────────────────────────────────────────── */
 
 export default function ClientLoginPage() {
@@ -25,13 +24,20 @@ export default function ClientLoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--obsidian-graphite)] flex items-center justify-center px-4">
-      <div className="w-full max-w-sm text-center">
+    <div
+      className="min-h-screen bg-cover bg-center bg-no-repeat flex items-start justify-center pt-24 px-4"
+      style={{ backgroundImage: "url('/images/yl-family-review.jpg')" }}
+    >
+      {/* Dark overlay for readability */}
+      <div className="fixed inset-0 bg-black/60 -z-10" />
+
+      {/* Login card — transparent */}
+      <div className="w-full max-w-sm text-center backdrop-blur-md bg-[var(--obsidian-graphite)]/70 border border-white/10 rounded-2xl p-8 shadow-2xl">
         {/* Wordmark */}
-        <h1 className="font-[family-name:var(--font-libre-baskerville)] text-2xl tracking-wide text-white mb-3">
+        <h1 className="font-[family-name:var(--font-libre-baskerville)] text-2xl tracking-wide text-white mb-2">
           YONKE LAW
         </h1>
-        <p className="text-white/50 text-sm mb-10">
+        <p className="text-white/60 text-sm mb-8">
           Sign in to People First.
         </p>
 
@@ -62,7 +68,7 @@ export default function ClientLoginPage() {
 
           <button
             onClick={() => handleSignIn("email")}
-            className="w-full flex items-center justify-center gap-3 bg-white/10 border border-white/20 text-white font-semibold px-6 py-3 rounded-xl text-sm hover:bg-white/15 transition-colors"
+            className="w-full flex items-center justify-center gap-3 bg-white/15 border border-white/25 text-white font-semibold px-6 py-3 rounded-xl text-sm hover:bg-white/20 transition-colors backdrop-blur-sm"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <rect x="2" y="4" width="20" height="16" rx="2"/>
@@ -72,7 +78,7 @@ export default function ClientLoginPage() {
           </button>
         </div>
 
-        <p className="text-white/20 text-xs mt-8">
+        <p className="text-white/30 text-xs mt-6">
           Private and secure. Everything you see is between you and Mike.
         </p>
       </div>
