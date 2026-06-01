@@ -67,20 +67,25 @@ export default function ClientLoginPage() {
             Sign in to see where your case stands, message Mike directly, and
             stay connected at every step.
           </p>
+          <p className="text-white/30 text-xs max-w-xs mx-auto mt-3">
+            If you have not been notified by Yonke Law that your case has been
+            set up, you cannot access this area.
+          </p>
         </div>
 
         {/* Login card — glassmorphism */}
         <div className="w-full max-w-sm backdrop-blur-xl bg-black/40 border border-white/10 rounded-2xl p-8 shadow-2xl">
           <div className="space-y-3">
             <button
-              onClick={() => handleSignIn("apple")}
+              onClick={() => handleSignIn("email")}
               disabled={signingIn}
               className="w-full flex items-center justify-center gap-3 bg-white text-[var(--obsidian-graphite)] font-semibold px-6 py-3.5 rounded-xl text-sm hover:bg-white/90 transition-colors disabled:opacity-50"
             >
-              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
+              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <rect x="2" y="4" width="20" height="16" rx="2"/>
+                <path d="M22 4l-10 8L2 4"/>
               </svg>
-              Continue with Apple
+              Sign in with Email
             </button>
 
             <button
@@ -98,15 +103,14 @@ export default function ClientLoginPage() {
             </button>
 
             <button
-              onClick={() => handleSignIn("email")}
+              onClick={() => handleSignIn("apple")}
               disabled={signingIn}
               className="w-full flex items-center justify-center gap-3 bg-white/10 border border-white/20 text-white font-semibold px-6 py-3.5 rounded-xl text-sm hover:bg-white/15 transition-colors backdrop-blur-sm disabled:opacity-50"
             >
-              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <rect x="2" y="4" width="20" height="16" rx="2"/>
-                <path d="M22 4l-10 8L2 4"/>
+              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
               </svg>
-              Sign in with Email
+              Continue with Apple
             </button>
           </div>
 

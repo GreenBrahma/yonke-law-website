@@ -72,7 +72,15 @@ export default function DashboardPage() {
     );
   }
 
-  const firstName = user?.name?.split(/[\s.]/)[0] || "there";
+  /* Map known email → display name; then extract first name */
+  const EMAIL_NAME_MAP: Record<string, string> = {
+    "myonke@yonke-law.com": "Mike Yonke",
+  };
+  const displayName =
+    (user?.email && EMAIL_NAME_MAP[user.email.toLowerCase()]) ||
+    user?.name ||
+    null;
+  const firstName = displayName ? displayName.split(/[\s.]/)[0] : null;
   const stepLabel =
     caseData && STEP_LABELS[caseData.currentStep]
       ? STEP_LABELS[caseData.currentStep]
@@ -102,7 +110,9 @@ export default function DashboardPage() {
               <span className="flex-1 h-px bg-[var(--muted-gold)]/30" />
             </div>
             <p className="text-white/50 text-sm">
-              Welcome back, {firstName}.
+              {firstName
+                ? `Hello ${firstName}, Welcome to the People First portal.`
+                : "Welcome to the People First portal."}
             </p>
           </div>
 
