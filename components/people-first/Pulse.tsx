@@ -2,16 +2,20 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import type { PulseState } from "./demo-data";
-import { PULSE_STATES } from "./demo-data";
 
 /* ──────────────────────────────────────────────────────────────
    Pulse — persistent emotional pulse (§7).
-   Present on EVERY /people-first/* gated page.
+   Present on EVERY /client-login/* gated page.
    Five states, exact §7.1 decision tree. No extra states,
    no extra branches, no reworded options.
    FR-PULSE-01…06.
+
+   REAL MODE: Pulse responses are persisted to DB and
+   notifications sent to Mike via MS365 Graph.
    ────────────────────────────────────────────────────────────── */
+
+type PulseState = "Good" | "Doing OK" | "Confused" | "Sad" | "Angry";
+const PULSE_STATES: PulseState[] = ["Good", "Doing OK", "Confused", "Sad", "Angry"];
 
 type PulsePhase =
   | "idle"
@@ -30,6 +34,19 @@ const EMOJI_MAP: Record<PulseState, string> = {
   Angry: "😠",
 };
 
+/** Send pulse to real API */
+async function recordPulse(state: PulseState, followUpAction?: string) {
+  try {
+    await fetch("/api/people-first/pulse", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ state, followUpAction }),
+    });
+  } catch {
+    // Non-fatal — pulse is logged but don't block the UI
+  }
+}
+
 export function Pulse() {
   const [phase, setPhase] = useState<PulsePhase>("idle");
   const [resultText, setResultText] = useState("");
@@ -37,15 +54,17 @@ export function Pulse() {
   function handlePick(state: PulseState) {
     switch (state) {
       case "Good":
+        recordPulse("Good");
         setResultText("Love to hear it. Keep going — you're doing great.");
         setPhase("result");
         break;
       case "Doing OK":
+        recordPulse("Doing OK");
         setResultText("Sounds good. We're here if you need us.");
         setPhase("result");
         break;
       case "Confused":
-        // Routed to help page via link — handled in render
+        recordPulse("Confused");
         setPhase("result");
         setResultText("__confused__");
         break;
@@ -59,6 +78,8 @@ export function Pulse() {
   }
 
   function handleCallYes(emotional: "sad" | "angry") {
+    const state = emotional === "sad" ? "Sad" : "Angry";
+    recordPulse(state, "call_requested");
     setResultText(
       "We've let Mike know — he'll reach out to set up a call."
     );
@@ -70,6 +91,7 @@ export function Pulse() {
   }
 
   function handleHelpYes() {
+    recordPulse("Sad", "help_requested");
     setResultText(
       "We've let Mike know. He'll be in touch."
     );
@@ -77,6 +99,7 @@ export function Pulse() {
   }
 
   function handleHelpNo() {
+    recordPulse("Sad");
     setResultText("OK. Take care.");
     setPhase("result");
   }

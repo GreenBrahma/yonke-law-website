@@ -1,29 +1,29 @@
 /**
- * Spotlight Corner — Database Client
+ * People First — Database Client
  *
- * Google Cloud SQL PostgreSQL connection via Drizzle ORM + node-postgres.
- * Connection string from env var DATABASE_URL (standard Postgres format with sslmode=require).
+ * Extends the existing Spotlight DB client with People First schema.
+ * Same PostgreSQL connection (DATABASE_URL), shared pool.
  *
  * Usage:
  *   import { db } from "@/db/client";
- *   const rows = await db.select().from(spotlightSignals);
- *
- * The client is lazy-initialized so Next.js build succeeds without
- * DATABASE_URL present. The error is deferred to the first runtime call.
- *
- * Pool max: 1 — Netlify Functions are short-lived and Cloud SQL has
- * tight connection limits on db-f1-micro instances.
+ *   // Spotlight tables
+ *   const signals = await db.select().from(spotlightSignals);
+ *   // People First tables
+ *   const cases = await db.select().from(pfCases);
  */
 
 import { Pool } from "pg";
 import { drizzle, type NodePgDatabase } from "drizzle-orm/node-postgres";
-import * as schema from "./schema/spotlight";
+import * as spotlightSchema from "./schema/spotlight";
+import * as pfSchema from "./schema/people-first";
+
+const schema = { ...spotlightSchema, ...pfSchema };
 
 let _db: NodePgDatabase<typeof schema> | null = null;
 let _pool: Pool | null = null;
 
-function getDb(): NodePgDatabase<typeof schema> {
-  if (_db) return _db;
+function getPool(): Pool {
+  if (_pool) return _pool;
 
   const url = process.env.DATABASE_URL;
   if (!url) {
@@ -38,7 +38,12 @@ function getDb(): NodePgDatabase<typeof schema> {
     ssl: { rejectUnauthorized: false },
   });
 
-  _db = drizzle(_pool, { schema });
+  return _pool;
+}
+
+function getDb(): NodePgDatabase<typeof schema> {
+  if (_db) return _db;
+  _db = drizzle(getPool(), { schema });
   return _db;
 }
 
@@ -56,3 +61,8 @@ export const db = new Proxy({} as NodePgDatabase<typeof schema>, {
     return value;
   },
 });
+
+/**
+ * Raw pool export for Auth.js adapter (needs Pool, not Drizzle).
+ */
+export { getPool };

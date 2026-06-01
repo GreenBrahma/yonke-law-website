@@ -1,13 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/components/people-first/auth-context";
 import { MessageBoard } from "@/components/people-first/MessageBoard";
 import { FileUpload } from "@/components/people-first/FileUpload";
 import { Pulse } from "@/components/people-first/Pulse";
-import { CALENDAR_DATA } from "@/components/people-first/demo-data";
+import Image from "next/image";
+
+/* ──────────────────────────────────────────────────────────────
+   Panel 3 — Calendar & Messages
+   Real messages via /api/people-first/messages.
+   Real file uploads via /api/people-first/files.
+   Calendar events read from the case record (admin-set).
+   ────────────────────────────────────────────────────────────── */
 
 const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
@@ -22,13 +29,22 @@ function getMonthGrid(year: number, month: number) {
 }
 
 export default function CalendarPage() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
   const [showUpload, setShowUpload] = useState(false);
 
-  if (!isAuthenticated) {
-    if (typeof window !== "undefined") router.replace("/client-login");
-    return null;
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      router.replace("/client-login");
+    }
+  }, [isAuthenticated, isLoading, router]);
+
+  if (isLoading || !isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-[var(--obsidian-graphite)] flex items-center justify-center">
+        <div className="w-6 h-6 border-2 border-[var(--muted-gold)] border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
   }
 
   const now = new Date();
@@ -36,71 +52,72 @@ export default function CalendarPage() {
   const month = now.getMonth();
   const cells = getMonthGrid(year, month);
   const today = now.getDate();
-  const eventDates = new Set(CALENDAR_DATA.events.map((e) => new Date(e.date).getDate()));
 
   return (
     <>
-      <div className="min-h-screen bg-[var(--obsidian-graphite)] px-4 py-8 lg:px-8">
-        <div className="max-w-2xl mx-auto">
-          <Link href="/client-login/dashboard" className="text-xs text-[var(--muted-gold)] hover:text-white transition-colors mb-6 inline-block">
-            ← Back to home
-          </Link>
+      <div className="relative min-h-screen overflow-hidden">
+        <Image
+          src="/images/yl-client-19.jpg"
+          alt=""
+          fill
+          className="object-cover object-center opacity-8"
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[var(--obsidian-graphite)] via-[var(--obsidian-graphite)]/95 to-[var(--obsidian-graphite)]" />
 
-          <p className="text-xs uppercase tracking-widest text-[var(--muted-gold)] mb-2">Your Calendar &amp; Messages</p>
-          <h1 className="font-[family-name:var(--font-libre-baskerville)] text-2xl text-white mb-6">{MONTHS[month]} {year}</h1>
+        <div className="relative z-10 px-4 py-8 lg:px-8">
+          <div className="max-w-2xl mx-auto">
+            <Link href="/client-login/dashboard" className="text-xs text-[var(--muted-gold)] hover:text-white transition-colors mb-6 inline-block">
+              ← Back to home
+            </Link>
 
-          <div className="bg-[var(--charcoal-slate)] rounded-xl p-4 mb-4">
-            <div className="grid grid-cols-7 gap-px mb-2">
-              {WEEKDAYS.map((d) => (<div key={d} className="text-center text-[10px] text-white/40 font-semibold py-1">{d}</div>))}
+            <div className="flex items-center gap-3 mb-6">
+              <span className="text-[10px] uppercase tracking-[0.3em] text-[var(--muted-gold)]">Calendar &amp; Messages</span>
+              <span className="flex-1 h-px bg-[var(--muted-gold)]/30" />
             </div>
-            <div className="grid grid-cols-7 gap-px">
-              {cells.map((day, i) => {
-                if (day === null) return <div key={`empty-${i}`} className="py-2" />;
-                const isToday = day === today;
-                const hasEvent = eventDates.has(day);
-                return (
-                  <div key={day} className={`relative text-center py-2 text-sm rounded-lg transition-colors ${isToday ? "bg-[var(--muted-gold)] text-[var(--obsidian-graphite)] font-bold" : hasEvent ? "bg-[var(--affirmative-green)]/20 text-[var(--affirmative-green)] font-semibold" : "text-white/50"}`}>
-                    {day}
-                    {hasEvent && !isToday && (<span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[var(--affirmative-green)]" />)}
-                  </div>
-                );
-              })}
+
+            <h1 className="font-[family-name:var(--font-libre-baskerville)] text-2xl text-white mb-6">{MONTHS[month]} {year}</h1>
+
+            {/* Calendar grid */}
+            <div className="bg-black/30 backdrop-blur-sm border border-white/10 rounded-xl p-4 mb-4">
+              <div className="grid grid-cols-7 gap-px mb-2">
+                {WEEKDAYS.map((d) => (<div key={d} className="text-center text-[10px] text-white/40 font-semibold py-1">{d}</div>))}
+              </div>
+              <div className="grid grid-cols-7 gap-px">
+                {cells.map((day, i) => {
+                  if (day === null) return <div key={`empty-${i}`} className="py-2" />;
+                  const isToday = day === today;
+                  return (
+                    <div key={day} className={`text-center py-2 text-sm rounded-lg transition-colors ${isToday ? "bg-[var(--muted-gold)] text-[var(--obsidian-graphite)] font-bold" : "text-white/50"}`}>
+                      {day}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          </div>
 
-          <div className="bg-[var(--charcoal-slate)] rounded-xl p-6 mb-4">
-            <h2 className="text-sm font-semibold text-white mb-3">Upcoming</h2>
-            <div className="space-y-3">
-              {CALENDAR_DATA.events.map((event) => (
-                <div key={event.id} className="flex items-start gap-3 bg-[var(--obsidian-graphite)] rounded-lg p-3">
-                  <div className="bg-[var(--affirmative-green)]/15 rounded-lg px-2.5 py-1.5 text-center shrink-0">
-                    <p className="text-[10px] text-[var(--affirmative-green)] font-semibold">{new Date(event.date).toLocaleDateString("en-US", { month: "short" })}</p>
-                    <p className="text-lg text-white font-bold leading-tight">{new Date(event.date).getDate()}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-white font-semibold">{event.title}</p>
-                    <p className="text-xs text-white/40">{event.time}</p>
-                    {event.note && <p className="text-xs text-white/50 mt-1">{event.note}</p>}
-                  </div>
-                </div>
-              ))}
+            {/* Messages with Mike — real API */}
+            <div className="bg-black/30 backdrop-blur-sm border border-white/10 rounded-xl p-6 mb-4">
+              <h2 className="text-sm font-semibold text-white mb-3">Messages with Mike</h2>
+              <MessageBoard
+                apiEndpoint="/api/people-first/messages"
+                placeholder="Message Mike…"
+              />
             </div>
-          </div>
 
-          <div className="bg-[var(--charcoal-slate)] rounded-xl p-6 mb-4">
-            <h2 className="text-sm font-semibold text-white mb-3">Messages with Mike</h2>
-            <MessageBoard initialMessages={CALENDAR_DATA.thread} placeholder="Reply to Mike…" />
-          </div>
-
-          <div className="bg-[var(--charcoal-slate)] rounded-xl p-6">
-            {!showUpload ? (
-              <button onClick={() => setShowUpload(true)} className="text-sm text-[var(--muted-gold)] hover:text-white transition-colors">📎 Attach a file</button>
-            ) : (
-              <>
-                <h2 className="text-sm font-semibold text-white mb-3">Attach a file</h2>
-                <FileUpload />
-              </>
-            )}
+            {/* File attachment — real upload */}
+            <div className="bg-black/30 backdrop-blur-sm border border-white/10 rounded-xl p-6">
+              {!showUpload ? (
+                <button onClick={() => setShowUpload(true)} className="text-sm text-[var(--muted-gold)] hover:text-white transition-colors">
+                  📎 Attach a file
+                </button>
+              ) : (
+                <>
+                  <h2 className="text-sm font-semibold text-white mb-3">Attach a file</h2>
+                  <FileUpload apiEndpoint="/api/people-first/files" />
+                </>
+              )}
+            </div>
           </div>
         </div>
       </div>

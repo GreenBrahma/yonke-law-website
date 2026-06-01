@@ -1,98 +1,154 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
-import type { Message } from "./demo-data";
-import { COMMS_RECIPIENT } from "./demo-data";
+import { useState, useRef, useEffect } from "react";
 
 /* ──────────────────────────────────────────────────────────────
-   MessageBoard — reusable chat thread (person ↔ Mike).
-   Used in Panel 2 detail, Panel 3 detail, and Help page.
-   FR-COMM-01: All comms person ↔ Mike only.
+   MessageBoard — Real message thread (person ↔ Mike only).
+   
+   When apiEndpoint is provided, messages are persisted to DB
+   and sent as real emails to Mike via MS365 Graph.
    ────────────────────────────────────────────────────────────── */
 
-function formatTime(ts: string): string {
-  const d = new Date(ts);
-  return d.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-  }) + " at " + d.toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "2-digit",
-  });
+interface Message {
+  id: string;
+  from: "person" | "firm";
+  body: string;
+  createdAt?: string;
 }
 
 interface MessageBoardProps {
-  initialMessages: Message[];
+  initialMessages?: Message[];
   placeholder?: string;
+  apiEndpoint?: string; // e.g. "/api/people-first/messages"
 }
 
 export function MessageBoard({
-  initialMessages,
-  placeholder = "Type a message to Mike…",
+  initialMessages = [],
+  placeholder = "Type a message…",
+  apiEndpoint,
 }: MessageBoardProps) {
   const [messages, setMessages] = useState<Message[]>(initialMessages);
   const [input, setInput] = useState("");
+  const [sending, setSending] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
-  function handleSend(e: FormEvent) {
-    e.preventDefault();
-    if (!input.trim()) return;
+  // Fetch real messages on mount if API endpoint is provided
+  useEffect(() => {
+    if (apiEndpoint) {
+      fetch(apiEndpoint)
+        .then((r) => r.json())
+        .then((data) => {
+          if (data.messages?.length) {
+            setMessages(
+              data.messages.map((m: Record<string, string>) => ({
+                id: m.id,
+                from: m.sender || m.from,
+                body: m.body,
+                createdAt: m.createdAt,
+              }))
+            );
+          }
+        })
+        .catch(() => {});
+    }
+  }, [apiEndpoint]);
 
-    const newMsg: Message = {
-      id: `msg-${Date.now()}`,
-      from: "person",
-      body: input.trim(),
-      timestamp: new Date().toISOString(),
-    };
-    setMessages((prev) => [...prev, newMsg]);
+  useEffect(() => {
+    scrollRef.current?.scrollTo({
+      top: scrollRef.current.scrollHeight,
+      behavior: "smooth",
+    });
+  }, [messages]);
+
+  async function handleSend() {
+    const text = input.trim();
+    if (!text) return;
     setInput("");
+    setSending(true);
+
+    const optimisticMsg: Message = {
+      id: `temp-${Date.now()}`,
+      from: "person",
+      body: text,
+      createdAt: new Date().toISOString(),
+    };
+    setMessages((prev) => [...prev, optimisticMsg]);
+
+    if (apiEndpoint) {
+      try {
+        const res = await fetch(apiEndpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ body: text }),
+        });
+        const data = await res.json();
+        if (data.message) {
+          // Replace optimistic message with real one
+          setMessages((prev) =>
+            prev.map((m) =>
+              m.id === optimisticMsg.id
+                ? { ...data.message, from: data.message.sender || data.message.from }
+                : m
+            )
+          );
+        }
+      } catch {
+        // Keep optimistic message on failure
+      }
+    }
+
+    setSending(false);
   }
 
   return (
-    <div className="flex flex-col">
-      <div className="space-y-3 max-h-[320px] overflow-y-auto pr-1 mb-4">
+    <div>
+      {/* Thread */}
+      <div
+        ref={scrollRef}
+        className="max-h-[320px] overflow-y-auto space-y-3 mb-4 scrollbar-thin"
+      >
         {messages.map((msg) => (
           <div
             key={msg.id}
             className={`flex ${msg.from === "person" ? "justify-end" : "justify-start"}`}
           >
             <div
-              className={`max-w-[80%] rounded-xl px-4 py-3 text-sm leading-relaxed ${
+              className={`max-w-[80%] px-4 py-2.5 rounded-2xl text-sm leading-relaxed ${
                 msg.from === "person"
-                  ? "bg-[var(--muted-gold)] text-[var(--obsidian-graphite)]"
-                  : "bg-[var(--charcoal-slate)] text-white"
+                  ? "bg-[var(--muted-gold)] text-[var(--obsidian-graphite)] rounded-br-sm"
+                  : "bg-[var(--charcoal-slate)] text-white rounded-bl-sm"
               }`}
             >
-              <p className="mb-1">{msg.body}</p>
-              <p
-                className={`text-[10px] ${
-                  msg.from === "person"
-                    ? "text-[var(--obsidian-graphite)]/60"
-                    : "text-white/40"
-                }`}
-              >
-                {msg.from === "firm" ? COMMS_RECIPIENT : "You"} · {formatTime(msg.timestamp)}
-              </p>
+              {msg.from === "firm" && (
+                <p className="text-[10px] text-[var(--muted-gold)] font-semibold mb-1">
+                  Mike Yonke
+                </p>
+              )}
+              {msg.body}
             </div>
           </div>
         ))}
       </div>
 
-      <form onSubmit={handleSend} className="flex gap-2">
+      {/* Input */}
+      <div className="flex gap-2">
         <input
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && handleSend()}
           placeholder={placeholder}
           className="flex-1 bg-[var(--obsidian-graphite)] border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-[var(--muted-gold)]/50 transition-colors"
         />
         <button
-          type="submit"
-          disabled={!input.trim()}
-          className="bg-[var(--muted-gold)] text-[var(--obsidian-graphite)] font-semibold px-4 py-2.5 rounded-lg text-sm hover:bg-[var(--muted-gold)]/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed whitespace-nowrap"
+          type="button"
+          onClick={handleSend}
+          disabled={!input.trim() || sending}
+          className="bg-[var(--muted-gold)] text-[var(--obsidian-graphite)] font-semibold px-5 py-2.5 rounded-lg text-sm hover:bg-[var(--muted-gold)]/90 transition-colors disabled:opacity-40"
         >
-          Send
+          {sending ? "…" : "Send"}
         </button>
-      </form>
+      </div>
     </div>
   );
 }

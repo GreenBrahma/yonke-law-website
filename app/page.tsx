@@ -311,20 +311,17 @@ export default function HomePage() {
       </section>
 
       {/* ===========================================
-          Section 4 — How It Works preview
+          Section 4 — What You See Inside People First
           =========================================== */}
       <section className="bg-obsidian-graphite py-24 px-4 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="text-center mb-16">
-            <div className="text-xs uppercase tracking-wider text-muted-gold mb-3">
-              How it works
-            </div>
             <h2 className="font-display text-4xl lg:text-5xl text-chrome-highlight leading-tight">
-              The path, in plain English.
+              What You See Inside People First
             </h2>
             <p className="mt-4 text-lg text-steel-silver max-w-2xl mx-auto">
-              Seven phases. Every case follows this shape in some form. We
-              explain where you are at every step.
+              Three panels — with these types of activities in an easy to use
+              interface — we strive for total transparency.
             </p>
           </div>
 
