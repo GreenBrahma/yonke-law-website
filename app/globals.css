@@ -15,6 +15,7 @@
   --muted-gold:       #D4A843;   /* Deep gold — selective highlights, recognition */
   --signal-red:       #7A1C1C;   /* Alerts, urgent issues (Mood: Red) */
   --soft-gray:        #E5E7EB;   /* Form fields, quiet backgrounds (Mood: Gray) */
+  --affirmative-green:#1F9D6B;   /* Panel 2 "Yes" pulse, action needed */
 
   /* --- Semantic aliases --- */
   --background:       var(--obsidian-graphite);
@@ -81,4 +82,29 @@ h1, h2, h3 {
 
 .skip-to-content:focus {
   top: 0.5rem;
+}
+
+/* ── People First animations ── */
+
+.pf-pulse {
+  animation: pf-pulse-glow 1.5s ease-in-out infinite;
+}
+
+.pf-flash {
+  animation: pf-flash-badge 1s ease-in-out infinite;
+}
+
+@keyframes pf-pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(31, 157, 107, 0.3); }
+  50%      { box-shadow: 0 0 12px 4px rgba(31, 157, 107, 0.15); }
+}
+
+@keyframes pf-flash-badge {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.3; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-pulse { animation: none; }
+  .pf-flash { animation: none; }
 }
