@@ -187,45 +187,6 @@ const PRACTICE_AREAS = [
   },
 ] as const;
 
-const SEVEN_PHASES = [
-  {
-    num: "01",
-    name: "Incident & Aftermath",
-    blurb: "Scene safety, evidence preservation, early guidance.",
-  },
-  {
-    num: "02",
-    name: "Medical Treatment",
-    blurb: "Continuity of care, documentation of impact.",
-  },
-  {
-    num: "03",
-    name: "Investigation",
-    blurb: "Communication shifts to us. You focus on recovery.",
-  },
-  {
-    num: "04",
-    name: "Valuing the Claim",
-    blurb: "Economic and non-economic damages, fully accounted for.",
-  },
-  {
-    num: "05",
-    name: "Negotiation",
-    blurb: "Demand package, disciplined offer evaluation.",
-  },
-  {
-    num: "06",
-    name: "Litigation",
-    blurb:
-      "Filings, discovery, depositions — explained clearly at every step.",
-  },
-  {
-    num: "07",
-    name: "Resolution",
-    blurb: "Settlement, mediation, or trial. Your decision, our preparation.",
-  },
-] as const;
-
 const TESTIMONIALS = [
   {
     quote:
@@ -367,24 +328,17 @@ export default function HomePage() {
             </p>
           </div>
 
-          <ol className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            {SEVEN_PHASES.map((phase) => (
-              <li
-                key={phase.num}
-                className="bg-charcoal-slate p-6 rounded border border-steel-silver/10"
-              >
-                <div className="font-display text-3xl text-muted-gold mb-2">
-                  {phase.num}
-                </div>
-                <div className="font-display text-xl text-chrome-highlight mb-2">
-                  {phase.name}
-                </div>
-                <p className="text-sm text-steel-silver leading-relaxed">
-                  {phase.blurb}
-                </p>
-              </li>
-            ))}
-          </ol>
+          {/* People First portal image */}
+          <div className="relative w-full rounded-xl overflow-hidden border border-steel-silver/10">
+            <Image
+              src="/images/yl-people-first-portal.jpg"
+              alt="People First portal — Journal, Messages, Calendar & Events, Roadmap to Justice, Documents, and Well-Being Check"
+              width={1400}
+              height={2400}
+              className="w-full h-auto"
+              sizes="(max-width: 768px) 100vw, 1280px"
+            />
+          </div>
 
           <div className="text-center mt-12">
             <Link

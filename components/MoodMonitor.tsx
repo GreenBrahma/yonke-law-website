@@ -39,12 +39,9 @@ export function MoodMonitor() {
           <div className="text-xs uppercase tracking-wider text-muted-gold mb-3">
             People First
           </div>
-          <h2 className="font-display text-3xl md:text-4xl text-chrome-highlight leading-tight mb-3">
-            Most law firms never ask how you&apos;re actually doing.
-          </h2>
-          <h3 className="font-display text-2xl md:text-3xl text-muted-gold leading-tight">
+          <h2 className="font-display text-3xl md:text-4xl text-muted-gold leading-tight">
             We do — and we built a tool for it.
-          </h3>
+          </h2>
         </div>
 
         <p className="text-center text-steel-silver leading-relaxed mb-12 max-w-2xl mx-auto">
