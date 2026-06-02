@@ -32,8 +32,8 @@ import { eq } from "drizzle-orm";
 let _authDb: ReturnType<typeof drizzle> | null = null;
 function authDb() {
   if (!_authDb) {
-    const url = process.env.DATABASE_URL;
-    if (!url) throw new Error("DATABASE_URL is required for auth.");
+    const url = process.env.DATABASE_URL || process.env.NETLIFY_DB_URL;
+    if (!url) throw new Error("DATABASE_URL or NETLIFY_DB_URL is required for auth.");
     _authDb = drizzle(
       new Pool({ connectionString: url, max: 1, ssl: { rejectUnauthorized: false } })
     );
@@ -44,6 +44,7 @@ function authDb() {
 export const { handlers, auth, signIn, signOut } = NextAuth({
   // No adapter — JWT strategy handles session entirely in the token.
   // User records managed via direct DB queries in callbacks.
+  trustHost: true,
   session: { strategy: "jwt" },
   providers: [
     Google({
