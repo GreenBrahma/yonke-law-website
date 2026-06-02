@@ -39,6 +39,44 @@ export default function TalkToUsPage() {
       </section>
 
       {/* ─────────────────────────────────────────────────────────
+          Intent Block 1 — New case
+          ───────────────────────────────────────────────────────── */}
+      <section className="bg-obsidian-graphite py-16 px-4 lg:px-8">
+        <div className="mx-auto max-w-3xl">
+          <h2 className="font-display text-2xl md:text-3xl text-chrome-highlight mb-4">
+            Something just happened?
+          </h2>
+          <p className="text-steel-silver leading-relaxed">
+            You want to talk to a lawyer — and you&apos;re in the right place. Tell us
+            what happened below and attach any documents you have. We&apos;ll review it
+            and get back to you. If it&apos;s not something we can take on, we&apos;ll
+            point you to someone who can. Either way, we won&apos;t leave you stranded.
+          </p>
+        </div>
+      </section>
+
+      {/* ─────────────────────────────────────────────────────────
+          Intent Block 2 — Past person / testimonial jump
+          ───────────────────────────────────────────────────────── */}
+      <section className="bg-charcoal-slate py-16 px-4 lg:px-8">
+        <div className="mx-auto max-w-3xl">
+          <h2 className="font-display text-2xl md:text-3xl text-chrome-highlight mb-4">
+            Already been through it with us?
+          </h2>
+          <p className="text-steel-silver leading-relaxed mb-4">
+            You&apos;re out the other side, and the hardest part is behind you. We&apos;d
+            love to hear how we did.
+          </p>
+          <a
+            href="#testimonial"
+            className="inline-flex items-center gap-1 text-muted-gold hover:text-chrome-highlight transition-colors font-semibold scroll-smooth"
+          >
+            Share your story →
+          </a>
+        </div>
+      </section>
+
+      {/* ─────────────────────────────────────────────────────────
           Section 1: Free Review / Consultation + Send a Message
           ───────────────────────────────────────────────────────── */}
       <section id="consultation" className="bg-charcoal-slate py-20 px-4 lg:px-8">

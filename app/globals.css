@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+html {
+  scroll-behavior: smooth;
+}
+
 /* ============================================================
    Yonke Law — Design Tokens
    Source of truth: The Standard (Brand Doctrine) §13–§18
