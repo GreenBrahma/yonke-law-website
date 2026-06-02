@@ -142,7 +142,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
   },
   pages: {
-    signIn: "/client-login",
-    error: "/client-login",
+    signIn: "/people-first-login",
+    error: "/people-first-login",
   },
 });

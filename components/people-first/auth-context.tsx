@@ -35,15 +35,15 @@ export function useAuth() {
     signIn: (method: "apple" | "google" | "email") => {
       switch (method) {
         case "apple":
-          return signIn("apple", { callbackUrl: "/client-login/dashboard" });
+          return signIn("apple", { callbackUrl: "/people-first-login/dashboard" });
         case "google":
-          return signIn("google", { callbackUrl: "/client-login/dashboard" });
+          return signIn("google", { callbackUrl: "/people-first-login/dashboard" });
         case "email":
           return signIn("credentials", {
-            callbackUrl: "/client-login/dashboard",
+            callbackUrl: "/people-first-login/dashboard",
           });
       }
     },
-    signOut: () => signOut({ callbackUrl: "/client-login" }),
+    signOut: () => signOut({ callbackUrl: "/people-first-login" }),
   };
 }

@@ -5,7 +5,7 @@ import Link from "next/link";
 
 /* ──────────────────────────────────────────────────────────────
    Pulse — persistent emotional pulse (§7).
-   Present on EVERY /client-login/* gated page.
+   Present on EVERY /people-first-login/* gated page.
    Five states, exact §7.1 decision tree. No extra states,
    no extra branches, no reworded options.
    FR-PULSE-01…06.
@@ -209,7 +209,7 @@ export function Pulse() {
         <div className="fixed bottom-4 right-4 z-50 bg-[var(--obsidian-graphite)] border border-white/15 rounded-2xl p-4 shadow-2xl w-[280px]">
           <p className="text-sm text-white mb-3">What&apos;s up?</p>
           <Link
-            href="/client-login/help"
+            href="/people-first-login/help"
             onClick={reset}
             className="block text-center bg-[var(--muted-gold)] text-[var(--obsidian-graphite)] font-semibold px-4 py-2 rounded-lg text-sm hover:bg-[var(--muted-gold)]/90 transition-colors"
           >

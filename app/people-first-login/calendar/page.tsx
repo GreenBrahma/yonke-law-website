@@ -35,7 +35,7 @@ export default function CalendarPage() {
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      router.replace("/client-login");
+      router.replace("/people-first-login");
     }
   }, [isAuthenticated, isLoading, router]);
 
@@ -67,7 +67,7 @@ export default function CalendarPage() {
 
         <div className="relative z-10 px-4 py-8 lg:px-8">
           <div className="max-w-2xl mx-auto">
-            <Link href="/client-login/dashboard" className="text-xs text-[var(--muted-gold)] hover:text-white transition-colors mb-6 inline-block">
+            <Link href="/people-first-login/dashboard" className="text-xs text-[var(--muted-gold)] hover:text-white transition-colors mb-6 inline-block">
               ← Back to home
             </Link>
 

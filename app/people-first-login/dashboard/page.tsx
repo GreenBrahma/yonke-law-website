@@ -48,7 +48,7 @@ export default function DashboardPage() {
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      router.replace("/client-login");
+      router.replace("/people-first-login");
     }
   }, [isAuthenticated, isLoading, router]);
 
@@ -119,7 +119,7 @@ export default function DashboardPage() {
           {/* Three Panels */}
           <div className="max-w-2xl mx-auto w-full flex flex-col gap-3">
             <Panel
-              href="/client-login/where-you-are"
+              href="/people-first-login/where-you-are"
               title="Where You Are"
               variant="status"
             >
@@ -134,7 +134,7 @@ export default function DashboardPage() {
             </Panel>
 
             <Panel
-              href="/client-login/needed"
+              href="/people-first-login/needed"
               title="Anything You Need To Do"
               variant={
                 caseData?.actionNeeded ? "action-yes" : "action-no"
@@ -155,7 +155,7 @@ export default function DashboardPage() {
             </Panel>
 
             <Panel
-              href="/client-login/calendar"
+              href="/people-first-login/calendar"
               title="Your Calendar & Messages"
               variant="calendar"
               hasUnread={caseData?.hasUnread}

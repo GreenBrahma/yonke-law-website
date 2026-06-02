@@ -4,7 +4,7 @@ import { type ReactNode } from "react";
 import { AuthProvider } from "@/components/people-first/auth-context";
 
 /* ──────────────────────────────────────────────────────────────
-   Gated layout for /client-login/*.
+   Gated layout for /people-first-login/*.
    Wraps all children in AuthProvider.
    Auth gate + Pulse handled by individual pages.
    ────────────────────────────────────────────────────────────── */
