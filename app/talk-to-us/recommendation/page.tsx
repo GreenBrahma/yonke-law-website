@@ -3,10 +3,10 @@ import Image from "next/image";
 import { TestimonialForm } from "@/components/TestimonialForm";
 
 export const metadata: Metadata = {
-  title: "Leave a Recommendation — Share Your Experience | Yonke Law",
+  title: "Leave a Recommendation — Share Your Experience",
   description:
     "Rate your experience with Yonke Law. Leave a Google or Facebook recommendation and help others find the right team.",
-  alternates: { canonical: "https://yonke.law/talk-to-us/recommendation/" },
+  alternates: { canonical: "https://yonke.law/talk-to-us/recommendation" },
 };
 
 export default function RecommendationPage() {

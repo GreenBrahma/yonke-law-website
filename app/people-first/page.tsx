@@ -7,10 +7,10 @@ import { WhatYouSeeSection } from "@/components/people-first-page/WhatYouSeeSect
 import { PeopleFirstActions } from "@/components/people-first-page/PeopleFirstActions";
 
 export const metadata: Metadata = {
-  title: "People First — How We Stay Connected | Yonke Law",
+  title: "People First — How We Stay Connected",
   description:
     "People First is how Yonke Law stays connected with the people we represent. Every file, every meeting, every step — visible in real time. See it in action.",
-  alternates: { canonical: "https://yonke.law/people-first/" },
+  alternates: { canonical: "https://yonke.law/people-first" },
 };
 
 export default function PeopleFirstPage() {

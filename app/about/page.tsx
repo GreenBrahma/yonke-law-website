@@ -9,11 +9,11 @@ import Link from "next/link";
    =========================================================== */
 
 export const metadata: Metadata = {
-  title: "About Michael T. Yonke — Founding Partner | Yonke Law",
+  title: "About Michael T. Yonke — Founding Partner",
   description:
     "Michael T. Yonke is the founding partner of Yonke Law — a Kansas City trial attorney with over 25 years representing people injured through no fault of their own.",
   alternates: {
-    canonical: "https://yonke.law/about/",
+    canonical: "https://yonke.law/about",
   },
 };
 

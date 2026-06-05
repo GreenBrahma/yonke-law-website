@@ -5,10 +5,10 @@ import { TalkToUsForm } from "@/components/TalkToUsForm";
 import { TestimonialForm } from "@/components/TestimonialForm";
 
 export const metadata: Metadata = {
-  title: "Talk to Us — Free Consultation & Testimonials | Yonke Law",
+  title: "Talk to Us — Free Consultation & Testimonials",
   description:
     "Contact Yonke Law for a free consultation or share your testimonial. No fee unless we win. Personal injury, medical malpractice, and wrongful death attorneys in Kansas City.",
-  alternates: { canonical: "https://yonke.law/talk-to-us/" },
+  alternates: { canonical: "https://yonke.law/talk-to-us" },
 };
 
 export default function TalkToUsPage() {

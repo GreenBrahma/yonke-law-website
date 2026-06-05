@@ -8,11 +8,11 @@ import Link from "next/link";
    =========================================================== */
 
 export const metadata: Metadata = {
-  title: "Recognition — Awards and Peer Review | Yonke Law",
+  title: "Recognition — Awards and Peer Review",
   description:
     "Professional recognition for Yonke Law in Kansas City — Best Law Firms, Best Lawyers in America, Medical Malpractice Trial Lawyers Top 25, Martindale-Hubbell AV rated.",
   alternates: {
-    canonical: "https://yonke.law/about/recognition/",
+    canonical: "https://yonke.law/about/recognition",
   },
 };
 

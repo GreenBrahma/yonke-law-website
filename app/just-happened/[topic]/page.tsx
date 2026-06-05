@@ -118,14 +118,14 @@ export async function generateMetadata({
       description:
         "Clear, plain-English guidance on what to do in the first 24 hours after a car accident in Missouri or Kansas. No pressure, no fluff — just the steps that protect you. From Yonke Law.",
       alternates: {
-        canonical: "https://yonke.law/just-happened/car-accident/",
+        canonical: "https://yonke.law/just-happened/car-accident",
       },
       openGraph: {
         title:
-          "Just Had a Car Accident? What to Do in the First 24 Hours | Yonke Law",
+          "Just Had a Car Accident? What to Do in the First 24 Hours",
         description:
           "Calm, clear guidance on what to do in the first 24 hours after a car accident.",
-        url: "https://yonke.law/just-happened/car-accident/",
+        url: "https://yonke.law/just-happened/car-accident",
         type: "article",
       },
     };
@@ -136,7 +136,7 @@ export async function generateMetadata({
     title: `${label} — What to Do Now`,
     description: `Calm, plain-English guidance after a ${label.toLowerCase()}. From Yonke Law in Kansas City.`,
     alternates: {
-      canonical: `https://yonke.law/just-happened/${topic}/`,
+      canonical: `https://yonke.law/just-happened/${topic}`,
     },
   };
 }

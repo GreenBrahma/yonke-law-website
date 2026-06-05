@@ -7,11 +7,11 @@ import Link from "next/link";
    =========================================================== */
 
 export const metadata: Metadata = {
-  title: "Outcomes — Real Results for Real People | Yonke Law",
+  title: "Outcomes — Real Results for Real People",
   description:
     "Verified case outcomes from Yonke Law in Kansas City. Personal injury, medical malpractice, and wrongful death results that changed lives.",
   alternates: {
-    canonical: "https://yonke.law/about/outcomes/",
+    canonical: "https://yonke.law/about/outcomes",
   },
 };
 

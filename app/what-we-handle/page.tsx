@@ -5,10 +5,10 @@ import { PageHero } from "@/components/PageHero";
 
 
 export const metadata: Metadata = {
-  title: "What We Handle — Practice Areas | Yonke Law",
+  title: "What We Handle — Practice Areas",
   description:
     "Yonke Law handles personal injury, medical malpractice, wrongful death, vehicle accidents, premises liability, and more in Kansas City, Missouri and Kansas.",
-  alternates: { canonical: "https://yonke.law/what-we-handle/" },
+  alternates: { canonical: "https://yonke.law/what-we-handle" },
 };
 
 const AREAS = [

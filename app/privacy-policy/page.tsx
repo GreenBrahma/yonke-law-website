@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | Yonke Law",
+  title: "Privacy Policy",
   description:
     "Privacy policy for Yonke Law LLC — how we collect, use, and protect your personal information when you visit yonke.law.",
-  alternates: { canonical: "https://yonke.law/privacy-policy/" },
+  alternates: { canonical: "https://yonke.law/privacy-policy" },
 };
 
 export default function PrivacyPolicyPage() {

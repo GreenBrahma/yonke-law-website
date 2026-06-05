@@ -8,11 +8,11 @@ import Link from "next/link";
    =========================================================== */
 
 export const metadata: Metadata = {
-  title: "Testimonials — What Our Clients Say | Yonke Law",
+  title: "Testimonials — What Our Clients Say",
   description:
     "Real testimonials from people represented by Yonke Law in Kansas City. Personal injury, medical malpractice, and wrongful death cases.",
   alternates: {
-    canonical: "https://yonke.law/about/testimonials/",
+    canonical: "https://yonke.law/about/testimonials",
   },
 };
 

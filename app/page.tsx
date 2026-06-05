@@ -226,7 +226,7 @@ export default function HomePage() {
           <div className="aspect-video rounded overflow-hidden border border-steel-silver/10">
             <iframe
               src="https://www.youtube.com/embed/wWMcW4GFbmk?rel=0"
-              title="What Is a Personal Injury Case? | Yonke Law"
+              title="What Is a Personal Injury Case?"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
               className="w-full h-full"
@@ -386,7 +386,7 @@ export default function HomePage() {
                 <div className="aspect-video md:aspect-auto md:min-h-[320px]">
                   <iframe
                     src="https://www.youtube.com/embed/om6L1RHfKic?rel=0"
-                    title="Preparing You for a Deposition | Yonke Law"
+                    title="Preparing You for a Deposition"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                     className="w-full h-full"

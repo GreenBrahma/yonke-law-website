@@ -6,10 +6,10 @@ import { eq, desc } from "drizzle-orm";
 import { PageHero } from "@/components/PageHero";
 
 export const metadata: Metadata = {
-  title: "Spotlight Corner — Kansas City Legal News | Yonke Law",
+  title: "Spotlight Corner — Kansas City Legal News",
   description:
     "Source-verified reporting on Kansas City incidents, safety patterns, and civic accountability — grounded in public records and independent confirmation.",
-  alternates: { canonical: "https://yonke.law/spotlight-corner/" },
+  alternates: { canonical: "https://yonke.law/spotlight-corner" },
 };
 
 // Force dynamic rendering — reads from DB at request time

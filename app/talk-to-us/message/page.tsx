@@ -3,10 +3,10 @@ import { TalkToUsForm } from "@/components/TalkToUsForm";
 import Image from "next/image";
 
 export const metadata: Metadata = {
-  title: "Send Us a Message — Free Review | Yonke Law",
+  title: "Send Us a Message — Free Review",
   description:
     "Contact Yonke Law for a free case review. Your message will be reviewed within 36 hours.",
-  alternates: { canonical: "https://yonke.law/talk-to-us/message/" },
+  alternates: { canonical: "https://yonke.law/talk-to-us/message" },
 };
 
 export default function MessagePage() {

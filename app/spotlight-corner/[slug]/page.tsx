@@ -300,10 +300,10 @@ export async function generateMetadata({
   if (!article) return { title: "Article Not Found" };
 
   return {
-    title: `${article.headline} | Spotlight Corner — Yonke Law`,
+    title: `${article.headline} | Spotlight Corner`,
     description: article.articleMarkdown.slice(0, 160).replace(/[#\[\]]/g, ""),
     alternates: {
-      canonical: `https://yonke.law/spotlight-corner/${slug}/`,
+      canonical: `https://yonke.law/spotlight-corner/${slug}`,
     },
     openGraph: {
       title: article.headline,

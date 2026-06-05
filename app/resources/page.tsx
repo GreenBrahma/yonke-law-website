@@ -3,10 +3,10 @@ import Image from "next/image";
 import { RESOURCES } from "@/lib/resources";
 
 export const metadata: Metadata = {
-  title: "Resources — Checklists, Guides & Legal Reference | Yonke Law",
+  title: "Resources — Checklists, Guides & Legal Reference",
   description:
     "Download checklists for car accidents, truck accidents, medical malpractice, wrongful death, and more. Practical tools from Yonke Law in Kansas City.",
-  alternates: { canonical: "https://yonke.law/resources/" },
+  alternates: { canonical: "https://yonke.law/resources" },
 };
 
 export default function ResourcesPage() {

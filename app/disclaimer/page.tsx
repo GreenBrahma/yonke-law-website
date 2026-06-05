@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Disclaimer | Yonke Law",
+  title: "Disclaimer",
   description:
     "Legal disclaimer for Yonke Law LLC — important information about the use of this website and the attorney-client relationship.",
-  alternates: { canonical: "https://yonke.law/disclaimer/" },
+  alternates: { canonical: "https://yonke.law/disclaimer" },
 };
 
 export default function DisclaimerPage() {

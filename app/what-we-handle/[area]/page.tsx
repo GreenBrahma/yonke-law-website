@@ -27,9 +27,9 @@ export async function generateMetadata({
   const area = getArea(slug);
   if (!area) return { title: "Practice Area" };
   return {
-    title: `${area.name} Lawyers in Kansas City | Yonke Law`,
+    title: `${area.name} Lawyers in Kansas City`,
     description: `${area.definition[0].slice(0, 155)}… From Yonke (YONK-ee) Law.`,
-    alternates: { canonical: `https://yonke.law/what-we-handle/${slug}/` },
+    alternates: { canonical: `https://yonke.law/what-we-handle/${slug}` },
   };
 }
 

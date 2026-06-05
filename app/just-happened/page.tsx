@@ -75,17 +75,17 @@ const CATEGORIES = [
 ];
 
 export const metadata: Metadata = {
-  title: "Something just happened — find your situation | Yonke Law",
+  title: "Something just happened — find your situation",
   description:
     "Calm, plain-English guidance on what to do after an incident. Find your path forward with Yonke Law.",
   alternates: {
-    canonical: "https://yonke.law/just-happened/",
+    canonical: "https://yonke.law/just-happened",
   },
   openGraph: {
-    title: "Something just happened — find your situation | Yonke Law",
+    title: "Something just happened — find your situation",
     description:
       "Calm, plain-English guidance on what to do after an incident. Find your path forward with Yonke Law.",
-    url: "https://yonke.law/just-happened/",
+    url: "https://yonke.law/just-happened",
     type: "website",
   },
 };
