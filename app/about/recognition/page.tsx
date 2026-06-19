@@ -35,6 +35,16 @@ const AWARDS = [
     image: "/images/yl-top25-medmal-award.png",
     tier: null,
   },
+  {
+    title: "Best Lawyers in America®",
+    organization: "Best Lawyers",
+    year: "Listed Attorney",
+    description:
+      "Peer-reviewed recognition maintained for over 40 years. Mike Yonke is listed in Best Lawyers for his work in personal injury and medical malpractice litigation.",
+    image: "https://www.bestlawyers.com/Logos/ListedLawyer/67207/US/32/O/Basic.png",
+    tier: null,
+    externalLink: "https://www.bestlawyers.com/lawyers/michael-t-mike-yonke/67207",
+  },
 ];
 
 const CREDENTIALS = [
@@ -99,21 +109,29 @@ export default function RecognitionPage() {
           <h2 className="font-display text-2xl text-chrome-highlight mb-12 text-center">
             Featured Recognition
           </h2>
-          <div className="grid md:grid-cols-2 gap-10">
-            {AWARDS.map((award) => (
-              <div
-                key={award.title}
-                className="bg-obsidian-graphite border border-muted-gold/20 rounded-lg overflow-hidden group hover:border-muted-gold/50 transition-colors duration-300"
-              >
+          <div className="grid md:grid-cols-3 gap-10">
+            {AWARDS.map((award) => {
+              const isExternal = award.image.startsWith("http");
+              const cardContent = (
+                <>
                 <div className="flex items-center justify-center py-10 bg-gradient-to-b from-charcoal-slate/50 to-obsidian-graphite">
-                  <div className="relative w-40 h-40">
-                    <Image
-                      src={award.image}
-                      alt={award.title}
-                      fill
-                      className="object-contain drop-shadow-lg"
-                      sizes="160px"
-                    />
+                  <div className="relative w-40 h-40 flex items-center justify-center">
+                    {isExternal ? (
+                      /* eslint-disable-next-line @next/next/no-img-element */
+                      <img
+                        src={award.image}
+                        alt={award.title}
+                        className="max-w-full max-h-full object-contain drop-shadow-lg"
+                      />
+                    ) : (
+                      <Image
+                        src={award.image}
+                        alt={award.title}
+                        fill
+                        className="object-contain drop-shadow-lg"
+                        sizes="160px"
+                      />
+                    )}
                   </div>
                 </div>
                 <div className="p-8">
@@ -132,8 +150,28 @@ export default function RecognitionPage() {
                     {award.description}
                   </p>
                 </div>
-              </div>
-            ))}
+                </>
+              );
+
+              return "externalLink" in award && award.externalLink ? (
+                <a
+                  key={award.title}
+                  href={award.externalLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-obsidian-graphite border border-muted-gold/20 rounded-lg overflow-hidden group hover:border-muted-gold/50 transition-colors duration-300"
+                >
+                  {cardContent}
+                </a>
+              ) : (
+                <div
+                  key={award.title}
+                  className="bg-obsidian-graphite border border-muted-gold/20 rounded-lg overflow-hidden group hover:border-muted-gold/50 transition-colors duration-300"
+                >
+                  {cardContent}
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>

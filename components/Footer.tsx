@@ -150,6 +150,21 @@ export function Footer() {
             className="rounded-full"
           />
 
+          <a
+            href="https://www.bestlawyers.com/lawyers/michael-t-mike-yonke/67207"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:opacity-80 transition-opacity"
+            aria-label="Best Lawyers - Michael T. Yonke profile"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="https://www.bestlawyers.com/Logos/ListedLawyer/67207/US/32/O/Basic.png"
+              alt="Best Lawyers - Lawyer Logo"
+              className="h-8 w-auto"
+            />
+          </a>
+
           <div className="flex items-center gap-4 text-xs text-steel-silver/50">
             <Link href="/privacy-policy" className="hover:text-chrome-highlight transition-colors duration-200">
               Privacy

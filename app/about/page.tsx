@@ -186,6 +186,21 @@ export default function AboutPage() {
                 </li>
               ))}
             </ul>
+            <div className="mt-8 flex items-center gap-4">
+              <a
+                href="https://www.bestlawyers.com/lawyers/michael-t-mike-yonke/67207"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:opacity-80 transition-opacity"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="https://www.bestlawyers.com/Logos/ListedLawyer/67207/US/32/O/Basic.png"
+                  alt="Best Lawyers - Michael T. Yonke"
+                  className="h-16 w-auto"
+                />
+              </a>
+            </div>
             <Link
               href="/about/recognition"
               className="inline-block mt-6 text-muted-gold hover:text-chrome-highlight transition-colors text-sm"
