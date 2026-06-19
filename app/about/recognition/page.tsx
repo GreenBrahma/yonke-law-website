@@ -45,6 +45,16 @@ const AWARDS = [
     tier: null,
     externalLink: "https://www.bestlawyers.com/lawyers/michael-t-mike-yonke/67207",
   },
+  {
+    title: "Best Lawyers — Listed Firm",
+    organization: "Best Lawyers",
+    year: "Yonke Law",
+    description:
+      "Yonke Law is recognized as a Best Lawyers listed firm — an independent, peer-reviewed distinction based on quality of practice and professional standing.",
+    image: "https://www.bestlawyers.com/Logos/ListedFirm/39523/US/32/O/Basic.png",
+    tier: null,
+    externalLink: "https://www.bestlawyers.com/firms/yonke-law/39523/US",
+  },
 ];
 
 const CREDENTIALS = [

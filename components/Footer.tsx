@@ -165,6 +165,21 @@ export function Footer() {
             />
           </a>
 
+          <a
+            href="https://www.bestlawyers.com/firms/yonke-law/39523/US"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:opacity-80 transition-opacity"
+            aria-label="Best Lawyers - Yonke Law firm profile"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="https://www.bestlawyers.com/Logos/ListedFirm/39523/US/32/O/Basic.png"
+              alt="Best Lawyers - Firm Logo"
+              className="h-8 w-auto"
+            />
+          </a>
+
           <div className="flex items-center gap-4 text-xs text-steel-silver/50">
             <Link href="/privacy-policy" className="hover:text-chrome-highlight transition-colors duration-200">
               Privacy

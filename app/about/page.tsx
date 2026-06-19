@@ -200,6 +200,19 @@ export default function AboutPage() {
                   className="h-16 w-auto"
                 />
               </a>
+              <a
+                href="https://www.bestlawyers.com/firms/yonke-law/39523/US"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:opacity-80 transition-opacity"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="https://www.bestlawyers.com/Logos/ListedFirm/39523/US/32/O/Basic.png"
+                  alt="Best Lawyers - Yonke Law Firm"
+                  className="h-16 w-auto"
+                />
+              </a>
             </div>
             <Link
               href="/about/recognition"
