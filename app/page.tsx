@@ -325,15 +325,15 @@ export default function HomePage() {
             </p>
           </div>
 
-          {/* People First portal image */}
-          <div className="relative w-full rounded-xl overflow-hidden border border-steel-silver/10">
+          {/* People First portal image — constrained to 70% for clarity */}
+          <div className="relative w-full max-w-4xl mx-auto rounded-xl overflow-hidden border border-steel-silver/10">
             <Image
               src="/images/yl-people-first-portal.jpg"
-              alt="People First portal — Journal, Messages, Calendar & Events, Roadmap to Justice, Documents, and Well-Being Check"
+              alt="People First portal — Journal, Messages, Calendar &amp; Events, Roadmap to Justice, Documents, and Well-Being Check"
               width={1400}
               height={2400}
               className="w-full h-auto"
-              sizes="(max-width: 768px) 100vw, 1280px"
+              sizes="(max-width: 768px) 100vw, 896px"
             />
           </div>
 
