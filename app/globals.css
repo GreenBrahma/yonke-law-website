@@ -2,6 +2,8 @@
 
 html {
   scroll-behavior: smooth;
+  /* 25% larger text sitewide — scales all rem-based sizing uniformly */
+  font-size: 125%;
 }
 
 /* ============================================================
@@ -58,7 +60,7 @@ html {
 
 body {
   background: var(--background);
-  color: var(--foreground);
+  color: #FFFFFF;
   font-family: var(--font-body);
   line-height: 1.6;
 }
