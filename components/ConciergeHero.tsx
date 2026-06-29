@@ -428,10 +428,10 @@ export function ConciergeHero() {
             className="hidden lg:block group rounded-lg overflow-hidden border-2 border-muted-gold/40 shadow-xl shadow-muted-gold/15 hover:shadow-muted-gold/30 hover:border-muted-gold/70 transition-all duration-300"
           >
             <Image
-              src="/images/top100-congrats-card.png"
+              src="/images/top100-congrats-card.jpg"
               alt="Congratulations Mike Yonke — Top 100 Lawyers by The National Trial Lawyers, Spring 2026. Click to explore recognitions."
               width={1024}
-              height={535}
+              height={571}
               className="w-full h-auto"
               sizes="480px"
             />
