@@ -382,7 +382,7 @@ export function ConciergeHero() {
 
   return (
     <section
-      className="relative min-h-[85vh] flex flex-col justify-center py-20 px-4 lg:px-8 overflow-hidden"
+      className="relative min-h-[60vh] flex flex-col justify-center py-14 px-4 lg:px-8 overflow-hidden"
       aria-label="What happened? Tell us in plain words."
     >
       {/* Background images — cycle with crossfade */}

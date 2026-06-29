@@ -25,7 +25,7 @@ export function PageHero({ title, subtitle, images, eyebrow, imagePosition = "ce
   }, [images.length]);
 
   return (
-    <section className="relative min-h-[50vh] flex flex-col justify-center py-20 px-4 lg:px-8 overflow-hidden">
+    <section className="relative min-h-[36vh] flex flex-col justify-center py-14 px-4 lg:px-8 overflow-hidden">
       {/* Background images */}
       {images.length > 0 && images.map((src, i) => (
         <Image
@@ -49,15 +49,15 @@ export function PageHero({ title, subtitle, images, eyebrow, imagePosition = "ce
       {/* Content */}
       <div className="relative z-10 mx-auto max-w-4xl w-full text-center">
         {eyebrow && (
-          <p className="text-xs uppercase tracking-[0.2em] text-muted-gold mb-6">
+          <p className="text-xs uppercase tracking-[0.2em] text-muted-gold mb-4">
             {eyebrow}
           </p>
         )}
-        <h1 className="font-display text-4xl md:text-5xl lg:text-6xl text-chrome-highlight leading-[1.15] mb-6">
+        <h1 className="font-display text-3xl md:text-4xl lg:text-5xl text-chrome-highlight leading-[1.15] mb-4">
           {title}
         </h1>
         {subtitle && (
-          <p className="text-lg md:text-xl text-steel-silver leading-relaxed max-w-2xl mx-auto mb-10">
+          <p className="text-base md:text-lg text-steel-silver leading-relaxed max-w-2xl mx-auto mb-8">
             {subtitle}
           </p>
         )}
