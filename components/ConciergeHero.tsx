@@ -405,18 +405,41 @@ export function ConciergeHero() {
       <div className="absolute inset-0 bg-obsidian-graphite/75" aria-hidden="true" />
 
       {/* Content layer */}
-      <div className="relative z-10 mx-auto max-w-4xl w-full">
-        {/* Headline */}
-        <h1 className="font-display text-4xl md:text-5xl lg:text-6xl text-chrome-highlight text-center leading-[1.15] mb-6">
-          We represent people hurt by someone else&apos;s negligence.
-        </h1>
+      <div className="relative z-10 mx-auto max-w-6xl w-full">
+        {/* Headline row: text left + congrats card right */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-8 items-start mb-8">
+          <div>
+            {/* Headline */}
+            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl text-chrome-highlight leading-[1.15] mb-6">
+              We represent people hurt by someone else&apos;s negligence.
+            </h1>
 
-        {/* Sub-headline */}
-        <p className="text-lg md:text-xl text-steel-silver text-center mb-12 max-w-2xl mx-auto leading-relaxed">
-          With clarity. With strategy. Without compromise.
-          <br />
-          Tell us what happened — we&apos;ll help you find your way.
-        </p>
+            {/* Sub-headline */}
+            <p className="text-lg md:text-xl text-steel-silver leading-relaxed max-w-2xl">
+              With clarity. With strategy. Without compromise.
+              <br />
+              Tell us what happened — we&apos;ll help you find your way.
+            </p>
+          </div>
+
+          {/* Congratulations card — links to recognition page */}
+          <Link
+            href="/about/recognition"
+            className="hidden lg:block group relative rounded-lg overflow-hidden border border-muted-gold/30 shadow-lg shadow-muted-gold/10 hover:shadow-muted-gold/25 hover:border-muted-gold/60 transition-all duration-300"
+          >
+            <Image
+              src="/images/top100-congrats-card.png"
+              alt="Congratulations Mike Yonke — Top 100 Lawyers, Spring 2026"
+              width={340}
+              height={220}
+              className="w-full h-auto object-cover"
+              sizes="340px"
+            />
+            <div className="absolute top-3 right-3 bg-muted-gold text-obsidian-graphite text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded opacity-90 group-hover:opacity-100 transition-opacity">
+              Explore Recognitions →
+            </div>
+          </Link>
+        </div>
 
         {!isChatOpen ? (
           <>
