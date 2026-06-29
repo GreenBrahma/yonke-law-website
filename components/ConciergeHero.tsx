@@ -407,7 +407,7 @@ export function ConciergeHero() {
       {/* Content layer */}
       <div className="relative z-10 mx-auto max-w-6xl w-full">
         {/* Headline row: text left + congrats card right */}
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-8 items-start mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_480px] gap-8 items-center mb-8">
           <div>
             {/* Headline */}
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl text-chrome-highlight leading-[1.15] mb-6">
@@ -425,19 +425,16 @@ export function ConciergeHero() {
           {/* Congratulations card — links to recognition page */}
           <Link
             href="/about/recognition"
-            className="hidden lg:block group relative rounded-lg overflow-hidden border border-muted-gold/30 shadow-lg shadow-muted-gold/10 hover:shadow-muted-gold/25 hover:border-muted-gold/60 transition-all duration-300"
+            className="hidden lg:block group rounded-lg overflow-hidden border-2 border-muted-gold/40 shadow-xl shadow-muted-gold/15 hover:shadow-muted-gold/30 hover:border-muted-gold/70 transition-all duration-300"
           >
             <Image
               src="/images/top100-congrats-card.png"
-              alt="Congratulations Mike Yonke — Top 100 Lawyers, Spring 2026"
-              width={340}
-              height={220}
-              className="w-full h-auto object-cover"
-              sizes="340px"
+              alt="Congratulations Mike Yonke — Top 100 Lawyers by The National Trial Lawyers, Spring 2026. Click to explore recognitions."
+              width={1024}
+              height={535}
+              className="w-full h-auto"
+              sizes="480px"
             />
-            <div className="absolute top-3 right-3 bg-muted-gold text-obsidian-graphite text-[10px] font-bold uppercase tracking-wider px-3 py-1.5 rounded opacity-90 group-hover:opacity-100 transition-opacity">
-              Explore Recognitions →
-            </div>
           </Link>
         </div>
 
