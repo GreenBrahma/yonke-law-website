@@ -464,6 +464,21 @@ export function ConciergeHero() {
               </div>
             </form>
 
+            {/* Recognition card — mobile only (desktop version is in the headline grid) */}
+            <Link
+              href="/about/recognition"
+              className="block lg:hidden mt-8 rounded-lg overflow-hidden border-2 border-muted-gold/40 shadow-lg shadow-muted-gold/10 max-w-md mx-auto"
+            >
+              <Image
+                src="/images/top100-congrats-card.jpg"
+                alt="Congratulations Mike Yonke — Top 100 Lawyers by The National Trial Lawyers, Spring 2026. Tap to explore recognitions."
+                width={1024}
+                height={571}
+                className="w-full h-auto"
+                sizes="(max-width: 768px) 90vw, 448px"
+              />
+            </Link>
+
             {/* Explainer video */}
             <div className="mt-10 mx-auto max-w-3xl">
               <div className="aspect-video rounded-xl overflow-hidden border border-steel-silver/10">
