@@ -19,6 +19,7 @@ import { usePathname } from "next/navigation";
 const NAV_ITEMS = [
   { label: "Just Happened?", href: "/just-happened" },
   { label: "People First", href: "/people-first" },
+  { label: "Promotion", href: "/promotion" },
   { label: "Spotlight Corner", href: "/spotlight-corner" },
   { label: "What We Handle", href: "/what-we-handle" },
   { label: "Talk to Us", href: "/talk-to-us" },

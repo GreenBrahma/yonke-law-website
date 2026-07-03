@@ -49,6 +49,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/talk-to-us/recommendation`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
     { url: `${BASE}/just-happened`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${BASE}/people-first`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${BASE}/promotion`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${BASE}/spotlight-corner`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
     { url: `${BASE}/resources`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
     { url: `${BASE}/resources/offer-review`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
