@@ -76,7 +76,7 @@ export default function PromotionPage() {
   return (
     <>
       {/* ───── Hero ───── */}
-      <section className="relative min-h-[50vh] flex flex-col justify-center py-20 px-4 lg:px-8 overflow-hidden">
+      <section className="relative min-h-[32vh] flex flex-col justify-center py-8 px-4 lg:px-8 overflow-hidden">
         {/* Background — Welcome image */}
         <Image
           src="/promotions/Yonke Law - Welcome.png"
