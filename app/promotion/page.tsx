@@ -72,6 +72,53 @@ const PROMO_IMAGES = [
   },
 ] as const;
 
+/* -------------------------------------------------------
+   Game Day assets — FIFA World Cup 2026 countdown series.
+   Grouped by orientation so each tile's aspect ratio matches
+   the source art (zero forced cropping):
+     • "wide"   → 16:9 landscape (≈1.79–1.84)
+     • "tall"   → 9:16 portrait  (≈0.56)
+     • "square" → near-square featured card (≈1.13, exact aspect)
+   ------------------------------------------------------- */
+const GAMEDAY_VIDEO = "/promotions/Yonke-Law-World-Cup-Video.mp4";
+
+const GAMEDAY_WIDE = [
+  {
+    src: "/promotions/yonk-law-8hrs.jpg",
+    alt: "Yonke Law game-day reminder — 8 hours to kickoff, time to gameplan your ride downtown for Team US",
+    title: "8 Hours to Kickoff",
+  },
+  {
+    src: "/promotions/Yonke-Law-4hrs.jpg",
+    alt: "Yonke Law game-day reminder — 4 hours to kickoff in Kansas City",
+    title: "4 Hours to Kickoff",
+  },
+  {
+    src: "/promotions/yonke-law-gametime.jpg",
+    alt: "Yonke Law — Kickoff, let's do this KC. A referee's whistle on the pitch as the match begins",
+    title: "Kickoff — Let's Do This, KC",
+  },
+] as const;
+
+const GAMEDAY_TALL = [
+  {
+    src: "/promotions/yonke-law-1hr.jpg",
+    alt: "Yonke Law — one hour to kickoff, eyes on the prize and the road as fans stream toward the stadium",
+    title: "1 Hour to Kickoff",
+  },
+  {
+    src: "/promotions/yonke-law-city-shines.jpg",
+    alt: "Yonke Law — the city shines at night, so should your judgment. Kansas City skyline after dark",
+    title: "The City Shines at Night",
+  },
+] as const;
+
+const GAMEDAY_FEATURE = {
+  src: "/promotions/yonke-law-fumble.jpg",
+  alt: "Yonke Law — don't fumble the fun this weekend. Kansas City barbecue and the Power & Light District",
+  title: "Don't Fumble the Fun",
+} as const;
+
 export default function PromotionPage() {
   return (
     <>
@@ -224,6 +271,102 @@ export default function PromotionPage() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ───── Game Day — World Cup Countdown ───── */}
+      <section className="bg-obsidian-graphite py-20 px-4 lg:px-8">
+        <div className="mx-auto max-w-6xl">
+          <div className="text-center mb-14">
+            <p className="text-xs uppercase tracking-[0.2em] text-muted-gold mb-3 font-semibold">
+              Game Day &bull; Kansas City
+            </p>
+            <h2 className="font-display text-2xl md:text-3xl text-chrome-highlight mb-4">
+              The Countdown Is On.
+            </h2>
+            <p className="text-steel-silver max-w-2xl mx-auto">
+              As the world watches Kansas City, a few friendly reminders from your
+              neighbors at Yonke Law — get there safe, cheer loud, and make it home
+              with nothing but good memories.
+            </p>
+          </div>
+
+          {/* Featured video — natural aspect ratio, autoplay muted loop */}
+          <div className="max-w-4xl mx-auto mb-14 rounded-lg overflow-hidden shadow-2xl shadow-black/40 bg-black/30">
+            <video
+              src={GAMEDAY_VIDEO}
+              autoPlay
+              muted
+              loop
+              playsInline
+              controls
+              preload="metadata"
+              className="w-full h-auto"
+              aria-label="Yonke Law FIFA World Cup 2026 welcome video"
+            />
+          </div>
+
+          {/* Countdown series — landscape (16:9) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+            {GAMEDAY_WIDE.map((img) => (
+              <div
+                key={img.src}
+                className="group relative aspect-video rounded-lg overflow-hidden shadow-lg shadow-black/30 transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-muted-gold/10"
+              >
+                <Image
+                  src={img.src}
+                  alt={img.alt}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                />
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-4 pt-16 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <p className="text-chrome-highlight font-display text-lg">
+                    {img.title}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Countdown series — portrait (9:16) + near-square feature */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
+            {GAMEDAY_TALL.map((img) => (
+              <div
+                key={img.src}
+                className="group relative aspect-[9/16] rounded-lg overflow-hidden shadow-lg shadow-black/30 transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-muted-gold/10"
+              >
+                <Image
+                  src={img.src}
+                  alt={img.alt}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                />
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-4 pt-16 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <p className="text-chrome-highlight font-display text-lg">
+                    {img.title}
+                  </p>
+                </div>
+              </div>
+            ))}
+
+            {/* Near-square feature — exact aspect ratio (1104×974) so nothing crops */}
+            <div className="group relative aspect-[1104/974] self-center rounded-lg overflow-hidden shadow-lg shadow-black/30 transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-muted-gold/10">
+              <Image
+                src={GAMEDAY_FEATURE.src}
+                alt={GAMEDAY_FEATURE.alt}
+                fill
+                className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-4 pt-16 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <p className="text-chrome-highlight font-display text-lg">
+                  {GAMEDAY_FEATURE.title}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
