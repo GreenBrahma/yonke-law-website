@@ -42,6 +42,9 @@ yarn-error.log*
 # netlify
 .netlify
 
+# claude code local config (dev-server launch config, etc.)
+/.claude/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
