@@ -20,6 +20,7 @@ const FOOTER_COLUMNS = {
     heading: "About",
     links: [
       { label: "Michael T. Yonke", href: "/about" },
+      { label: "I Stand For", href: "/about/i-stand-for" },
       { label: "Testimonials", href: "/about/testimonials" },
       { label: "Recognition", href: "/about/recognition" },
     ],
