@@ -1,0 +1,210 @@
+/* ============================================================
+   Values Statement — "Relentless. Devoted. Unyielding."
+   Contour-wrap editorial layout. Live HTML text, not an image.
+
+   ONE tree. The body copy is rendered exactly once. Layout is
+   toggled with CSS only:
+     >= 1024px : float + shape-outside + justify   (contour wrap)
+     <  1024px : float:none; shape-outside:none; left-aligned (stack)
+   The only element gated by width is Mike's visible cutout <img>.
+
+   Scaling: reference pixels of a 1080-wide canvas * --u, where
+   --u = (container inline size / 1080). At a 1080px container
+   --u = 1px and every §3 value is exact; below that it scales
+   proportionally. Font-size-independent (unlike bare `em`).
+   ============================================================ */
+
+.root {
+  width: 100%;
+}
+
+.canvas {
+  max-width: 1080px;
+  margin: 0 auto;
+  /* Query container so --u resolves against THIS box (<=1080),
+     never the full page width. */
+  container-type: inline-size;
+}
+
+.stage {
+  --u: calc(100cqi / 1080);
+  position: relative;
+  width: 100%;
+  height: calc(1600 * var(--u));
+  overflow: hidden;
+  background-image: url("/images/values-hero-bg.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.frame {
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  padding: calc(60 * var(--u)) calc(60 * var(--u)) 0 calc(60 * var(--u));
+}
+
+/* Empty float. Zero visual output. Carries the exclusion shape only. */
+.wrap {
+  float: left;
+  width: calc(960 * var(--u));
+  height: calc(1540 * var(--u));
+  margin: 0;
+  shape-outside: url("/images/values-wrap-shape.png");
+  shape-image-threshold: 0.1;
+  shape-margin: calc(26 * var(--u));
+  pointer-events: none;
+}
+
+.headline {
+  margin: 0 0 0 calc(392 * var(--u));
+  font-family: var(--font-oswald), sans-serif;
+  font-weight: 700;
+  font-size: calc(76 * var(--u));
+  line-height: 1;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #c29a52;
+}
+
+.headline span {
+  display: block;
+}
+
+.dividerRow {
+  position: relative;
+  height: calc(2 * var(--u)); /* flow height = the 2px line; tab overhangs */
+  margin-top: calc(24 * var(--u));
+}
+
+.dividerTab {
+  position: absolute;
+  left: 0;
+  top: calc(-3 * var(--u)); /* 8px tab centered on the 2px line, no extra flow */
+  width: calc(44 * var(--u));
+  height: calc(8 * var(--u));
+  background: #c29a52;
+}
+
+.dividerLine {
+  position: absolute;
+  left: calc(392 * var(--u));
+  right: 0;
+  top: 0;
+  height: calc(2 * var(--u));
+  background: linear-gradient(
+    90deg,
+    #b88d45,
+    #c29a52 60%,
+    rgba(194, 154, 82, 0.25)
+  );
+}
+
+/* Mike's visible cutout — mobile only. Hidden in the wrap layout
+   (there he is baked into the background image). */
+.cutout {
+  display: none;
+}
+
+.copy {
+  font-family: var(--font-inter), sans-serif;
+  font-weight: 400;
+  font-size: calc(23 * var(--u));
+  line-height: calc(33 * var(--u));
+  text-align: justify;
+  hyphens: none;
+  color: #ffffff;
+}
+
+.copy p {
+  margin: 0 0 calc(16 * var(--u)) 0;
+}
+
+.copy strong {
+  font-weight: 600;
+  color: #d7b478;
+}
+
+.sig {
+  position: absolute;
+  right: 0;
+  bottom: calc(112 * var(--u));
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: calc(46 * var(--u));
+  line-height: 1;
+  color: #c29a52;
+  text-align: right;
+}
+
+/* ---------- Stack (< 1024px): same DOM, layout only ---------- */
+
+@media (max-width: 1023.98px) {
+  .stage {
+    height: auto;
+    overflow: visible;
+    background: #15100c;
+    padding: 40px 24px 48px;
+  }
+
+  .frame {
+    position: static;
+    inset: auto;
+    padding: 0;
+  }
+
+  .wrap {
+    float: none;
+    shape-outside: none;
+    display: none;
+  }
+
+  .headline {
+    margin-left: 0;
+    font-size: clamp(40px, 13vw, 64px);
+  }
+
+  .dividerRow {
+    height: 2px;
+    margin-top: 20px;
+  }
+
+  .dividerTab {
+    display: none;
+  }
+
+  .dividerLine {
+    left: 0;
+    top: 0;
+    height: 2px;
+  }
+
+  .cutout {
+    display: block;
+    width: auto;
+    max-width: 62%;
+    height: auto;
+    margin: 28px auto;
+  }
+
+  .copy {
+    margin-top: 24px;
+    font-size: 17px;
+    line-height: 26px;
+    text-align: left;
+  }
+
+  .copy p {
+    margin: 0 0 16px 0;
+  }
+
+  .sig {
+    position: static;
+    right: auto;
+    bottom: auto;
+    margin-top: 8px;
+    font-size: 32px;
+  }
+}
