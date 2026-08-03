@@ -7,8 +7,8 @@ type FormState = "idle" | "sending" | "sent" | "error";
 
 /**
  * Client-side Talk to Us form.
- * Submits via /api/send-mail (Microsoft Graph) to both
- * mike@yonke.law and janell@yonke.law.
+ * Submits via /api/send-mail (Microsoft Graph) to
+ * mike@yonke.law, jyonke@yonke.law, and michelle@yonke.law.
  */
 export function TalkToUsForm() {
   const [state, setState] = useState<FormState>("idle");
@@ -69,7 +69,7 @@ export function TalkToUsForm() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          to: ["mike@yonke.law", "janell@yonke.law"],
+          to: ["mike@yonke.law", "jyonke@yonke.law", "michelle@yonke.law"],
           subject: `New Inquiry: ${name} — ${caseType || "General"}`,
           body: htmlBody,
         }),

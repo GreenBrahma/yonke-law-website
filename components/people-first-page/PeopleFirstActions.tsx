@@ -9,7 +9,7 @@ type ActiveForm = "none" | "contact" | "schedule";
  * People First Portal — Contact & Schedule Section
  *
  * Replaces the "Walk Through It" placeholder with:
- * 1. Quick contact form → /api/send-mail (mike@ + janell@)
+ * 1. Quick contact form → /api/send-mail (mike@ + jyonke@ + michelle@)
  * 2. Schedule consultation form → /api/calendar/create-event + /api/send-mail
  */
 export function PeopleFirstActions() {
@@ -64,7 +64,7 @@ export function PeopleFirstActions() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          to: ["mike@yonke.law", "janell@yonke.law"],
+          to: ["mike@yonke.law", "jyonke@yonke.law", "michelle@yonke.law"],
           subject: `People First Inquiry: ${name}`,
           body: htmlBody,
         }),
@@ -135,7 +135,7 @@ export function PeopleFirstActions() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          to: ["mike@yonke.law", "janell@yonke.law"],
+          to: ["mike@yonke.law", "jyonke@yonke.law", "michelle@yonke.law"],
           subject: `Consultation Scheduled: ${name} — ${formattedDate} at ${time}`,
           body: `
             <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px;">

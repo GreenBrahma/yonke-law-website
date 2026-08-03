@@ -332,7 +332,7 @@ export function ConciergeHero() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          to: ["mike@yonke.law", "janell@yonke.law"],
+          to: ["mike@yonke.law", "jyonke@yonke.law", "michelle@yonke.law"],
           subject: `Concierge Inquiry: ${contactForm.name} — ${topicLabel}`,
           body: bodyHtml,
         }),
