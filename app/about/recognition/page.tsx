@@ -231,8 +231,164 @@ export default function RecognitionPage() {
         </div>
       </section>
 
-      {/* Featured awards */}
+      {/* Badge Grid — Professional Recognition */}
       <section className="bg-charcoal-slate py-20 px-4 lg:px-8">
+        <div className="mx-auto max-w-5xl">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Top 100 Lawyers Badge + Certificate */}
+            <div className="flex flex-col">
+              <div className="bg-obsidian-graphite border border-muted-gold/20 rounded-lg overflow-hidden flex flex-col h-full">
+                <div className="flex items-center justify-center py-10 bg-gradient-to-b from-charcoal-slate/50 to-obsidian-graphite">
+                  <div className="relative w-40 h-40 flex items-center justify-center">
+                    <Image
+                      src="/images/badge-top-100.png"
+                      alt="Top 100 Lawyers Badge"
+                      fill
+                      className="object-contain drop-shadow-lg"
+                      sizes="160px"
+                    />
+                  </div>
+                </div>
+                <div className="p-8 flex-1">
+                  <h3 className="font-display text-xl text-chrome-highlight mb-2">
+                    Top 100 Lawyers
+                  </h3>
+                  <p className="text-muted-gold text-sm font-semibold mb-3">
+                    top100lawyers.com · 2026
+                  </p>
+                  <p className="text-steel-silver text-sm leading-relaxed">
+                    Featured in the Spring 2026 edition of Top 100 Lawyers magazine. Recognition of lifetime achievement and America&apos;s Most Influential Attorneys.
+                  </p>
+                </div>
+              </div>
+              {/* Certificate underneath */}
+              <div className="mt-4 bg-obsidian-graphite border border-muted-gold/20 rounded-lg overflow-hidden p-6">
+                <p className="text-xs uppercase tracking-[0.2em] text-muted-gold mb-4 font-semibold">
+                  2026 Attorney of the Year Certificate
+                </p>
+                <a
+                  href="/resources/Top-100-Certificate.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-muted-gold/15 hover:bg-muted-gold/25 text-muted-gold font-semibold px-4 py-2 rounded transition-colors text-sm w-full justify-center"
+                >
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  View Certificate
+                </a>
+              </div>
+            </div>
+
+            {/* Best Lawyers — Firms */}
+            <div className="bg-obsidian-graphite border border-muted-gold/20 rounded-lg overflow-hidden group hover:border-muted-gold/50 transition-colors duration-300 flex flex-col">
+              <div className="flex items-center justify-center py-10 bg-gradient-to-b from-charcoal-slate/50 to-obsidian-graphite">
+                <div className="relative w-40 h-40 flex items-center justify-center">
+                  <Image
+                    src="/images/badge-best-lawyers-firms.png"
+                    alt="Best Lawyers Firms Badge"
+                    fill
+                    className="object-contain drop-shadow-lg"
+                    sizes="160px"
+                  />
+                </div>
+              </div>
+              <div className="p-8 flex-1 flex flex-col">
+                <h3 className="font-display text-xl text-chrome-highlight mb-2">
+                  Best Law Firms®
+                </h3>
+                <p className="text-muted-gold text-sm font-semibold mb-3">
+                  U.S. News &amp; World Report / Best Lawyers · 2024–2025
+                </p>
+                <p className="text-steel-silver text-sm leading-relaxed flex-1">
+                  Recognized through a rigorous, data-driven process combining confidential client feedback and peer evaluation from fellow legal professionals.
+                </p>
+              </div>
+            </div>
+
+            {/* Best Lawyers — Listed Lawyer */}
+            <div className="bg-obsidian-graphite border border-muted-gold/20 rounded-lg overflow-hidden group hover:border-muted-gold/50 transition-colors duration-300 flex flex-col">
+              <div className="flex items-center justify-center py-10 bg-gradient-to-b from-charcoal-slate/50 to-obsidian-graphite">
+                <div className="relative w-40 h-40 flex items-center justify-center">
+                  <Image
+                    src="/images/badge-best-lawyers-lawyer.png"
+                    alt="Best Lawyers Listed Lawyer Badge"
+                    fill
+                    className="object-contain drop-shadow-lg"
+                    sizes="160px"
+                  />
+                </div>
+              </div>
+              <div className="p-8 flex-1 flex flex-col">
+                <h3 className="font-display text-xl text-chrome-highlight mb-2">
+                  Best Lawyers in America®
+                </h3>
+                <p className="text-muted-gold text-sm font-semibold mb-3">
+                  Best Lawyers · Listed Attorney
+                </p>
+                <p className="text-steel-silver text-sm leading-relaxed flex-1">
+                  Peer-reviewed recognition maintained for over 40 years. Mike Yonke is listed in Best Lawyers for personal injury and medical malpractice litigation.
+                </p>
+              </div>
+            </div>
+
+            {/* Avvo Rating — Top Rated */}
+            <div className="bg-obsidian-graphite border border-muted-gold/20 rounded-lg overflow-hidden group hover:border-muted-gold/50 transition-colors duration-300 flex flex-col">
+              <div className="flex items-center justify-center py-10 bg-gradient-to-b from-charcoal-slate/50 to-obsidian-graphite">
+                <div className="relative w-40 h-40 flex items-center justify-center">
+                  <Image
+                    src="/images/badge-avvo-top-rated.png"
+                    alt="Avvo Top Rated Personal Injury Badge"
+                    fill
+                    className="object-contain drop-shadow-lg"
+                    sizes="160px"
+                  />
+                </div>
+              </div>
+              <div className="p-8 flex-1 flex flex-col">
+                <h3 className="font-display text-xl text-chrome-highlight mb-2">
+                  Avvo Rating
+                </h3>
+                <p className="text-muted-gold text-sm font-semibold mb-3">
+                  Avvo · Top Rated Personal Injury
+                </p>
+                <p className="text-steel-silver text-sm leading-relaxed flex-1">
+                  An independent, data-driven measure of professional background and standing. Top-rated attorneys cannot purchase this recognition.
+                </p>
+              </div>
+            </div>
+
+            {/* Lawyers of Distinction */}
+            <div className="bg-obsidian-graphite border border-muted-gold/20 rounded-lg overflow-hidden group hover:border-muted-gold/50 transition-colors duration-300 flex flex-col">
+              <div className="flex items-center justify-center py-10 bg-gradient-to-b from-charcoal-slate/50 to-obsidian-graphite">
+                <div className="relative w-40 h-40 flex items-center justify-center">
+                  <Image
+                    src="/images/badge-lawyers-distinction.png"
+                    alt="Lawyers of Distinction Badge"
+                    fill
+                    className="object-contain drop-shadow-lg"
+                    sizes="160px"
+                  />
+                </div>
+              </div>
+              <div className="p-8 flex-1 flex flex-col">
+                <h3 className="font-display text-xl text-chrome-highlight mb-2">
+                  Lawyers of Distinction
+                </h3>
+                <p className="text-muted-gold text-sm font-semibold mb-3">
+                  Lawyers of Distinction · Selected Member
+                </p>
+                <p className="text-steel-silver text-sm leading-relaxed flex-1">
+                  Attorney-selected recognition for professional excellence in personal injury and medical malpractice litigation across 30 practice areas.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured awards */}
+      <section className="bg-obsidian-graphite py-20 px-4 lg:px-8">
         <div className="mx-auto max-w-5xl">
           <h2 className="font-display text-2xl text-chrome-highlight mb-12 text-center">
             Featured Recognition
