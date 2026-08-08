@@ -23,7 +23,7 @@ const AWARDS = [
     year: "2024–2025",
     description:
       "Recognized through a rigorous, data-driven process combining confidential client feedback and peer evaluation from fellow legal professionals.",
-    image: "/images/badge-best-lawyers-firms.png",
+    image: "/images/yl-best-law-firms.png",
     tier: "Tier 1",
   },
   {
@@ -247,18 +247,17 @@ export default function RecognitionPage() {
         </div>
       </section>
 
-      {/* Top 100 Certificate — Large Display */}
+      {/* Top 100 Certificate — Full Width Display */}
       <section className="bg-charcoal-slate py-20 px-4 lg:px-8">
-        <div className="mx-auto max-w-3xl">
-          <div className="relative w-full aspect-[8.5/11] rounded-lg overflow-hidden shadow-2xl shadow-muted-gold/30">
-            <Image
-              src="/images/badge-top-100.png"
-              alt="Top 100 Lawyers 2026 Attorney of the Year Certificate"
-              fill
-              className="object-cover"
-              priority
-            />
-          </div>
+        <div className="mx-auto max-w-5xl">
+          <Image
+            src="/images/badge-top-100.png"
+            alt="Top 100 Lawyers 2026 Attorney of the Year Certificate"
+            width={1000}
+            height={1300}
+            className="w-full h-auto rounded-lg shadow-2xl shadow-muted-gold/30"
+            priority
+          />
         </div>
       </section>
 
@@ -274,18 +273,18 @@ export default function RecognitionPage() {
                 key={award.title}
                 className="bg-obsidian-graphite border border-muted-gold/20 rounded-lg overflow-hidden group hover:border-muted-gold/50 transition-colors duration-300 flex flex-col"
               >
-                <div className="flex items-center justify-center py-10 bg-gradient-to-b from-charcoal-slate/50 to-obsidian-graphite">
-                  <div className="relative w-40 h-40 flex items-center justify-center">
+                <div className="flex items-center justify-center py-6 px-4 bg-gradient-to-b from-charcoal-slate/50 to-obsidian-graphite min-h-[280px]">
+                  <div className="relative w-48 h-48 flex items-center justify-center">
                     <Image
                       src={award.image}
                       alt={award.title}
                       fill
                       className="object-contain drop-shadow-lg"
-                      sizes="160px"
+                      sizes="192px"
                     />
                   </div>
                 </div>
-                <div className="p-8 flex-1 flex flex-col">
+                <div className="p-6 flex-1 flex flex-col">
                   {award.tier && (
                     <span className="inline-block bg-muted-gold/15 text-muted-gold text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-4">
                       {award.tier}
