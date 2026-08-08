@@ -23,7 +23,7 @@ const AWARDS = [
     year: "2024–2025",
     description:
       "Recognized through a rigorous, data-driven process combining confidential client feedback and peer evaluation from fellow legal professionals.",
-    image: "/images/yl-best-law-firms.png",
+    image: "/images/badge-best-lawyers-firms.png",
     tier: "Tier 1",
   },
   {
@@ -41,9 +41,8 @@ const AWARDS = [
     year: "Listed Attorney",
     description:
       "Peer-reviewed recognition maintained for over 40 years. Mike Yonke is listed in Best Lawyers for his work in personal injury and medical malpractice litigation.",
-    image: "https://www.bestlawyers.com/Logos/ListedLawyer/67207/US/32/O/Basic.png",
+    image: "/images/badge-best-lawyers-lawyer.png",
     tier: null,
-    externalLink: "https://www.bestlawyers.com/lawyers/michael-t-mike-yonke/67207",
   },
   {
     title: "Best Lawyers — Listed Firm",
@@ -51,9 +50,26 @@ const AWARDS = [
     year: "Yonke Law",
     description:
       "Yonke Law is recognized as a Best Lawyers listed firm — an independent, peer-reviewed distinction based on quality of practice and professional standing.",
-    image: "https://www.bestlawyers.com/Logos/ListedFirm/39523/US/32/O/Basic.png",
+    image: "/images/badge-best-lawyers-firms.png",
     tier: null,
-    externalLink: "https://www.bestlawyers.com/firms/yonke-law/39523/US",
+  },
+  {
+    title: "Avvo Top Rated",
+    organization: "Avvo",
+    year: "Personal Injury",
+    description:
+      "An independent, data-driven measure of professional background and standing. Top-rated attorneys cannot purchase this recognition.",
+    image: "/images/badge-avvo-top-rated.png",
+    tier: null,
+  },
+  {
+    title: "Lawyers of Distinction",
+    organization: "Lawyers of Distinction",
+    year: "Selected Member",
+    description:
+      "Attorney-selected recognition for professional excellence in personal injury and medical malpractice litigation across 30 practice areas.",
+    image: "/images/badge-lawyers-distinction.png",
+    tier: null,
   },
 ];
 
@@ -104,7 +120,7 @@ export default function RecognitionPage() {
             Professional Recognition
           </div>
           <h1 className="font-display text-4xl md:text-5xl lg:text-6xl text-chrome-highlight leading-[1.15] mb-6">
-            Recognized by peers. Proven by results.
+            Recognized by peers.<br />Proven by results.
           </h1>
           <p className="text-lg md:text-xl text-steel-silver leading-relaxed max-w-2xl mx-auto">
             We don&apos;t chase awards. But we respect the ones that are earned through
@@ -231,194 +247,45 @@ export default function RecognitionPage() {
         </div>
       </section>
 
-      {/* Badge Grid — Professional Recognition */}
+      {/* Top 100 Certificate — Large Display */}
       <section className="bg-charcoal-slate py-20 px-4 lg:px-8">
-        <div className="mx-auto max-w-5xl">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Top 100 Lawyers Badge + Certificate */}
-            <div className="flex flex-col">
-              <div className="bg-obsidian-graphite border border-muted-gold/20 rounded-lg overflow-hidden flex flex-col h-full">
-                <div className="flex items-center justify-center py-10 bg-gradient-to-b from-charcoal-slate/50 to-obsidian-graphite">
-                  <div className="relative w-40 h-40 flex items-center justify-center">
-                    <Image
-                      src="/images/badge-top-100.png"
-                      alt="Top 100 Lawyers Badge"
-                      fill
-                      className="object-contain drop-shadow-lg"
-                      sizes="160px"
-                    />
-                  </div>
-                </div>
-                <div className="p-8 flex-1">
-                  <h3 className="font-display text-xl text-chrome-highlight mb-2">
-                    Top 100 Lawyers
-                  </h3>
-                  <p className="text-muted-gold text-sm font-semibold mb-3">
-                    top100lawyers.com · 2026
-                  </p>
-                  <p className="text-steel-silver text-sm leading-relaxed">
-                    Featured in the Spring 2026 edition of Top 100 Lawyers magazine. Recognition of lifetime achievement and America&apos;s Most Influential Attorneys.
-                  </p>
-                </div>
-              </div>
-              {/* Certificate underneath */}
-              <div className="mt-4 bg-obsidian-graphite border border-muted-gold/20 rounded-lg overflow-hidden p-6">
-                <p className="text-xs uppercase tracking-[0.2em] text-muted-gold mb-4 font-semibold">
-                  2026 Attorney of the Year Certificate
-                </p>
-                <a
-                  href="/resources/Top-100-Certificate.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-muted-gold/15 hover:bg-muted-gold/25 text-muted-gold font-semibold px-4 py-2 rounded transition-colors text-sm w-full justify-center"
-                >
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                  View Certificate
-                </a>
-              </div>
-            </div>
-
-            {/* Best Lawyers — Firms */}
-            <div className="bg-obsidian-graphite border border-muted-gold/20 rounded-lg overflow-hidden group hover:border-muted-gold/50 transition-colors duration-300 flex flex-col">
-              <div className="flex items-center justify-center py-10 bg-gradient-to-b from-charcoal-slate/50 to-obsidian-graphite">
-                <div className="relative w-40 h-40 flex items-center justify-center">
-                  <Image
-                    src="/images/badge-best-lawyers-firms.png"
-                    alt="Best Lawyers Firms Badge"
-                    fill
-                    className="object-contain drop-shadow-lg"
-                    sizes="160px"
-                  />
-                </div>
-              </div>
-              <div className="p-8 flex-1 flex flex-col">
-                <h3 className="font-display text-xl text-chrome-highlight mb-2">
-                  Best Law Firms®
-                </h3>
-                <p className="text-muted-gold text-sm font-semibold mb-3">
-                  U.S. News &amp; World Report / Best Lawyers · 2024–2025
-                </p>
-                <p className="text-steel-silver text-sm leading-relaxed flex-1">
-                  Recognized through a rigorous, data-driven process combining confidential client feedback and peer evaluation from fellow legal professionals.
-                </p>
-              </div>
-            </div>
-
-            {/* Best Lawyers — Listed Lawyer */}
-            <div className="bg-obsidian-graphite border border-muted-gold/20 rounded-lg overflow-hidden group hover:border-muted-gold/50 transition-colors duration-300 flex flex-col">
-              <div className="flex items-center justify-center py-10 bg-gradient-to-b from-charcoal-slate/50 to-obsidian-graphite">
-                <div className="relative w-40 h-40 flex items-center justify-center">
-                  <Image
-                    src="/images/badge-best-lawyers-lawyer.png"
-                    alt="Best Lawyers Listed Lawyer Badge"
-                    fill
-                    className="object-contain drop-shadow-lg"
-                    sizes="160px"
-                  />
-                </div>
-              </div>
-              <div className="p-8 flex-1 flex flex-col">
-                <h3 className="font-display text-xl text-chrome-highlight mb-2">
-                  Best Lawyers in America®
-                </h3>
-                <p className="text-muted-gold text-sm font-semibold mb-3">
-                  Best Lawyers · Listed Attorney
-                </p>
-                <p className="text-steel-silver text-sm leading-relaxed flex-1">
-                  Peer-reviewed recognition maintained for over 40 years. Mike Yonke is listed in Best Lawyers for personal injury and medical malpractice litigation.
-                </p>
-              </div>
-            </div>
-
-            {/* Avvo Rating — Top Rated */}
-            <div className="bg-obsidian-graphite border border-muted-gold/20 rounded-lg overflow-hidden group hover:border-muted-gold/50 transition-colors duration-300 flex flex-col">
-              <div className="flex items-center justify-center py-10 bg-gradient-to-b from-charcoal-slate/50 to-obsidian-graphite">
-                <div className="relative w-40 h-40 flex items-center justify-center">
-                  <Image
-                    src="/images/badge-avvo-top-rated.png"
-                    alt="Avvo Top Rated Personal Injury Badge"
-                    fill
-                    className="object-contain drop-shadow-lg"
-                    sizes="160px"
-                  />
-                </div>
-              </div>
-              <div className="p-8 flex-1 flex flex-col">
-                <h3 className="font-display text-xl text-chrome-highlight mb-2">
-                  Avvo Rating
-                </h3>
-                <p className="text-muted-gold text-sm font-semibold mb-3">
-                  Avvo · Top Rated Personal Injury
-                </p>
-                <p className="text-steel-silver text-sm leading-relaxed flex-1">
-                  An independent, data-driven measure of professional background and standing. Top-rated attorneys cannot purchase this recognition.
-                </p>
-              </div>
-            </div>
-
-            {/* Lawyers of Distinction */}
-            <div className="bg-obsidian-graphite border border-muted-gold/20 rounded-lg overflow-hidden group hover:border-muted-gold/50 transition-colors duration-300 flex flex-col">
-              <div className="flex items-center justify-center py-10 bg-gradient-to-b from-charcoal-slate/50 to-obsidian-graphite">
-                <div className="relative w-40 h-40 flex items-center justify-center">
-                  <Image
-                    src="/images/badge-lawyers-distinction.png"
-                    alt="Lawyers of Distinction Badge"
-                    fill
-                    className="object-contain drop-shadow-lg"
-                    sizes="160px"
-                  />
-                </div>
-              </div>
-              <div className="p-8 flex-1 flex flex-col">
-                <h3 className="font-display text-xl text-chrome-highlight mb-2">
-                  Lawyers of Distinction
-                </h3>
-                <p className="text-muted-gold text-sm font-semibold mb-3">
-                  Lawyers of Distinction · Selected Member
-                </p>
-                <p className="text-steel-silver text-sm leading-relaxed flex-1">
-                  Attorney-selected recognition for professional excellence in personal injury and medical malpractice litigation across 30 practice areas.
-                </p>
-              </div>
-            </div>
+        <div className="mx-auto max-w-3xl">
+          <div className="relative w-full aspect-[8.5/11] rounded-lg overflow-hidden shadow-2xl shadow-muted-gold/30">
+            <Image
+              src="/images/badge-top-100.png"
+              alt="Top 100 Lawyers 2026 Attorney of the Year Certificate"
+              fill
+              className="object-cover"
+              priority
+            />
           </div>
         </div>
       </section>
 
-      {/* Featured awards */}
+      {/* Featured Recognition */}
       <section className="bg-obsidian-graphite py-20 px-4 lg:px-8">
         <div className="mx-auto max-w-5xl">
           <h2 className="font-display text-2xl text-chrome-highlight mb-12 text-center">
             Featured Recognition
           </h2>
           <div className="grid md:grid-cols-3 gap-10">
-            {AWARDS.map((award) => {
-              const isExternal = award.image.startsWith("http");
-              const cardContent = (
-                <>
+            {AWARDS.map((award) => (
+              <div
+                key={award.title}
+                className="bg-obsidian-graphite border border-muted-gold/20 rounded-lg overflow-hidden group hover:border-muted-gold/50 transition-colors duration-300 flex flex-col"
+              >
                 <div className="flex items-center justify-center py-10 bg-gradient-to-b from-charcoal-slate/50 to-obsidian-graphite">
                   <div className="relative w-40 h-40 flex items-center justify-center">
-                    {isExternal ? (
-                      /* eslint-disable-next-line @next/next/no-img-element */
-                      <img
-                        src={award.image}
-                        alt={award.title}
-                        className="max-w-full max-h-full object-contain drop-shadow-lg"
-                      />
-                    ) : (
-                      <Image
-                        src={award.image}
-                        alt={award.title}
-                        fill
-                        className="object-contain drop-shadow-lg"
-                        sizes="160px"
-                      />
-                    )}
+                    <Image
+                      src={award.image}
+                      alt={award.title}
+                      fill
+                      className="object-contain drop-shadow-lg"
+                      sizes="160px"
+                    />
                   </div>
                 </div>
-                <div className="p-8">
+                <div className="p-8 flex-1 flex flex-col">
                   {award.tier && (
                     <span className="inline-block bg-muted-gold/15 text-muted-gold text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-4">
                       {award.tier}
@@ -430,32 +297,12 @@ export default function RecognitionPage() {
                   <p className="text-muted-gold text-sm font-semibold mb-3">
                     {award.organization} · {award.year}
                   </p>
-                  <p className="text-steel-silver text-sm leading-relaxed">
+                  <p className="text-steel-silver text-sm leading-relaxed flex-1">
                     {award.description}
                   </p>
                 </div>
-                </>
-              );
-
-              return "externalLink" in award && award.externalLink ? (
-                <a
-                  key={award.title}
-                  href={award.externalLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-obsidian-graphite border border-muted-gold/20 rounded-lg overflow-hidden group hover:border-muted-gold/50 transition-colors duration-300"
-                >
-                  {cardContent}
-                </a>
-              ) : (
-                <div
-                  key={award.title}
-                  className="bg-obsidian-graphite border border-muted-gold/20 rounded-lg overflow-hidden group hover:border-muted-gold/50 transition-colors duration-300"
-                >
-                  {cardContent}
-                </div>
-              );
-            })}
+              </div>
+            ))}
           </div>
         </div>
       </section>
