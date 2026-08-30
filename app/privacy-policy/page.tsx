@@ -19,7 +19,7 @@ export default function PrivacyPolicyPage() {
             Privacy Policy
           </h1>
           <p className="text-steel-silver/60 text-sm">
-            Effective Date: January 1, 2025 — Last Updated: May 31, 2026
+            Effective Date: January 1, 2025 — Last Updated: August 30, 2026
           </p>
         </div>
       </section>
@@ -225,6 +225,52 @@ export default function PrivacyPolicyPage() {
               do not knowingly collect personal information from children. If you
               believe we have collected information from a minor, please contact
               us immediately so we can delete it.
+            </p>
+          </div>
+
+          {/* Text Messaging */}
+          <div>
+            <h2 className="font-display text-xl text-chrome-highlight mb-3">
+              Text Messaging
+            </h2>
+            <p className="mb-3">
+              If you consent to receive text messages from Yonke Law, we use your
+              mobile number only to communicate with you about your inquiry or
+              your case. <strong className="text-chrome-highlight">No mobile
+              information will be shared with third parties or affiliates for
+              marketing or promotional purposes.</strong> Opt-in consent data is
+              excluded from all information sharing described elsewhere in this
+              policy.
+            </p>
+            <p className="mb-3">
+              Consent to receive text messages is optional. It is never a
+              condition of a consultation or of representation, and you can
+              submit any form on this site without agreeing to texts.
+            </p>
+            <p className="mb-3">
+              Message frequency varies. Message and data rates may apply. Reply
+              STOP to any message to opt out, or HELP for help. You may also
+              withdraw consent at any time by calling{" "}
+              <a
+                href="tel:+18162216400"
+                className="text-muted-gold hover:text-chrome-highlight transition-colors"
+              >
+                816-221-6400
+              </a>{" "}
+              or emailing{" "}
+              <a
+                href="mailto:mike@yonke.law"
+                className="text-muted-gold hover:text-chrome-highlight transition-colors"
+              >
+                mike@yonke.law
+              </a>
+              .
+            </p>
+            <p>
+              We retain a record of your consent — the number, the date and time,
+              and the exact language you agreed to — for as long as required to
+              demonstrate compliance with applicable telecommunications rules.
+              This record is kept even after you opt out.
             </p>
           </div>
 

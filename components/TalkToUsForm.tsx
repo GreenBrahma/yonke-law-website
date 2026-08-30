@@ -27,6 +27,21 @@ export function TalkToUsForm() {
     const email = data.get("email") as string;
     const caseType = data.get("case_type") as string;
     const message = data.get("message") as string;
+    const smsConsent = data.get("sms_consent") === "on";
+
+    // A text-message consent with no number to text is incoherent — stop here.
+    if (smsConsent && !phone.trim()) {
+      setState("error");
+      setErrorMsg(
+        "Add a phone number, or uncheck the text-message box. We need a number to text you."
+      );
+      return;
+    }
+
+    const consentText =
+      "I agree to receive text messages from Yonke Law about my inquiry and my case. Message frequency varies. Message and data rates may apply. Reply STOP to opt out or HELP for help.";
+    const consentVersion = "2026-08-30-v1";
+    const consentTimestamp = new Date().toISOString();
 
     // Build a professional HTML email body
     const htmlBody = `
@@ -58,6 +73,23 @@ export function TalkToUsForm() {
           <p style="font-weight: 600; color: #555; margin: 0 0 8px 0;">Message</p>
           <p style="color: #1a1a2e; margin: 0; white-space: pre-wrap;">${escapeHtml(message)}</p>
         </div>
+        ${
+          smsConsent
+            ? `<div style="border: 1px solid #2c6448; background: #f2f8f4; padding: 16px; margin: 16px 0;">
+          <p style="font-weight: 600; color: #2c6448; margin: 0 0 8px 0;">SMS consent granted — retain this record</p>
+          <table style="width: 100%; border-collapse: collapse; font-size: 13px; color: #1a1a2e;">
+            <tr><td style="padding: 3px 0; font-weight: 600; width: 130px;">Number</td><td style="padding: 3px 0;">${escapeHtml(phone)}</td></tr>
+            <tr><td style="padding: 3px 0; font-weight: 600;">Timestamp (UTC)</td><td style="padding: 3px 0;">${consentTimestamp}</td></tr>
+            <tr><td style="padding: 3px 0; font-weight: 600;">Wording version</td><td style="padding: 3px 0;">${consentVersion}</td></tr>
+            <tr><td style="padding: 3px 0; font-weight: 600; vertical-align: top;">Agreed to</td><td style="padding: 3px 0;">${escapeHtml(consentText)}</td></tr>
+            <tr><td style="padding: 3px 0; font-weight: 600;">Source</td><td style="padding: 3px 0;">https://yonke.law/talk-to-us</td></tr>
+          </table>
+          <p style="font-size: 11px; color: #555; margin: 10px 0 0 0;">Log this against the matter in Filevine. Carriers can demand proof of consent for a specific number.</p>
+        </div>`
+            : `<div style="border: 1px solid #c9a84c; background: #fdfaf1; padding: 12px; margin: 16px 0;">
+          <p style="font-size: 13px; color: #1a1a2e; margin: 0;"><strong>No SMS consent.</strong> Do not text this person. Phone and email only.</p>
+        </div>`
+        }
         <p style="font-size: 12px; color: #999; margin-top: 24px;">
           Submitted via yonke.law Talk to Us form. Reply goes to the person who submitted.
         </p>
@@ -70,7 +102,7 @@ export function TalkToUsForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           to: ["mike@yonke.law", "jyonke@yonke.law", "michelle@yonke.law"],
-          subject: `New Inquiry: ${name} — ${caseType || "General"}`,
+          subject: `New Inquiry: ${name} — ${caseType || "General"}${smsConsent ? " [SMS OK]" : ""}`,
           body: htmlBody,
         }),
       });
@@ -222,6 +254,30 @@ export function TalkToUsForm() {
       </div>
 
       <TalkToUsFileInput />
+
+      <div className="flex items-start gap-3">
+        <input
+          type="checkbox"
+          id="sms-consent"
+          name="sms_consent"
+          className="mt-1 h-4 w-4 flex-none rounded-sm border border-steel-silver/40 bg-obsidian-graphite accent-muted-gold focus:outline-none focus:ring-2 focus:ring-muted-gold/50"
+        />
+        <label
+          htmlFor="sms-consent"
+          className="text-steel-silver/80 text-xs leading-relaxed"
+        >
+          I agree to receive text messages from Yonke Law about my inquiry and my
+          case. Message frequency varies. Message and data rates may apply. Reply
+          STOP to opt out or HELP for help. See our{" "}
+          <a
+            href="/privacy-policy"
+            className="text-muted-gold hover:text-chrome-highlight transition-colors underline"
+          >
+            Privacy Policy
+          </a>
+          . Optional — you can send this form without agreeing.
+        </label>
+      </div>
 
       {state === "error" && errorMsg && (
         <div className="bg-signal-red/10 border border-signal-red/30 rounded-lg p-4">
