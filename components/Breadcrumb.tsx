@@ -27,6 +27,7 @@ const LABEL_OVERRIDES: Record<string, string> = {
   faq: "FAQ",
   "offer-review": "Offer Review",
   "people-portal": "People First",
+  "how-to-prepare-for-a-deposition": "How to Prepare for a Deposition",
 };
 
 /** Convert a URL slug to a human-readable label */

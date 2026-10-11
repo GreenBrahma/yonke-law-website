@@ -32,6 +32,8 @@ type Props = {
   orientation?: "vertical" | "wide";
   /** Optional start time in seconds */
   start?: number;
+  /** Mount with the iframe already loaded (used after a chapter click) */
+  initiallyActive?: boolean;
   className?: string;
 };
 
@@ -41,9 +43,10 @@ export function YouTubeFacade({
   alt,
   orientation = "wide",
   start,
+  initiallyActive = false,
   className = "",
 }: Props) {
-  const [active, setActive] = useState(false);
+  const [active, setActive] = useState(initiallyActive);
 
   const aspect = orientation === "vertical" ? "aspect-[9/16]" : "aspect-video";
 
