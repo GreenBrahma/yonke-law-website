@@ -53,6 +53,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/spotlight-corner`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
     { url: `${BASE}/resources`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
     { url: `${BASE}/resources/offer-review`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
+    // Fixed lastmod: bump this date whenever the guide's content changes.
+    { url: `${BASE}/how-to-prepare-for-a-deposition`, lastModified: new Date("2026-10-11"), changeFrequency: "monthly", priority: 0.7 },
     { url: `${BASE}/privacy-policy`, lastModified: now, changeFrequency: "yearly", priority: 0.2 },
     { url: `${BASE}/disclaimer`, lastModified: now, changeFrequency: "yearly", priority: 0.2 },
   ];

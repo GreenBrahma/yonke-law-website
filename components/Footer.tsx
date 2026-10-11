@@ -45,6 +45,7 @@ const FOOTER_COLUMNS = {
     links: [
       { label: "Just Happened?", href: "/just-happened" },
       { label: "People First", href: "/people-first" },
+      { label: "How to Prepare for a Deposition", href: "/how-to-prepare-for-a-deposition" },
       { label: "Checklists", href: "/resources" },
       { label: "FAQ", href: "/resources" },
       { label: "Missouri Law", href: "/resources" },

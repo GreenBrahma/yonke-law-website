@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ConciergeHero } from "@/components/ConciergeHero";
 import { MoodMonitor } from "@/components/MoodMonitor";
+import { YouTubeFacade } from "@/components/YouTubeFacade";
 
 /* -------------------------------------------------------
    Yonke Law — Homepage
@@ -378,49 +379,51 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Featured: Depositions panel */}
+          {/* Featured: Deposition prep — doorway to /how-to-prepare-for-a-deposition.
+              Embedded by single video ID (never a playlist) via a click-to-load
+              facade so no YouTube requests fire until the visitor presses play.
+              Layout: desktop = video left, text + button right;
+                      mobile  = text, video, button (stacked). */}
           <div className="mb-8">
             <div className="bg-charcoal-slate rounded-xl border border-muted-gold/30 overflow-hidden">
-              <div className="grid md:grid-cols-2 gap-0">
-                {/* Left: Video */}
-                <div className="aspect-video md:aspect-auto md:min-h-[320px]">
-                  <iframe
-                    src="https://www.youtube.com/embed/om6L1RHfKic?rel=0"
-                    title="Preparing You for a Deposition"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    className="w-full h-full"
-                    loading="lazy"
-                  />
-                </div>
-                {/* Right: Context */}
-                <div className="p-8 md:p-10 flex flex-col justify-center">
+              <div className="grid gap-8 p-8 md:grid-cols-[minmax(0,300px)_1fr] md:gap-12 md:p-10 md:items-center">
+                {/* Text */}
+                <div className="order-1 md:col-start-2 md:row-start-1 md:self-end">
                   <p className="text-xs uppercase tracking-widest text-muted-gold mb-3">
-                    Every case. Every situation.
+                    Deposition Prep
                   </p>
                   <h3 className="font-display text-2xl md:text-3xl text-chrome-highlight mb-4">
-                    Preparing you for a deposition.
+                    Got a deposition coming up? Start here.
                   </h3>
-                  <div className="space-y-3 text-steel-silver leading-relaxed text-sm">
-                    <p>
-                      A deposition is one of the most important moments in any
-                      case. It&apos;s the other side&apos;s chance to question
-                      you under oath — and what you say becomes permanent
-                      record.
-                    </p>
-                    <p>
-                      Whether your case involves a car accident, a workplace
-                      injury, medical malpractice, or wrongful death — if it
-                      goes to litigation, you will almost certainly be deposed.
-                      The difference between being prepared and being surprised
-                      can shape the entire outcome.
-                    </p>
-                    <p>
-                      We prepare every client personally. This video walks you
-                      through what to expect, how to answer, and the mistakes
-                      that cost people money.
-                    </p>
-                  </div>
+                  <p className="text-steel-silver leading-relaxed">
+                    A deposition can feel intimidating. Mike walks you through
+                    exactly what to expect, the four rules to follow, and the
+                    answers that protect your case.
+                  </p>
+                </div>
+
+                {/* Video (vertical Short) */}
+                <figure className="order-2 mx-auto w-full max-w-[300px] md:col-start-1 md:row-start-1 md:row-span-2">
+                  <YouTubeFacade
+                    videoId="q-_tGOFkYjs"
+                    title="How to prepare for your deposition"
+                    alt="Mike explains how to prepare for your deposition."
+                    orientation="vertical"
+                    className="border border-steel-silver/10"
+                  />
+                  <figcaption className="mt-2 text-xs text-steel-silver/80 text-center">
+                    Dramatization. Actors portray people in this video.
+                  </figcaption>
+                </figure>
+
+                {/* Button */}
+                <div className="order-3 md:col-start-2 md:row-start-2 md:self-start">
+                  <Link
+                    href="/how-to-prepare-for-a-deposition"
+                    className="inline-flex items-center gap-2 rounded bg-muted-gold px-6 py-3 font-semibold text-obsidian-graphite hover:bg-muted-gold/90 transition-colors duration-200"
+                  >
+                    Read the full deposition guide <span aria-hidden="true">→</span>
+                  </Link>
                 </div>
               </div>
             </div>
