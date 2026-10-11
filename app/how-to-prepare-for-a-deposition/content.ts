@@ -13,7 +13,7 @@
 
 export const PAGE_URL = "https://yonke.law/how-to-prepare-for-a-deposition";
 
-export const PUBLISHED = "2026-10-11"; // TODO: set to actual go-live date
+export const PUBLISHED = "2026-10-11"; // go-live date, approved by Geoff 2026-10-11
 export const MODIFIED = "2026-10-11";
 
 /* ---- Video ---- */
@@ -24,7 +24,7 @@ export const VIDEO_DESCRIPTION =
   "What a deposition is, why it is defense and not offense, the four rules (Listen, Pause, Answer, Stop), the five safe answers, the three phases of a deposition, and how we prepare together.";
 export const VIDEO_DURATION_ISO = "PT4M19S"; // measured from the source file: 4:19
 export const VIDEO_DURATION_SECONDS = 259;
-export const VIDEO_UPLOAD_DATE = "2026-10-11"; // TODO: confirm actual YouTube upload date
+export const VIDEO_UPLOAD_DATE = "2026-10-11"; // approved 2026-10-11
 export const YOUTUBE_CHANNEL = "https://www.youtube.com/@YonkeLaw";
 
 export type Chapter = { start: number; label: string };

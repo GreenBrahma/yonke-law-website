@@ -72,6 +72,8 @@ export const metadata: Metadata = {
 const ORG_ID = "https://yonke.law/#legalservice";
 const PERSON_ID = "https://yonke.law/about#michael-t-yonke";
 const THUMBNAIL = `https://i.ytimg.com/vi/${VIDEO_ID}/hqdefault.jpg`;
+// Google Business Profile share link (redirects to the profile)
+const GOOGLE_BUSINESS_PROFILE = "https://share.google/KGmC2h0dII0niNBMW";
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -94,8 +96,7 @@ const jsonLd = {
         jobTitle: "Founding Attorney",
         url: "https://yonke.law/about",
         worksFor: { "@id": ORG_ID },
-        // TODO: add the Google Business Profile URL once confirmed
-        sameAs: ["https://yonke.law/about", YOUTUBE_CHANNEL],
+        sameAs: ["https://yonke.law/about", YOUTUBE_CHANNEL, GOOGLE_BUSINESS_PROFILE],
       },
       publisher: { "@id": ORG_ID },
       video: { "@id": `${PAGE_URL}#video` },
