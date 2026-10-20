@@ -56,6 +56,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Fixed lastmod: bump this date whenever the guide's content changes.
     { url: `${BASE}/how-to-prepare-for-a-deposition`, lastModified: new Date("2026-10-11"), changeFrequency: "monthly", priority: 0.7 },
     { url: `${BASE}/privacy-policy`, lastModified: now, changeFrequency: "yearly", priority: 0.2 },
+    { url: `${BASE}/terms-and-conditions`, lastModified: now, changeFrequency: "yearly", priority: 0.2 },
     { url: `${BASE}/disclaimer`, lastModified: now, changeFrequency: "yearly", priority: 0.2 },
   ];
 

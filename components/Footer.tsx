@@ -187,6 +187,10 @@ export function Footer() {
               Privacy
             </Link>
             <span aria-hidden="true">·</span>
+            <Link href="/terms-and-conditions" className="hover:text-chrome-highlight transition-colors duration-200">
+              Terms of Service
+            </Link>
+            <span aria-hidden="true">·</span>
             <Link href="/disclaimer" className="hover:text-chrome-highlight transition-colors duration-200">
               Disclaimer
             </Link>

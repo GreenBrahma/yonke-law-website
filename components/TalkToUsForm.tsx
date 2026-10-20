@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import Link from "next/link";
 import { TalkToUsFileInput } from "@/components/TalkToUsFileInput";
 
 type FormState = "idle" | "sending" | "sent" | "error";
@@ -27,6 +28,7 @@ export function TalkToUsForm() {
     const email = data.get("email") as string;
     const caseType = data.get("case_type") as string;
     const message = data.get("message") as string;
+    const smsConsent = data.get("sms_consent") === "yes";
 
     // Build a professional HTML email body
     const htmlBody = `
@@ -50,6 +52,10 @@ export function TalkToUsForm() {
             <td style="padding: 8px 12px; color: #1a1a2e;">${phone ? escapeHtml(phone) : "<em style='color: #999;'>Not provided</em>"}</td>
           </tr>
           <tr style="background: #f8f8f8;">
+            <td style="padding: 8px 12px; font-weight: 600; color: #555; vertical-align: top;">SMS consent</td>
+            <td style="padding: 8px 12px; color: #1a1a2e;">${smsConsent ? "Yes, opted in to customer care texts" : "No"}</td>
+          </tr>
+          <tr>
             <td style="padding: 8px 12px; font-weight: 600; color: #555; vertical-align: top;">Category</td>
             <td style="padding: 8px 12px; color: #1a1a2e;">${caseType ? escapeHtml(caseType) : "<em style='color: #999;'>Not selected</em>"}</td>
           </tr>
@@ -158,6 +164,33 @@ export function TalkToUsForm() {
             placeholder="(xxx) xxx-xxxx"
           />
         </div>
+      </div>
+
+      <div className="flex items-start gap-3">
+        <input
+          type="checkbox"
+          id="sms_consent"
+          name="sms_consent"
+          value="yes"
+          className="mt-1 h-4 w-4 shrink-0 accent-muted-gold"
+        />
+        <label
+          htmlFor="sms_consent"
+          className="text-steel-silver/80 text-xs leading-relaxed"
+        >
+          By checking the box, you are expressly consenting to receive customer
+          care SMS communication from Yonke Law, LLC. Message and data rates may
+          apply. Message frequency varies. To opt-out, reply STOP. For help,
+          reply HELP. View our{" "}
+          <Link href="/privacy-policy" className="text-muted-gold hover:underline">
+            Privacy Policy
+          </Link>{" "}
+          and{" "}
+          <Link href="/terms-and-conditions" className="text-muted-gold hover:underline">
+            Terms of Service
+          </Link>
+          .
+        </label>
       </div>
 
       <div>
