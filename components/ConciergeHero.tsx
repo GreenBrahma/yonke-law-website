@@ -3,6 +3,8 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { SmsConsent } from "@/components/SmsConsent";
+import { sendToLeadDocket } from "@/lib/lead-docket";
 
 /* -------------------------------------------------------
    ConciergeHero — Section 2 of homepage-spec.md
@@ -221,6 +223,7 @@ export function ConciergeHero() {
   const [contactSent, setContactSent] = useState(false);
   const [contactSending, setContactSending] = useState(false);
   const [contactForm, setContactForm] = useState({ name: "", phone: "", email: "", description: "" });
+  const [smsConsent, setSmsConsent] = useState(false);
 
   // Detected topic from the conversation
   const [detectedTopic, setDetectedTopic] = useState<TopicId | null>(null);
@@ -301,6 +304,7 @@ export function ConciergeHero() {
     setContactSent(false);
     setContactSending(false);
     setContactForm({ name: "", phone: "", email: "", description: "" });
+    setSmsConsent(false);
     setDetectedTopic(null);
     setResourceCardsShown(false);
   }
@@ -320,12 +324,23 @@ export function ConciergeHero() {
         <tr><td style="padding:8px;border:1px solid #ccc;font-weight:bold;">Name</td><td style="padding:8px;border:1px solid #ccc;">${contactForm.name}</td></tr>
         <tr><td style="padding:8px;border:1px solid #ccc;font-weight:bold;">Phone</td><td style="padding:8px;border:1px solid #ccc;">${contactForm.phone}</td></tr>
         <tr><td style="padding:8px;border:1px solid #ccc;font-weight:bold;">Email</td><td style="padding:8px;border:1px solid #ccc;">${contactForm.email}</td></tr>
+        <tr><td style="padding:8px;border:1px solid #ccc;font-weight:bold;">SMS consent</td><td style="padding:8px;border:1px solid #ccc;">${smsConsent ? "Yes, opted in to customer care texts" : "No"}</td></tr>
         <tr><td style="padding:8px;border:1px solid #ccc;font-weight:bold;">Description</td><td style="padding:8px;border:1px solid #ccc;">${contactForm.description}</td></tr>
         <tr><td style="padding:8px;border:1px solid #ccc;font-weight:bold;">Detected Topic</td><td style="padding:8px;border:1px solid #ccc;">${topicLabel}</td></tr>
       </table>
       <h3 style="margin-top:20px;">Chat History</h3>
       <div style="background:#f5f5f5;padding:16px;border-radius:8px;">${chatHistoryHtml}</div>
     `;
+
+    const leadDocket = sendToLeadDocket({
+      name: contactForm.name,
+      phone: contactForm.phone,
+      email: contactForm.email,
+      caseType: detectedTopic ? topicLabel : "",
+      message: contactForm.description,
+      smsConsent,
+      source: "Homepage chat assistant",
+    });
 
     try {
       const res = await fetch("/api/send-mail", {
@@ -338,7 +353,7 @@ export function ConciergeHero() {
         }),
       });
 
-      if (res.ok) {
+      if (res.ok || (await leadDocket)) {
         setContactSent(true);
         setShowContactForm(false);
         setMessages((prev) => [
@@ -362,7 +377,7 @@ export function ConciergeHero() {
     } finally {
       setContactSending(false);
     }
-  }, [contactForm, detectedTopic, messages]);
+  }, [contactForm, detectedTopic, messages, smsConsent]);
 
   function renderMarkdown(text: string): string {
     return text
@@ -649,6 +664,7 @@ export function ConciergeHero() {
                       onChange={(e) => setContactForm((f) => ({ ...f, email: e.target.value }))}
                       className="w-full bg-charcoal-slate border border-steel-silver/20 rounded-lg px-4 py-2.5 text-sm text-chrome-highlight placeholder:text-steel-silver/50 focus:outline-none focus:border-muted-gold transition-colors"
                     />
+                    <SmsConsent id="concierge_sms_consent" checked={smsConsent} onChange={setSmsConsent} compact />
                     <textarea
                       required
                       rows={2}

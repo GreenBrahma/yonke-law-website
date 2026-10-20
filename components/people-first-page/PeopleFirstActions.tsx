@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { SmsConsent } from "@/components/SmsConsent";
+import { sendToLeadDocket } from "@/lib/lead-docket";
 
 type FormState = "idle" | "sending" | "sent" | "error";
 type ActiveForm = "none" | "contact" | "schedule";
@@ -31,6 +33,7 @@ export function PeopleFirstActions() {
     const email = data.get("email") as string;
     const phone = data.get("phone") as string;
     const message = data.get("message") as string;
+    const smsConsent = data.get("sms_consent") === "yes";
 
     const htmlBody = `
       <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px;">
@@ -50,6 +53,10 @@ export function PeopleFirstActions() {
             <td style="padding: 8px 12px; font-weight: 600; color: #555;">Phone</td>
             <td style="padding: 8px 12px;">${phone ? escapeHtml(phone) : "<em style='color: #999;'>Not provided</em>"}</td>
           </tr>
+          <tr style="background: #f8f8f8;">
+            <td style="padding: 8px 12px; font-weight: 600; color: #555;">SMS consent</td>
+            <td style="padding: 8px 12px;">${smsConsent ? "Yes, opted in to customer care texts" : "No"}</td>
+          </tr>
         </table>
         <div style="background: #f8f8f8; border-left: 3px solid #c9a84c; padding: 16px; margin: 16px 0;">
           <p style="font-weight: 600; color: #555; margin: 0 0 8px 0;">Message</p>
@@ -58,6 +65,15 @@ export function PeopleFirstActions() {
         <p style="font-size: 12px; color: #999;">Submitted via People First Portal page.</p>
       </div>
     `;
+
+    const leadDocket = sendToLeadDocket({
+      name,
+      phone,
+      email,
+      message,
+      smsConsent,
+      source: "People First: contact form",
+    });
 
     try {
       const res = await fetch("/api/send-mail", {
@@ -70,8 +86,8 @@ export function PeopleFirstActions() {
         }),
       });
 
-      if (!res.ok) {
-        const err = await res.json();
+      if (!res.ok && !(await leadDocket)) {
+        const err = await res.json().catch(() => ({}));
         throw new Error(err.detail || "Failed to send");
       }
 
@@ -98,11 +114,21 @@ export function PeopleFirstActions() {
     const date = data.get("date") as string;
     const time = data.get("time") as string;
     const notes = data.get("notes") as string;
+    const smsConsent = data.get("sms_consent") === "yes";
 
     // Build start/end in Central Time
     const startISO = `${date}T${time}:00-05:00`;
     const startDate = new Date(startISO);
     const endDate = new Date(startDate.getTime() + 30 * 60 * 1000); // 30 min default
+
+    sendToLeadDocket({
+      name,
+      phone,
+      email,
+      message: `Requested consultation: ${date} at ${time} CT.${notes ? ` Notes: ${notes}` : ""}`,
+      smsConsent,
+      source: "People First: schedule consultation",
+    });
 
     try {
       // Create calendar event
@@ -146,6 +172,7 @@ export function PeopleFirstActions() {
                 <tr><td style="padding: 8px 12px; font-weight: 600; color: #555; width: 120px;">Name</td><td style="padding: 8px 12px;">${escapeHtml(name)}</td></tr>
                 <tr style="background: #f8f8f8;"><td style="padding: 8px 12px; font-weight: 600; color: #555;">Email</td><td style="padding: 8px 12px;"><a href="mailto:${escapeHtml(email)}" style="color: #c9a84c;">${escapeHtml(email)}</a></td></tr>
                 <tr><td style="padding: 8px 12px; font-weight: 600; color: #555;">Phone</td><td style="padding: 8px 12px;">${phone ? escapeHtml(phone) : "Not provided"}</td></tr>
+                <tr style="background: #f8f8f8;"><td style="padding: 8px 12px; font-weight: 600; color: #555;">SMS consent</td><td style="padding: 8px 12px;">${smsConsent ? "Yes, opted in to customer care texts" : "No"}</td></tr>
                 <tr style="background: #f8f8f8;"><td style="padding: 8px 12px; font-weight: 600; color: #555;">Date</td><td style="padding: 8px 12px;">${formattedDate}</td></tr>
                 <tr><td style="padding: 8px 12px; font-weight: 600; color: #555;">Time</td><td style="padding: 8px 12px;">${time} CT</td></tr>
               </table>
@@ -281,6 +308,7 @@ export function PeopleFirstActions() {
                     />
                   </div>
                 </div>
+                <SmsConsent id="pf-phone-sms" />
                 <div>
                   <label
                     htmlFor="pf-email"
@@ -385,6 +413,7 @@ export function PeopleFirstActions() {
                     />
                   </div>
                 </div>
+                <SmsConsent id="sch-phone-sms" />
                 <div>
                   <label
                     htmlFor="sch-email"

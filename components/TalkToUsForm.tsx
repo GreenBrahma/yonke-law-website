@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import Link from "next/link";
+import { SmsConsent } from "@/components/SmsConsent";
+import { sendToLeadDocket } from "@/lib/lead-docket";
 import { TalkToUsFileInput } from "@/components/TalkToUsFileInput";
 
 type FormState = "idle" | "sending" | "sent" | "error";
@@ -23,7 +24,9 @@ export function TalkToUsForm({ source = "Talk to Us page" }: { source?: string }
     const form = e.currentTarget;
     const data = new FormData(form);
 
-    const name = data.get("name") as string;
+    const firstName = ((data.get("first_name") as string) || "").trim();
+    const lastName = ((data.get("last_name") as string) || "").trim();
+    const name = `${firstName} ${lastName}`.trim();
     const phone = data.get("phone") as string;
     const email = data.get("email") as string;
     const caseType = data.get("case_type") as string;
@@ -70,6 +73,18 @@ export function TalkToUsForm({ source = "Talk to Us page" }: { source?: string }
       </div>
     `;
 
+    // Lead Docket intake runs alongside the email notification
+    const leadDocket = sendToLeadDocket({
+      firstName,
+      lastName,
+      phone,
+      email,
+      caseType,
+      message,
+      smsConsent,
+      source,
+    });
+
     try {
       const res = await fetch("/api/send-mail", {
         method: "POST",
@@ -82,7 +97,13 @@ export function TalkToUsForm({ source = "Talk to Us page" }: { source?: string }
       });
 
       if (!res.ok) {
-        const err = await res.json();
+        const err = await res.json().catch(() => ({}));
+        // If the email failed but Lead Docket has the inquiry, it still reached the firm
+        if (await leadDocket) {
+          setState("sent");
+          form.reset();
+          return;
+        }
         throw new Error(err.detail || "Failed to send message");
       }
 
@@ -135,21 +156,39 @@ export function TalkToUsForm({ source = "Talk to Us page" }: { source?: string }
       <div className="grid sm:grid-cols-2 gap-6">
         <div>
           <label
-            htmlFor="name"
+            htmlFor="first_name"
             className="block text-sm text-steel-silver mb-2"
           >
-            Your name
+            First name
           </label>
           <input
             type="text"
-            id="name"
-            name="name"
+            id="first_name"
+            name="first_name"
+            autoComplete="given-name"
             required
             className="w-full bg-obsidian-graphite border border-steel-silver/20 rounded-lg px-4 py-3 text-chrome-highlight placeholder:text-steel-silver/40 focus:outline-none focus:border-muted-gold/50 transition-colors"
-            placeholder="First and last name"
           />
         </div>
         <div>
+          <label
+            htmlFor="last_name"
+            className="block text-sm text-steel-silver mb-2"
+          >
+            Last name
+          </label>
+          <input
+            type="text"
+            id="last_name"
+            name="last_name"
+            autoComplete="family-name"
+            required
+            className="w-full bg-obsidian-graphite border border-steel-silver/20 rounded-lg px-4 py-3 text-chrome-highlight placeholder:text-steel-silver/40 focus:outline-none focus:border-muted-gold/50 transition-colors"
+          />
+        </div>
+      </div>
+
+      <div>
           <label
             htmlFor="phone"
             className="block text-sm text-steel-silver mb-2"
@@ -163,35 +202,9 @@ export function TalkToUsForm({ source = "Talk to Us page" }: { source?: string }
             className="w-full bg-obsidian-graphite border border-steel-silver/20 rounded-lg px-4 py-3 text-chrome-highlight placeholder:text-steel-silver/40 focus:outline-none focus:border-muted-gold/50 transition-colors"
             placeholder="(xxx) xxx-xxxx"
           />
-        </div>
       </div>
 
-      <div className="flex items-start gap-3">
-        <input
-          type="checkbox"
-          id="sms_consent"
-          name="sms_consent"
-          value="yes"
-          className="mt-1 h-4 w-4 shrink-0 accent-muted-gold"
-        />
-        <label
-          htmlFor="sms_consent"
-          className="text-steel-silver/80 text-xs leading-relaxed"
-        >
-          By checking the box, you are expressly consenting to receive customer
-          care SMS communication from Yonke Law, LLC. Message and data rates may
-          apply. Message frequency varies. To opt-out, reply STOP. For help,
-          reply HELP. View our{" "}
-          <Link href="/privacy-policy" className="text-muted-gold hover:underline">
-            Privacy Policy
-          </Link>{" "}
-          and{" "}
-          <Link href="/terms-and-conditions" className="text-muted-gold hover:underline">
-            Terms of Service
-          </Link>
-          .
-        </label>
-      </div>
+      <SmsConsent id="sms_consent" />
 
       <div>
         <label
