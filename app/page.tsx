@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { TalkToUsForm } from "@/components/TalkToUsForm";
 import Image from "next/image";
 import { ConciergeHero } from "@/components/ConciergeHero";
 import { MoodMonitor } from "@/components/MoodMonitor";
@@ -548,103 +549,9 @@ export default function HomePage() {
             usually same business day.
           </p>
 
-          {/* TODO: Wire form submission to /api/intake → Mike's MS365.
-              Per AGENTS.md, this is the People First account creation
-              fallback until the Portal is live. */}
-          <form
-            method="POST"
-            action="/api/intake"
-            className="space-y-4 text-left"
-          >
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div>
-                <label
-                  htmlFor="first"
-                  className="block text-sm text-steel-silver mb-2"
-                >
-                  First name
-                </label>
-                <input
-                  id="first"
-                  name="first"
-                  type="text"
-                  autoComplete="given-name"
-                  required
-                  className="w-full bg-obsidian-graphite border border-steel-silver/30 rounded px-4 py-3 text-chrome-highlight focus:outline-none focus:border-muted-gold"
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="last"
-                  className="block text-sm text-steel-silver mb-2"
-                >
-                  Last name
-                </label>
-                <input
-                  id="last"
-                  name="last"
-                  type="text"
-                  autoComplete="family-name"
-                  required
-                  className="w-full bg-obsidian-graphite border border-steel-silver/30 rounded px-4 py-3 text-chrome-highlight focus:outline-none focus:border-muted-gold"
-                />
-              </div>
-            </div>
-            <div>
-              <label
-                htmlFor="phone"
-                className="block text-sm text-steel-silver mb-2"
-              >
-                Phone
-              </label>
-              <input
-                id="phone"
-                name="phone"
-                type="tel"
-                autoComplete="tel"
-                required
-                className="w-full bg-obsidian-graphite border border-steel-silver/30 rounded px-4 py-3 text-chrome-highlight focus:outline-none focus:border-muted-gold"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm text-steel-silver mb-2"
-              >
-                Email
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                className="w-full bg-obsidian-graphite border border-steel-silver/30 rounded px-4 py-3 text-chrome-highlight focus:outline-none focus:border-muted-gold"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="description"
-                className="block text-sm text-steel-silver mb-2"
-              >
-                Brief description{" "}
-                <span className="text-steel-silver/60">(optional)</span>
-              </label>
-              <textarea
-                id="description"
-                name="description"
-                rows={4}
-                className="w-full bg-obsidian-graphite border border-steel-silver/30 rounded px-4 py-3 text-chrome-highlight focus:outline-none focus:border-muted-gold resize-none"
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="w-full bg-muted-gold text-obsidian-graphite font-semibold py-4 rounded hover:bg-muted-gold/90 transition-colors duration-200"
-            >
-              Start the Conversation
-            </button>
-          </form>
+          <div className="text-left">
+            <TalkToUsForm source="Homepage" />
+          </div>
 
           <div className="mt-12 space-y-2 text-steel-silver">
             <p>

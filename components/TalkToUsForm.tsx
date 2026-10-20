@@ -11,7 +11,7 @@ type FormState = "idle" | "sending" | "sent" | "error";
  * Submits via /api/send-mail (Microsoft Graph) to
  * mike@yonke.law, jyonke@yonke.law, and michelle@yonke.law.
  */
-export function TalkToUsForm() {
+export function TalkToUsForm({ source = "Talk to Us page" }: { source?: string } = {}) {
   const [state, setState] = useState<FormState>("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
@@ -65,7 +65,7 @@ export function TalkToUsForm() {
           <p style="color: #1a1a2e; margin: 0; white-space: pre-wrap;">${escapeHtml(message)}</p>
         </div>
         <p style="font-size: 12px; color: #999; margin-top: 24px;">
-          Submitted via yonke.law Talk to Us form. Reply goes to the person who submitted.
+          Submitted via yonke.law form (${escapeHtml(source)}). Reply goes to the person who submitted.
         </p>
       </div>
     `;
