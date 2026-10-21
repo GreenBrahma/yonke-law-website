@@ -2,6 +2,8 @@
 
 import { useState, type FormEvent } from "react";
 import { SmsConsent } from "@/components/SmsConsent";
+import { CaseTypeSelect } from "@/components/CaseTypeSelect";
+import { TalkToUsForm } from "@/components/TalkToUsForm";
 import { sendToLeadDocket } from "@/lib/lead-docket";
 
 type FormState = "idle" | "sending" | "sent" | "error";
@@ -16,88 +18,8 @@ type ActiveForm = "none" | "contact" | "schedule";
  */
 export function PeopleFirstActions() {
   const [activeForm, setActiveForm] = useState<ActiveForm>("none");
-  const [contactState, setContactState] = useState<FormState>("idle");
   const [scheduleState, setScheduleState] = useState<FormState>("idle");
   const [errorMsg, setErrorMsg] = useState("");
-
-  // ── Contact form submit ─────────────────────────────────────────────────
-
-  async function handleContactSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setContactState("sending");
-    setErrorMsg("");
-
-    const form = e.currentTarget;
-    const data = new FormData(form);
-    const name = data.get("name") as string;
-    const email = data.get("email") as string;
-    const phone = data.get("phone") as string;
-    const message = data.get("message") as string;
-    const smsConsent = data.get("sms_consent") === "yes";
-
-    const htmlBody = `
-      <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px;">
-        <h2 style="color: #1a1a2e; border-bottom: 2px solid #c9a84c; padding-bottom: 8px;">
-          People First Portal — New Contact Request
-        </h2>
-        <table style="width: 100%; border-collapse: collapse; margin: 16px 0;">
-          <tr>
-            <td style="padding: 8px 12px; font-weight: 600; color: #555; width: 120px;">Name</td>
-            <td style="padding: 8px 12px; color: #1a1a2e;">${escapeHtml(name)}</td>
-          </tr>
-          <tr style="background: #f8f8f8;">
-            <td style="padding: 8px 12px; font-weight: 600; color: #555;">Email</td>
-            <td style="padding: 8px 12px;"><a href="mailto:${escapeHtml(email)}" style="color: #c9a84c;">${escapeHtml(email)}</a></td>
-          </tr>
-          <tr>
-            <td style="padding: 8px 12px; font-weight: 600; color: #555;">Phone</td>
-            <td style="padding: 8px 12px;">${phone ? escapeHtml(phone) : "<em style='color: #999;'>Not provided</em>"}</td>
-          </tr>
-          <tr style="background: #f8f8f8;">
-            <td style="padding: 8px 12px; font-weight: 600; color: #555;">SMS consent</td>
-            <td style="padding: 8px 12px;">${smsConsent ? "Yes, opted in to customer care texts" : "No"}</td>
-          </tr>
-        </table>
-        <div style="background: #f8f8f8; border-left: 3px solid #c9a84c; padding: 16px; margin: 16px 0;">
-          <p style="font-weight: 600; color: #555; margin: 0 0 8px 0;">Message</p>
-          <p style="color: #1a1a2e; margin: 0; white-space: pre-wrap;">${escapeHtml(message)}</p>
-        </div>
-        <p style="font-size: 12px; color: #999;">Submitted via People First Portal page.</p>
-      </div>
-    `;
-
-    const leadDocket = sendToLeadDocket({
-      name,
-      phone,
-      email,
-      message,
-      smsConsent,
-      source: "People First: contact form",
-    });
-
-    try {
-      const res = await fetch("/api/send-mail", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          to: ["mike@yonke.law", "jyonke@yonke.law", "michelle@yonke.law"],
-          subject: `People First Inquiry: ${name}`,
-          body: htmlBody,
-        }),
-      });
-
-      if (!res.ok && !(await leadDocket)) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err.detail || "Failed to send");
-      }
-
-      setContactState("sent");
-      form.reset();
-    } catch (err) {
-      setContactState("error");
-      setErrorMsg(err instanceof Error ? err.message : "Something went wrong.");
-    }
-  }
 
   // ── Schedule form submit ────────────────────────────────────────────────
 
@@ -108,7 +30,10 @@ export function PeopleFirstActions() {
 
     const form = e.currentTarget;
     const data = new FormData(form);
-    const name = data.get("name") as string;
+    const firstName = ((data.get("first_name") as string) || "").trim();
+    const lastName = ((data.get("last_name") as string) || "").trim();
+    const name = `${firstName} ${lastName}`.trim();
+    const caseType = data.get("case_type") as string;
     const email = data.get("email") as string;
     const phone = data.get("phone") as string;
     const date = data.get("date") as string;
@@ -122,8 +47,10 @@ export function PeopleFirstActions() {
     const endDate = new Date(startDate.getTime() + 30 * 60 * 1000); // 30 min default
 
     sendToLeadDocket({
-      name,
+      firstName,
+      lastName,
       phone,
+      caseType,
       email,
       message: `Requested consultation: ${date} at ${time} CT.${notes ? ` Notes: ${notes}` : ""}`,
       smsConsent,
@@ -172,6 +99,7 @@ export function PeopleFirstActions() {
                 <tr><td style="padding: 8px 12px; font-weight: 600; color: #555; width: 120px;">Name</td><td style="padding: 8px 12px;">${escapeHtml(name)}</td></tr>
                 <tr style="background: #f8f8f8;"><td style="padding: 8px 12px; font-weight: 600; color: #555;">Email</td><td style="padding: 8px 12px;"><a href="mailto:${escapeHtml(email)}" style="color: #c9a84c;">${escapeHtml(email)}</a></td></tr>
                 <tr><td style="padding: 8px 12px; font-weight: 600; color: #555;">Phone</td><td style="padding: 8px 12px;">${phone ? escapeHtml(phone) : "Not provided"}</td></tr>
+                <tr><td style="padding: 8px 12px; font-weight: 600; color: #555;">What happened</td><td style="padding: 8px 12px;">${caseType ? escapeHtml(caseType) : "Not selected"}</td></tr>
                 <tr style="background: #f8f8f8;"><td style="padding: 8px 12px; font-weight: 600; color: #555;">SMS consent</td><td style="padding: 8px 12px;">${smsConsent ? "Yes, opted in to customer care texts" : "No"}</td></tr>
                 <tr style="background: #f8f8f8;"><td style="padding: 8px 12px; font-weight: 600; color: #555;">Date</td><td style="padding: 8px 12px;">${formattedDate}</td></tr>
                 <tr><td style="padding: 8px 12px; font-weight: 600; color: #555;">Time</td><td style="padding: 8px 12px;">${time} CT</td></tr>
@@ -212,7 +140,6 @@ export function PeopleFirstActions() {
           <button
             onClick={() => {
               setActiveForm(activeForm === "contact" ? "none" : "contact");
-              setContactState("idle");
               setErrorMsg("");
             }}
             className={`text-left bg-charcoal-slate border rounded-lg p-6 transition-all duration-200 hover:border-muted-gold ${
@@ -256,105 +183,7 @@ export function PeopleFirstActions() {
         {/* Contact Form */}
         {activeForm === "contact" && (
           <div className="bg-charcoal-slate border border-steel-silver/15 rounded-lg p-8 animate-in fade-in duration-300">
-            {contactState === "sent" ? (
-              <div className="text-center py-8">
-                <div className="text-4xl mb-4">✓</div>
-                <h3 className="font-display text-xl text-chrome-highlight mb-2">
-                  Message sent.
-                </h3>
-                <p className="text-steel-silver leading-relaxed mb-4">
-                  Mike or Janell will review your message — usually the same
-                  business day.
-                </p>
-                <button
-                  onClick={() => setContactState("idle")}
-                  className="text-muted-gold hover:text-chrome-highlight transition-colors text-sm"
-                >
-                  Send another message →
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleContactSubmit} className="space-y-5">
-                <div className="grid sm:grid-cols-2 gap-5">
-                  <div>
-                    <label
-                      htmlFor="pf-name"
-                      className="block text-sm text-steel-silver mb-1.5"
-                    >
-                      Your name
-                    </label>
-                    <input
-                      type="text"
-                      id="pf-name"
-                      name="name"
-                      required
-                      className="w-full bg-obsidian-graphite border border-steel-silver/20 rounded-lg px-4 py-3 text-chrome-highlight placeholder:text-steel-silver/40 focus:outline-none focus:border-muted-gold/50 transition-colors"
-                      placeholder="First and last name"
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="pf-phone"
-                      className="block text-sm text-steel-silver mb-1.5"
-                    >
-                      Phone
-                    </label>
-                    <input
-                      type="tel"
-                      id="pf-phone"
-                      name="phone"
-                      className="w-full bg-obsidian-graphite border border-steel-silver/20 rounded-lg px-4 py-3 text-chrome-highlight placeholder:text-steel-silver/40 focus:outline-none focus:border-muted-gold/50 transition-colors"
-                      placeholder="(xxx) xxx-xxxx"
-                    />
-                  </div>
-                </div>
-                <SmsConsent id="pf-phone-sms" />
-                <div>
-                  <label
-                    htmlFor="pf-email"
-                    className="block text-sm text-steel-silver mb-1.5"
-                  >
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    id="pf-email"
-                    name="email"
-                    required
-                    className="w-full bg-obsidian-graphite border border-steel-silver/20 rounded-lg px-4 py-3 text-chrome-highlight placeholder:text-steel-silver/40 focus:outline-none focus:border-muted-gold/50 transition-colors"
-                    placeholder="you@example.com"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="pf-message"
-                    className="block text-sm text-steel-silver mb-1.5"
-                  >
-                    What happened?
-                  </label>
-                  <textarea
-                    id="pf-message"
-                    name="message"
-                    rows={4}
-                    required
-                    className="w-full bg-obsidian-graphite border border-steel-silver/20 rounded-lg px-4 py-3 text-chrome-highlight placeholder:text-steel-silver/40 focus:outline-none focus:border-muted-gold/50 transition-colors resize-y"
-                    placeholder="Share as much as you're comfortable with. Everything is confidential."
-                  />
-                </div>
-
-                {contactState === "error" && errorMsg && (
-                  <p className="text-signal-red text-sm">{errorMsg}</p>
-                )}
-
-                <button
-                  type="submit"
-                  disabled={contactState === "sending"}
-                  className="bg-muted-gold text-obsidian-graphite font-semibold px-8 py-3 rounded hover:bg-muted-gold/90 transition-colors disabled:opacity-60"
-                >
-                  {contactState === "sending" ? "Sending…" : "Send Message"}
-                </button>
-              </form>
-            )}
+            <TalkToUsForm source="People First: contact form" />
           </div>
         )}
 
@@ -383,20 +212,38 @@ export function PeopleFirstActions() {
                 <div className="grid sm:grid-cols-2 gap-5">
                   <div>
                     <label
-                      htmlFor="sch-name"
+                      htmlFor="sch-first"
                       className="block text-sm text-steel-silver mb-1.5"
                     >
-                      Your name
+                      First name
                     </label>
                     <input
                       type="text"
-                      id="sch-name"
-                      name="name"
+                      id="sch-first"
+                      name="first_name"
+                      autoComplete="given-name"
                       required
                       className="w-full bg-obsidian-graphite border border-steel-silver/20 rounded-lg px-4 py-3 text-chrome-highlight placeholder:text-steel-silver/40 focus:outline-none focus:border-muted-gold/50 transition-colors"
-                      placeholder="First and last name"
                     />
                   </div>
+                  <div>
+                    <label
+                      htmlFor="sch-last"
+                      className="block text-sm text-steel-silver mb-1.5"
+                    >
+                      Last name
+                    </label>
+                    <input
+                      type="text"
+                      id="sch-last"
+                      name="last_name"
+                      autoComplete="family-name"
+                      required
+                      className="w-full bg-obsidian-graphite border border-steel-silver/20 rounded-lg px-4 py-3 text-chrome-highlight placeholder:text-steel-silver/40 focus:outline-none focus:border-muted-gold/50 transition-colors"
+                    />
+                  </div>
+                </div>
+                <div className="grid sm:grid-cols-2 gap-5">
                   <div>
                     <label
                       htmlFor="sch-phone"
@@ -430,6 +277,7 @@ export function PeopleFirstActions() {
                     placeholder="you@example.com"
                   />
                 </div>
+                <CaseTypeSelect id="sch-case-type" />
                 <div className="grid sm:grid-cols-2 gap-5">
                   <div>
                     <label

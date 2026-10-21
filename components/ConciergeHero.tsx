@@ -4,7 +4,6 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { SmsConsent } from "@/components/SmsConsent";
-import { sendToLeadDocket } from "@/lib/lead-docket";
 
 /* -------------------------------------------------------
    ConciergeHero — Section 2 of homepage-spec.md
@@ -332,16 +331,6 @@ export function ConciergeHero() {
       <div style="background:#f5f5f5;padding:16px;border-radius:8px;">${chatHistoryHtml}</div>
     `;
 
-    const leadDocket = sendToLeadDocket({
-      name: contactForm.name,
-      phone: contactForm.phone,
-      email: contactForm.email,
-      caseType: detectedTopic ? topicLabel : "",
-      message: contactForm.description,
-      smsConsent,
-      source: "Homepage chat assistant",
-    });
-
     try {
       const res = await fetch("/api/send-mail", {
         method: "POST",
@@ -353,7 +342,7 @@ export function ConciergeHero() {
         }),
       });
 
-      if (res.ok || (await leadDocket)) {
+      if (res.ok) {
         setContactSent(true);
         setShowContactForm(false);
         setMessages((prev) => [

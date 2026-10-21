@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { SmsConsent } from "@/components/SmsConsent";
+import { CaseTypeSelect } from "@/components/CaseTypeSelect";
 import { sendToLeadDocket } from "@/lib/lead-docket";
 import { TalkToUsFileInput } from "@/components/TalkToUsFileInput";
 
@@ -223,32 +224,7 @@ export function TalkToUsForm({ source = "Talk to Us page" }: { source?: string }
         />
       </div>
 
-      <div>
-        <label
-          htmlFor="case-type"
-          className="block text-sm text-steel-silver mb-2"
-        >
-          What happened?
-        </label>
-        <select
-          id="case-type"
-          name="case_type"
-          className="w-full bg-obsidian-graphite border border-steel-silver/20 rounded-lg px-4 py-3 text-chrome-highlight focus:outline-none focus:border-muted-gold/50 transition-colors"
-        >
-          <option value="">Select a category</option>
-          <option value="Car Accident">Car Accident</option>
-          <option value="Truck Accident">Truck Accident</option>
-          <option value="Motorcycle Accident">Motorcycle Accident</option>
-          <option value="Medical Malpractice">Medical Malpractice</option>
-          <option value="Wrongful Death">Wrongful Death</option>
-          <option value="Nursing Home Abuse/Neglect">Nursing Home Abuse/Neglect</option>
-          <option value="Workplace Injury">Workplace Injury</option>
-          <option value="Slip and Fall / Premises">Slip and Fall / Premises</option>
-          <option value="Defective Product">Defective Product</option>
-          <option value="Pedestrian / Bicycle">Pedestrian / Bicycle</option>
-          <option value="Other / Not sure">Other / Not sure</option>
-        </select>
-      </div>
+      <CaseTypeSelect id="case-type" />
 
       <div>
         <label
