@@ -28,7 +28,7 @@ function getPool(): Pool {
   const url = process.env.DATABASE_URL;
   if (!url) {
     throw new Error(
-      "DATABASE_URL is not set. Configure it in .env.local for development or in Netlify environment variables for production."
+      "DATABASE_URL is not set. Configure it in .env.local for development or in the Cloudflare Worker settings for production."
     );
   }
 

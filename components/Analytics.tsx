@@ -3,7 +3,7 @@
 /* -------------------------------------------------------
    Site analytics: Google Analytics 4 + Meta Pixel.
 
-   Both are off unless their IDs are set in Netlify env vars:
+   Both are off unless their IDs are set as build variables:
      NEXT_PUBLIC_GA4_ID          e.g. G-XXXXXXXXXX
      NEXT_PUBLIC_META_PIXEL_ID   e.g. 1234567890
 

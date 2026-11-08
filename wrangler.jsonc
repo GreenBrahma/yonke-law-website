@@ -1,0 +1,17 @@
+{
+  // Yonke Law website on Cloudflare Workers (built with OpenNext)
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "yonke-law-website",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-11-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
+  "observability": { "enabled": true },
+  "vars": {
+    "NEXT_PUBLIC_GA4_ID": "G-J7NVP49C9S",
+    "MS365_ATTORNEY_EMAIL": "mike@yonke.law",
+    "MS365_SENDER_EMAIL": "mike@yonke.law",
+    "AUTH_URL": "https://yonke.law",
+    "NEXTAUTH_URL": "https://yonke.law"
+  }
+}

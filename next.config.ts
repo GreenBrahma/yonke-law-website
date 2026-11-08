@@ -31,6 +31,10 @@ const nextConfig: NextConfig = {
       { source: "/pedestrian-bicycle", destination: "/what-we-handle/pedestrian-bicycle", permanent: true },
       // Legacy bio URL
       { source: "/michael-t-yonke", destination: "/about", permanent: true },
+      // Moved from netlify.toml when the site left Netlify
+      { source: "/how-it-works", destination: "/people-first", permanent: true },
+      { source: "/how-it-works/:path*", destination: "/people-first/:path*", permanent: true },
+      { source: "/people-first/people-portal", destination: "/people-first", permanent: true },
       // Legacy testimonials shortcut
       { source: "/testimonials", destination: "/about/testimonials", permanent: true },
     ];
