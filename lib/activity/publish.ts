@@ -22,12 +22,19 @@ export async function publish(post: Post): Promise<Record<string, string>> {
     const res = await fetch(hook, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      // One flat payload so each Zapier path can filter on its own yes/no field
       body: JSON.stringify({
         id: post.id,
-        caption: post.message || post.doing,
+        submitted_by: post.by,
         headline: post.doing,
-        platforms: post.targets,
-        image_url_base: `https://yonke.law/activity-image/${post.id}/`,
+        caption: post.message || post.doing,
+        platforms: post.targets.join(","),
+        ...Object.fromEntries(
+          (["facebook", "instagram", "google_business", "linkedin"] as const).flatMap((p) => [
+            [`post_to_${p}`, post.targets.includes(p) ? "yes" : "no"],
+            [`${p}_image_url`, post.targets.includes(p) ? `https://yonke.law/activity-image/${post.id}/${p}.jpg` : ""],
+          ])
+        ),
       }),
     });
     post.targets.forEach((t) => (status[t] = res.ok ? "sent" : "failed"));

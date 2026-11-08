@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
   if (!doing && !message) return NextResponse.json({ ok: false, error: "Add what you're doing or what you want to say." }, { status: 400 });
   if (!targets.length) return NextResponse.json({ ok: false, error: "Pick at least one place to post." }, { status: 400 });
 
-  const id = new Date().toISOString().replace(/[-:.TZ]/g, "").slice(0, 14) + "-" + crypto.randomUUID().slice(0, 8);
+  const id = new Date().toISOString().replace(/[-:.TZ]/g, "").slice(0, 14) + "-" + crypto.randomUUID();
   const by = req.headers.get("cf-access-authenticated-user-email") || "unknown";
   const store = kv();
 
