@@ -1,5 +1,7 @@
 "use client";
 
+import { trackLead } from "@/components/Analytics";
+
 import { useState, type FormEvent } from "react";
 import { SmsConsent } from "@/components/SmsConsent";
 import { CaseTypeSelect } from "@/components/CaseTypeSelect";
@@ -102,6 +104,7 @@ export function TalkToUsForm({ source = "Talk to Us page" }: { source?: string }
         // If the email failed but Lead Docket has the inquiry, it still reached the firm
         if (await leadDocket) {
           setState("sent");
+          trackLead(source);
           form.reset();
           return;
         }
@@ -109,6 +112,7 @@ export function TalkToUsForm({ source = "Talk to Us page" }: { source?: string }
       }
 
       setState("sent");
+      trackLead(source);
       form.reset();
     } catch (err) {
       setState("error");
