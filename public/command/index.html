@@ -126,6 +126,37 @@
     table.wall td.platform, table.wall th.platform-head { width:220px; min-width:220px; }
   }
   .sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+
+  /* ---- App shell: the page never scrolls. Header and tabs stay put; each
+     view is one content box with its own single scroll bar. ---- */
+  html, body { height:100%; }
+  body { height:100dvh; display:flex; flex-direction:column; overflow:hidden; }
+  header, nav.tabs { flex:none; }
+  nav.tabs { position:static; }
+  main { flex:1; min-height:0; position:relative; }
+  .view.active { display:flex; flex-direction:column; height:100%; min-height:0; }
+  #view-plan.active, #view-stack.active { display:block; overflow-y:auto; overflow-x:hidden; }
+  #view-war.active { overflow:hidden; }
+  #view-war iframe { flex:1; min-height:0; height:100% !important; width:100%; border:0; display:block; }
+  #view-wall.active { overflow:hidden; }
+  #view-wall .wide { display:flex; flex-direction:column; height:100%; min-height:0; padding:8px 12px 10px; }
+  #view-wall .wall-bar { flex:none; margin:0 0 8px; display:flex; align-items:baseline; gap:16px; flex-wrap:wrap; }
+  #view-wall .wall-bar h1 { margin:0; font-size:1.5rem; }
+  #view-wall .wall-bar .hint { margin:0; font-size:.95rem; }
+  #view-wall .wall-scroll { flex:1; min-height:0; max-height:none; overflow:auto; }
+  body > footer { display:none; }
+  /* Calendar fits the screen width on desktop; on phones it scrolls inside its one box */
+  table.wall { width:100%; }
+  table.wall td.platform, table.wall th.platform-head { width:250px; min-width:250px; }
+  td.month { min-width:140px; width:auto; }
+  @media (max-width:640px) {
+    .emblem { height:48px; }
+    .wordmark { font-size:1.15rem !important; }
+    .site-title { font-size:.95rem !important; }
+    .tab { padding:6px 10px 4px; font-size:.95rem; }
+    table.wall td.platform, table.wall th.platform-head { width:170px; min-width:170px; }
+    td.platform .pwrap { flex-wrap:wrap; }
+  }
 </style>
 </head>
 <body>
@@ -154,7 +185,7 @@
 <!-- =========================== BUILD PLAN =========================== -->
 <main>
 <div class="view active" id="view-war">
-  <iframe src="/command/war-room.html" title="Yonke Law War Room" style="display:block;width:100%;height:calc(100vh - 136px);min-height:600px;border:0;background:#fff"></iframe>
+  <iframe src="/command/war-room.html" title="Yonke Law War Room"></iframe>
 </div>
 <div class="view" id="view-plan">
 <div class="wrap">
@@ -245,13 +276,13 @@
 <div class="view" id="view-wall">
 <div class="wide">
   <div class="wall-bar">
-    <h1>Planning Wall</h1>
+    <h1>Marketing Calendar</h1>
+    <p class="hint">Tap a cell to type. Arrows reorder rows. Changes save to the Google Sheet automatically.</p>
     <span id="sync-status" role="status" class="sr-only"></span>
   </div>
   <div class="wall-scroll">
     <table class="wall" id="wall"></table>
   </div>
-  <p class="hint">Click a cell to type notes. Use the up and down arrows to reorder rows; moving past the top or bottom of a group moves the row into the next group. Rename a platform by clicking its name. Every change saves to the Google Sheet.</p>
 </div>
 </div>
 
