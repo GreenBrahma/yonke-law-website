@@ -6,6 +6,8 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Yonke Law Command</title>
 <meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Carlito:wght@400;700&display=swap" rel="stylesheet">
 <link rel="manifest" href="/command/manifest.webmanifest">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -157,6 +159,36 @@
     table.wall td.platform, table.wall th.platform-head { width:170px; min-width:170px; }
     td.platform .pwrap { flex-wrap:wrap; }
   }
+
+  /* ---- Add Activity ---- */
+  #view-add.active { display:block; overflow-y:auto; overflow-x:hidden; }
+  .act { max-width:1180px; margin:0 auto; padding:14px 14px 28px; }
+  .act-form { display:grid; gap:6px; max-width:760px; }
+  .act .q { font-size:1.25rem; font-weight:700; margin-top:10px; }
+  .act textarea { width:100%; font:inherit; font-size:1.1rem; padding:10px 12px; border:2px solid #1C1C1E; resize:vertical; }
+  .act textarea:focus { outline:3px solid #B89B5E; outline-offset:1px; }
+  .drop { display:flex; align-items:center; justify-content:center; min-height:84px; border:2px dashed #1C1C1E; font-size:1.1rem; font-weight:700; cursor:pointer; background:#F2F4F7; }
+  .thumbs { display:flex; gap:8px; flex-wrap:wrap; }
+  .thumbs figure { margin:0; position:relative; }
+  .thumbs img { width:84px; height:84px; object-fit:cover; border:2px solid #1C1C1E; display:block; }
+  .thumbs button { position:absolute; top:-8px; right:-8px; width:26px; height:26px; border-radius:50%; border:2px solid #1C1C1E; background:#fff; font-weight:700; cursor:pointer; }
+  .big { margin-top:14px; font:inherit; font-size:1.2rem; font-weight:700; padding:12px 22px; background:#1C1C1E; color:#fff; border:none; cursor:pointer; justify-self:start; }
+  .big.go { background:#1F3D2B; }
+  .big:disabled { opacity:.5; cursor:not-allowed; }
+  .act-out { margin-top:22px; border-top:4px solid #B89B5E; padding-top:12px; }
+  .act-h { font-size:1.4rem; margin:0 0 6px; }
+  .all { display:inline-flex; align-items:center; gap:10px; font-size:1.15rem; font-weight:700; margin:4px 0 10px; }
+  .act input[type=checkbox] { width:24px; height:24px; accent-color:#1F3D2B; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:14px; align-items:start; }
+  .pcard { border:2px solid #1C1C1E; padding:10px; background:#fff; }
+  .pcard.off { opacity:.55; }
+  .pcard header { display:flex; align-items:center; gap:10px; border:none; padding:0 0 8px; }
+  .pcard header strong { font-size:1.1rem; }
+  .pcard header small { margin-left:auto; font-size:.85rem; }
+  .pcard img { width:100%; display:block; border:1px solid #E5E7EB; }
+  .pcard .cap { font-size:.95rem; margin:8px 0 0; white-space:pre-wrap; }
+  .pcard .soon { font-size:.85rem; font-weight:700; color:#7A1C1C; }
+  .act-msg { font-size:1.1rem; font-weight:700; margin-top:10px; }
 </style>
 </head>
 <body>
@@ -175,16 +207,47 @@
 
 <nav class="tabs" aria-label="Views">
   <div class="wrap" role="tablist">
-    <button class="tab" role="tab" data-view="war" aria-selected="true">War Room</button>
+    <button class="tab" role="tab" data-view="add" aria-selected="true">Add Activity</button>
     <button class="tab" role="tab" data-view="wall" aria-selected="false">Marketing Calendar</button>
-    <button class="tab" role="tab" data-view="plan" aria-selected="false">Build Plan</button>
-    <button class="tab" role="tab" data-view="stack" aria-selected="false">Platforms and Standards</button>
+    <button class="tab" role="tab" data-view="war" aria-selected="false">Marketing Performance</button>
+    <button class="tab" role="tab" data-view="plan" aria-selected="false">Planning Approach</button>
+    <button class="tab" role="tab" data-view="stack" aria-selected="false">Platform and Standards</button>
   </div>
 </nav>
 
 <!-- =========================== BUILD PLAN =========================== -->
 <main>
-<div class="view active" id="view-war">
+<!-- =========================== ADD ACTIVITY =========================== -->
+<div class="view active" id="view-add">
+<div class="act">
+  <form id="act-form" class="act-form" autocomplete="off">
+    <label class="q" for="act-doing">What are you doing?</label>
+    <textarea id="act-doing" rows="2" maxlength="300" placeholder="Example: Speaking to the KC Bar Association about deposition prep"></textarea>
+
+    <label class="q" for="act-message">What do you want to say?</label>
+    <textarea id="act-message" rows="4" maxlength="2200" placeholder="This becomes the post's caption."></textarea>
+
+    <span class="q">Do you have any photos you'd like to add?</span>
+    <label class="drop" id="act-drop" for="act-photos">
+      <input type="file" id="act-photos" accept="image/*" multiple hidden>
+      <span id="act-drop-text">Tap to upload photos</span>
+    </label>
+    <div class="thumbs" id="act-thumbs"></div>
+
+    <button type="button" class="big" id="act-preview">Create my posts</button>
+  </form>
+
+  <section class="act-out" id="act-out" hidden>
+    <h2 class="act-h">Your posts</h2>
+    <label class="all"><input type="checkbox" id="act-all" checked> Send to all</label>
+    <div class="cards" id="act-cards"></div>
+    <button type="button" class="big go" id="act-submit">Submit</button>
+    <p class="act-msg" id="act-msg" role="status"></p>
+  </section>
+</div>
+</div>
+
+<div class="view" id="view-war">
   <iframe src="/command/war-room.html" title="Yonke Law War Room"></iframe>
 </div>
 <div class="view" id="view-plan">
@@ -456,7 +519,7 @@ Example:   YL_META_AUTO_KCMETRO_LEAD_RETARGET30_VIDEOMIKE_V2</pre>
   // ---------- Tabs ----------
   const tabs = document.querySelectorAll('.tab');
   function show(view) {
-    if (!['war', 'plan', 'wall', 'stack'].includes(view)) view = 'war';
+    if (!['add', 'war', 'plan', 'wall', 'stack'].includes(view)) view = 'add';
     tabs.forEach(t => t.setAttribute('aria-selected', String(t.dataset.view === view)));
     document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id === 'view-' + view));
   }
@@ -604,6 +667,166 @@ Example:   YL_META_AUTO_KCMETRO_LEAD_RETARGET30_VIDEOMIKE_V2</pre>
   renderPhases();
   renderWall();
   pull();
+})();
+</script>
+
+<script>
+/* ---------- Add Activity: write once, render into each platform's frame, pick where it goes ---------- */
+(function () {
+  const $ = (id) => document.getElementById(id);
+  // Frame geometry measured from the Yonke Law templates (pixels in each template image)
+  const FRAMES = {
+    facebook:        { name: 'Facebook',                size: 'Landscape 1.91:1', src: '/command/frames/landscape191.jpg',  w: 1731, h: 909,  x0: 16, y0: 16, x1: 1718, logoTop: 737 },
+    instagram:       { name: 'Instagram',               size: 'Portrait 4:5',     src: '/command/frames/portrait4x5.jpg',   w: 1122, h: 1402, x0: 13, y0: 13, x1: 1109, logoTop: 1236 },
+    google_business: { name: 'Google Business Profile', size: 'Landscape 16:9',   src: '/command/frames/landscape16x9.jpg', w: 1672, h: 941,  x0: 15, y0: 14, x1: 1659, logoTop: 753 },
+    linkedin:        { name: 'LinkedIn',                size: 'Square 1:1',       src: '/command/frames/square.jpg',        w: 1254, h: 1254, x0: 19, y0: 18, x1: 1236, logoTop: 1086, soon: true }
+  };
+  const FONT = 'Calibri, Carlito, "Segoe UI", Arial, sans-serif';
+  let photos = [];            // [{ file, url, img }]
+  let rendered = {};          // platform -> dataURL
+
+  const load = (src) => new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = no; i.src = src; });
+
+  // ---- Photos ----
+  $('act-photos').addEventListener('change', async (e) => {
+    for (const f of [...e.target.files].slice(0, 6 - photos.length)) {
+      const url = URL.createObjectURL(f);
+      photos.push({ file: f, url, img: await load(url) });
+    }
+    e.target.value = '';
+    drawThumbs();
+  });
+  function drawThumbs() {
+    $('act-thumbs').innerHTML = '';
+    photos.forEach((p, i) => {
+      const fig = document.createElement('figure');
+      fig.innerHTML = '<img alt="Photo ' + (i + 1) + '"><button type="button" aria-label="Remove photo ' + (i + 1) + '">×</button>';
+      fig.querySelector('img').src = p.url;
+      fig.querySelector('button').onclick = () => { URL.revokeObjectURL(p.url); photos.splice(i, 1); drawThumbs(); };
+      $('act-thumbs').appendChild(fig);
+    });
+    $('act-drop-text').textContent = photos.length ? 'Add more photos (' + photos.length + ' added; the first one goes in the post)' : 'Tap to upload photos';
+  }
+
+  // ---- Text helpers ----
+  function wrap(ctx, text, maxW) {
+    const words = String(text).split(/\s+/).filter(Boolean), lines = []; let line = '';
+    words.forEach((w) => { const t = line ? line + ' ' + w : w; if (ctx.measureText(t).width > maxW && line) { lines.push(line); line = w; } else line = t; });
+    if (line) lines.push(line); return lines;
+  }
+  function fitText(ctx, text, maxW, maxH, start, minSize, weight, maxLines) {
+    for (let size = start; size >= minSize; size -= 2) {
+      ctx.font = weight + ' ' + size + 'px ' + FONT;
+      const lines = wrap(ctx, text, maxW);
+      if (lines.length <= maxLines && lines.length * size * 1.18 <= maxH) return { size, lines };
+    }
+    ctx.font = weight + ' ' + minSize + 'px ' + FONT;
+    const lines = wrap(ctx, text, maxW).slice(0, maxLines);
+    if (lines.length === maxLines) lines[maxLines - 1] = lines[maxLines - 1].replace(/\s*\S*$/, '') + '…';
+    return { size: minSize, lines };
+  }
+  function cover(ctx, img, x, y, w, h) {
+    const r = Math.max(w / img.width, h / img.height), sw = w / r, sh = h / r;
+    ctx.drawImage(img, (img.width - sw) / 2, (img.height - sh) / 2, sw, sh, x, y, w, h);
+  }
+
+  // ---- Render one platform image ----
+  async function render(key, doing, message) {
+    const F = FRAMES[key];
+    const tpl = await load(F.src);
+    const c = document.createElement('canvas'); c.width = F.w; c.height = F.h;
+    const ctx = c.getContext('2d');
+    ctx.drawImage(tpl, 0, 0);
+    const pad = Math.round(F.w * 0.035);
+    const L = F.x0 + pad, R = F.x1 - pad, T = F.y0 + pad, B = F.logoTop - pad * 0.6;
+    const W = R - L, H = B - T;
+    ctx.fillStyle = '#000'; ctx.textBaseline = 'top';
+    const head = doing || message;
+    const photo = photos[0] && photos[0].img;
+    if (photo && W / H > 1.4) {
+      // Wide frames: photo on the left, headline on the right
+      const pw = Math.round(W * 0.56), gap = pad * 0.8, tx = L + pw + gap, tw = R - tx;
+      cover(ctx, photo, L, T, pw, H);
+      ctx.strokeStyle = '#1C1C1E'; ctx.lineWidth = 2; ctx.strokeRect(L, T, pw, H);
+      const t = fitText(ctx, head, tw, H * 0.8, Math.round(H * 0.16), Math.round(F.w * 0.02), '700', 5);
+      const blockH = t.lines.length * t.size * 1.18;
+      ctx.fillStyle = '#B89B5E'; ctx.fillRect(tx, T + (H - blockH) / 2 - pad * 0.7, tw * 0.22, Math.max(4, F.w * 0.004)); ctx.fillStyle = '#000';
+      t.lines.forEach((ln, i) => ctx.fillText(ln, tx, T + (H - blockH) / 2 + i * t.size * 1.18));
+    } else if (photo) {
+      const hh = Math.round(H * 0.24);
+      const t = fitText(ctx, head, W, hh, Math.round(hh * 0.55), Math.round(F.w * 0.022), '700', 2);
+      const blockH = t.lines.length * t.size * 1.18;
+      t.lines.forEach((ln, i) => ctx.fillText(ln, L, T + (hh - blockH) / 2 + i * t.size * 1.18));
+      const py = T + hh + pad * 0.4;
+      cover(ctx, photo, L, py, W, B - py);
+      ctx.strokeStyle = '#1C1C1E'; ctx.lineWidth = 2; ctx.strokeRect(L, py, W, B - py);
+    } else {
+      const t = fitText(ctx, head, W, H * 0.55, Math.round(H * 0.16), Math.round(F.w * 0.028), '700', 4);
+      let y = T + H * 0.12;
+      t.lines.forEach((ln) => { ctx.fillText(ln, L, y); y += t.size * 1.18; });
+      if (doing && message) {
+        ctx.fillStyle = '#B89B5E'; ctx.fillRect(L, y + pad * 0.3, W * 0.12, Math.max(4, F.w * 0.004)); ctx.fillStyle = '#000';
+        const m = fitText(ctx, message, W, B - (y + pad), Math.round(t.size * 0.5), Math.round(F.w * 0.018), '400', 5);
+        let my = y + pad; m.lines.forEach((ln) => { ctx.fillText(ln, L, my); my += m.size * 1.25; });
+      }
+    }
+    return c.toDataURL('image/jpeg', 0.88);
+  }
+
+  // ---- Create posts ----
+  $('act-preview').addEventListener('click', async () => {
+    const doing = $('act-doing').value.trim(), message = $('act-message').value.trim();
+    if (!doing && !message) { $('act-doing').focus(); return; }
+    const btn = $('act-preview'); btn.disabled = true; btn.textContent = 'Creating…';
+    try { await document.fonts.load('700 40px Carlito'); await document.fonts.load('400 40px Carlito'); } catch (e) {}
+    rendered = {};
+    const cards = $('act-cards'); cards.innerHTML = '';
+    for (const [key, F] of Object.entries(FRAMES)) {
+      rendered[key] = await render(key, doing, message);
+      const card = document.createElement('div'); card.className = 'pcard' + (F.soon ? ' off' : ''); card.dataset.key = key;
+      card.innerHTML = '<header><input type="checkbox" class="pick" aria-label="Post to ' + F.name + '"' + (F.soon ? ' disabled' : ' checked') + '>' +
+        '<strong>' + F.name + '</strong><small>' + F.size + '</small></header><img alt="' + F.name + ' post preview">' +
+        (F.soon ? '<p class="soon">Not connected yet</p>' : '') + '<p class="cap"></p>';
+      card.querySelector('img').src = rendered[key];
+      card.querySelector('.cap').textContent = message || doing;
+      cards.appendChild(card);
+    }
+    $('act-all').checked = true;
+    $('act-out').hidden = false; $('act-msg').textContent = '';
+    btn.disabled = false; btn.textContent = 'Update my posts';
+    $('act-out').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  // ---- Send to all / individual picks ----
+  const picks = () => [...document.querySelectorAll('#act-cards .pick:not(:disabled)')];
+  $('act-all').addEventListener('change', (e) => picks().forEach((p) => (p.checked = e.target.checked)));
+  $('act-cards').addEventListener('change', (e) => {
+    if (!e.target.classList.contains('pick')) return;
+    $('act-all').checked = picks().every((p) => p.checked);
+  });
+
+  // ---- Submit ----
+  $('act-submit').addEventListener('click', async () => {
+    const targets = picks().filter((p) => p.checked).map((p) => p.closest('.pcard').dataset.key);
+    const msg = $('act-msg');
+    if (!targets.length) { msg.textContent = 'Pick at least one place to post.'; return; }
+    const btn = $('act-submit'); btn.disabled = true; btn.textContent = 'Sending…'; msg.textContent = '';
+    const images = {}; targets.forEach((t) => (images[t] = rendered[t]));
+    try {
+      const res = await fetch('/command/api/activity', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ doing: $('act-doing').value.trim(), message: $('act-message').value.trim(), targets, images }) });
+      const j = await res.json();
+      if (!j.ok) throw new Error(j.error || 'Something went wrong');
+      const names = targets.map((t) => FRAMES[t].name).join(', ');
+      const waiting = Object.values(j.status || {}).some((s) => s === 'awaiting connection');
+      msg.textContent = waiting
+        ? 'Saved for ' + names + '. It will go live as soon as the publishing connection is switched on.'
+        : 'Sent to ' + names + '.';
+      if (!waiting) { $('act-form').reset(); photos = []; drawThumbs(); }
+    } catch (e) {
+      msg.textContent = 'Could not send: ' + e.message + '. Your posts are still here; try again.';
+    } finally { btn.disabled = false; btn.textContent = 'Submit'; }
+  });
 })();
 </script>
 </body>

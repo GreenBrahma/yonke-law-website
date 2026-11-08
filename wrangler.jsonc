@@ -6,6 +6,8 @@
   "compatibility_date": "2026-11-01",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
+  // Add Activity posts (text, rendered images, chosen platforms, publish status)
+  "kv_namespaces": [{ "binding": "YL_ACTIVITY", "id": "c5d8a9b124a249b082ac0c08d83c5ea8" }],
   "observability": { "enabled": true },
   // Live on yonke.law; the workers.dev test address and preview links are off
   "workers_dev": false,
