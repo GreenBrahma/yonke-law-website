@@ -31,7 +31,10 @@ import { eq } from "drizzle-orm";
 
 let _authDb: ReturnType<typeof drizzle> | null = null;
 function authDb() {
-  if (!_authDb) {
+  // On Cloudflare Workers, sockets can't be shared across requests (see db/client.ts)
+  const onWorkers =
+    typeof navigator !== "undefined" && navigator.userAgent === "Cloudflare-Workers";
+  if (!_authDb || onWorkers) {
     const url = process.env.DATABASE_URL || process.env.NETLIFY_DB_URL;
     if (!url) throw new Error("DATABASE_URL or NETLIFY_DB_URL is required for auth.");
     _authDb = drizzle(
