@@ -7,6 +7,13 @@
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
   "observability": { "enabled": true },
+  // Live on yonke.law; the workers.dev test address and preview links are off
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [
+    { "pattern": "yonke.law", "custom_domain": true },
+    { "pattern": "www.yonke.law", "custom_domain": true }
+  ],
   "vars": {
     "NEXT_PUBLIC_GA4_ID": "G-J7NVP49C9S",
     "MS365_ATTORNEY_EMAIL": "mike@yonke.law",
