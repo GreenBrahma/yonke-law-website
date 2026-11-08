@@ -125,6 +125,7 @@
     .wordmark { font-size:1.5rem; }
     table.wall td.platform, table.wall th.platform-head { width:220px; min-width:220px; }
   }
+  .sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
 </style>
 </head>
 <body>
@@ -245,15 +246,7 @@
 <div class="wide">
   <div class="wall-bar">
     <h1>Planning Wall</h1>
-    <span class="status" id="sync-status" role="status">Loading</span>
-    <button class="btn" id="btn-refresh" type="button">Refresh from sheet</button>
-    <button class="btn" id="btn-connect" type="button">Connect sheet</button>
-  </div>
-  <div class="connect" id="connect-panel">
-    <strong>Google Sheet connection</strong>
-    <p class="hint">Paste the Apps Script web app URL for "YL Planning Wall - Data". It is saved in this browser only.</p>
-    <input type="text" id="endpoint-input" placeholder="https://script.google.com/macros/s/.../exec">
-    <button class="btn" id="btn-save-endpoint" type="button">Save and load</button>
+    <span id="sync-status" role="status" class="sr-only"></span>
   </div>
   <div class="wall-scroll">
     <table class="wall" id="wall"></table>
@@ -384,7 +377,7 @@ Example:   YL_META_AUTO_KCMETRO_LEAD_RETARGET30_VIDEOMIKE_V2</pre>
 <script>
 (function () {
   // ---------- Config ----------
-  const SHEET_ENDPOINT = ''; // Apps Script web app URL; set after deployment
+  const SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzGzPTCsJJUGidjmzx-in9J1LV3s5u02p3jtFkVq1rBmkYsi0MsuaLFaWZ4vEECWePL/exec'; // Apps Script web app URL; set after deployment
   const KEY = 'yl-d5602fc5cebe';
   const MONTHS = ['December', 'January', 'February', 'March', 'April', 'May', 'June']; // calendar starts Dec 1
   const CATS = ['Business Platforms', 'Legal Platforms', 'Social Media'];
@@ -541,14 +534,17 @@ Example:   YL_META_AUTO_KCMETRO_LEAD_RETARGET30_VIDEOMIKE_V2</pre>
     if (!endpoint()) { setStatus('Saved in this browser only (sheet not connected)'); return; }
     setStatus('Saving');
     clearTimeout(saveTimer);
-    saveTimer = setTimeout(push, 1200);
+    saveTimer = setTimeout(() => { saveTimer = null; push(); }, 1200);
   }
+  let pushing = false;
   async function push() {
+    pushing = true;
     try {
       const res = await fetch(endpoint(), { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ key: KEY, wall: rows, phases }) });
       const j = await res.json();
       setStatus(j.ok ? 'Saved to Google Sheet' : 'Sheet refused the save: ' + (j.error || 'unknown'));
     } catch (e) { setStatus('Could not reach the sheet; saved in this browser'); }
+    finally { pushing = false; }
   }
   async function pull() {
     if (!endpoint()) { setStatus('Saved in this browser only (sheet not connected)'); return; }
@@ -565,17 +561,14 @@ Example:   YL_META_AUTO_KCMETRO_LEAD_RETARGET30_VIDEOMIKE_V2</pre>
     } catch (e) { setStatus('Could not reach the sheet; showing this browser’s copy'); }
   }
 
-  document.getElementById('btn-refresh').addEventListener('click', pull);
-  document.getElementById('btn-connect').addEventListener('click', () => {
-    const p = document.getElementById('connect-panel'); p.classList.toggle('open');
-    document.getElementById('endpoint-input').value = endpoint();
-  });
-  document.getElementById('btn-save-endpoint').addEventListener('click', () => {
-    const v = document.getElementById('endpoint-input').value.trim();
-    LS.set('yl-endpoint', v);
-    document.getElementById('connect-panel').classList.remove('open');
-    pull();
-  });
+  // Background sync: pull from the sheet every 30 seconds and whenever the app
+  // comes back to the foreground. Never overwrite while someone is typing or a
+  // save is still on its way.
+  const editing = () => { const a = document.activeElement; return a && /^(TEXTAREA|INPUT|SELECT)$/.test(a.tagName); };
+  function quietPull() { if (document.hidden || editing() || saveTimer || pushing) return; pull(); }
+  setInterval(quietPull, 30000);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) quietPull(); });
+  window.addEventListener('focus', quietPull);
 
   renderPhases();
   renderWall();
