@@ -1,2 +1,6 @@
 /_next/static/*
   Cache-Control: public, max-age=31536000, immutable
+
+/command/*
+  X-Robots-Tag: noindex, nofollow
+  Cache-Control: no-store

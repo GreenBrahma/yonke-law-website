@@ -1,0 +1,22 @@
+{
+  "name": "Yonke Law Command",
+  "short_name": "YL Command",
+  "start_url": "/command/",
+  "scope": "/command/",
+  "display": "standalone",
+  "background_color": "#1C1C1E",
+  "theme_color": "#1C1C1E",
+  "icons": [
+    {
+      "src": "/command/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/command/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
