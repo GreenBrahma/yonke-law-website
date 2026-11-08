@@ -44,6 +44,10 @@ html body .wr.wr { --g:#1F3D2B; --gd:#000; --gl:#E5E7EB; --a:#B89B5E; --r:#7A1C1
 .wr-radar { border-color:#1C1C1E !important; background:#fff !important; }
 .wr-radar::before { background: conic-gradient(from 0deg, rgba(184,155,94,.7), transparent 22%) !important; }
 .wr-top { border-bottom:2px solid #B89B5E !important; }
+.wr-row3 { grid-template-columns: repeat(3, minmax(0,1fr)) !important; }
+.wr-row2 { grid-template-columns: repeat(2, minmax(0,1fr)) !important; margin-top:14px; }
+@media (max-width: 900px) { .wr-row3, .wr-row2 { grid-template-columns: 1fr !important; } }
+#channels { margin-top:18px; }
 </style>
 </head><body>
 <style>
@@ -108,7 +112,6 @@ html body .wr.wr { --g:#1F3D2B; --gd:#000; --gl:#E5E7EB; --a:#B89B5E; --r:#7A1C1
       <div class="wr-kicker">Yonke Law // Advertising Command // Kansas City</div>
       <div class="wr-h1" id="title">ADVERTISING WAR ROOM</div>
     </div>
-    <div class="wr-cond"><span class="wr-blink">&#9679;</span> Condition: action required</div>
   </div>
 
   <section class="wr-hero" id="status">
@@ -125,6 +128,24 @@ html body .wr.wr { --g:#1F3D2B; --gd:#000; --gl:#E5E7EB; --a:#B89B5E; --r:#7A1C1
     </div>
   </section>
 
+
+
+
+  <section class="wr-sec" id="channels">
+    <h2 class="wr-sh">Channel intel</h2>
+    <div class="wr-grid wr-row3">
+      <div class="panel"><h3>Website visits</h3><p class="note">Google Analytics sessions by month</p><div class="chart" data-draw="c_ga4" data-source="ga4"></div></div>
+      <div class="panel"><h3>Google Business Profile</h3><p class="note">Calls, website clicks and direction requests by month</p><div class="chart" data-draw="c_gbp" data-source="gbp"></div></div>
+      <div class="panel"><h3>Google Local Services</h3><p class="note">Spend by month, with leads on top of each bar</p><div class="chart" data-draw="c_lsa" data-source="lsa"></div></div>
+    </div>
+    <div class="wr-grid wr-row2">
+      <div class="panel"><h3>Facebook boost</h3><p class="note">Spend by day, last 90 days</p><div class="chart" data-draw="c_meta" data-source="meta"></div></div>
+      <div class="panel"><h3>YouTube</h3><p class="note">Views by video, last 90 days</p><div class="chart" data-draw="c_yt" data-source="yt"></div></div>
+    </div>
+  </section>
+
+  <!-- Parked until budgets are set and sources are connected: takeaway, threat board, key figures -->
+  <div id="parked" hidden>
   <p class="wr-take">Google Local Services produced the firm's leads, at <b data-draw="t_cpl" data-source="kpi" data-field="lsa_cpl">—</b> each, then went dark after <b data-draw="t_last" data-source="kpi" data-field="lsa_last">—</b>. The only ad running now is a small Facebook boost with no lead tracking.</p>
 
   <section class="wr-sec" id="threats">
@@ -152,17 +173,7 @@ html body .wr.wr { --g:#1F3D2B; --gd:#000; --gl:#E5E7EB; --a:#B89B5E; --r:#7A1C1
       <div class="tile"><div class="lab">YouTube views</div><div class="val" data-draw="k_yt" data-source="kpi" data-field="yt_views">—</div><div class="sub">Last 90 days</div></div>
     </div>
   </section>
-
-  <section class="wr-sec" id="channels">
-    <h2 class="wr-sh">Channel intel</h2>
-    <div class="wr-grid">
-      <div class="panel"><h3>Google Local Services</h3><p class="note">Spend by month, with leads on top of each bar</p><div class="chart" data-draw="c_lsa" data-source="lsa"></div></div>
-      <div class="panel"><h3>Facebook boost</h3><p class="note">Spend by day, last 90 days</p><div class="chart" data-draw="c_meta" data-source="meta"></div></div>
-      <div class="panel"><h3>Google Business Profile</h3><p class="note">Calls, website clicks and direction requests by month</p><div class="chart" data-draw="c_gbp" data-source="gbp"></div></div>
-      <div class="panel"><h3>Website visits</h3><p class="note">Google Analytics sessions by month</p><div class="chart" data-draw="c_ga4" data-source="ga4"></div></div>
-      <div class="panel"><h3>YouTube</h3><p class="note">Views by video, last 90 days</p><div class="chart" data-draw="c_yt" data-source="yt"></div></div>
-    </div>
-  </section>
+  </div>
 
   <div class="wr-foot">Snapshot of live Windsor.ai data, Nov 7, 2026: Google Ads (Local Services), Meta Ads, Google Business Profile, Google Analytics 4, YouTube. Prepared by GreenBrahma.</div>
 </div>
