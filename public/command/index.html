@@ -189,6 +189,8 @@
   .pcard .cap { font-size:.95rem; margin:8px 0 0; white-space:pre-wrap; }
   .pcard .soon { font-size:.85rem; font-weight:700; color:#7A1C1C; }
   .act-msg { font-size:1.1rem; font-weight:700; margin-top:10px; }
+  .ex { justify-self:start; font:inherit; font-size:1rem; font-weight:700; padding:6px 14px; background:#fff; color:#1C1C1E; border:2px solid #B89B5E; cursor:pointer; }
+  .pcard .dl { display:inline-block; margin-top:8px; font-weight:700; color:#1F3D2B; }
 </style>
 </head>
 <body>
@@ -221,6 +223,7 @@
 <div class="view active" id="view-add">
 <div class="act">
   <form id="act-form" class="act-form" autocomplete="off">
+    <button type="button" class="ex" id="act-example">Show me an example</button>
     <label class="q" for="act-doing">What are you doing?</label>
     <textarea id="act-doing" rows="2" maxlength="300" placeholder="Example: Speaking to the KC Bar Association about deposition prep"></textarea>
 
@@ -241,7 +244,7 @@
     <h2 class="act-h">Your posts</h2>
     <label class="all"><input type="checkbox" id="act-all" checked> Send to all</label>
     <div class="cards" id="act-cards"></div>
-    <button type="button" class="big go" id="act-submit">Submit</button>
+    <button type="button" class="big go" id="act-submit">Save my posts</button>
     <p class="act-msg" id="act-msg" role="status"></p>
   </section>
 </div>
@@ -702,11 +705,21 @@ Example:   YL_META_AUTO_KCMETRO_LEAD_RETARGET30_VIDEOMIKE_V2</pre>
       const fig = document.createElement('figure');
       fig.innerHTML = '<img alt="Photo ' + (i + 1) + '"><button type="button" aria-label="Remove photo ' + (i + 1) + '">×</button>';
       fig.querySelector('img').src = p.url;
-      fig.querySelector('button').onclick = () => { URL.revokeObjectURL(p.url); photos.splice(i, 1); drawThumbs(); };
+      fig.querySelector('button').onclick = () => { if (p.file) URL.revokeObjectURL(p.url); photos.splice(i, 1); drawThumbs(); };
       $('act-thumbs').appendChild(fig);
     });
     $('act-drop-text').textContent = photos.length ? 'Add more photos (' + photos.length + ' added; the first one goes in the post)' : 'Tap to upload photos';
   }
+
+  // ---- Example: fills the form with a sample so Mike can see the whole flow ----
+  $('act-example').addEventListener('click', async () => {
+    $('act-doing').value = 'Speaking to the KC Bar Association about deposition prep';
+    $('act-message').value = 'Tonight I walked through the four steps that keep a deposition from going sideways. Thank you to everyone who came out.';
+    if (!photos.length) {
+      try { const url = '/images/Mike%20Yonke%20-%20Standing%20in%20Park.png'; photos.push({ file: null, url, img: await load(url) }); drawThumbs(); } catch (e) {}
+    }
+    $('act-preview').click();
+  });
 
   // ---- Text helpers ----
   function wrap(ctx, text, maxW) {
@@ -786,8 +799,9 @@ Example:   YL_META_AUTO_KCMETRO_LEAD_RETARGET30_VIDEOMIKE_V2</pre>
       const card = document.createElement('div'); card.className = 'pcard' + (F.soon ? ' off' : ''); card.dataset.key = key;
       card.innerHTML = '<header><input type="checkbox" class="pick" aria-label="Post to ' + F.name + '"' + (F.soon ? ' disabled' : ' checked') + '>' +
         '<strong>' + F.name + '</strong><small>' + F.size + '</small></header><img alt="' + F.name + ' post preview">' +
-        (F.soon ? '<p class="soon">Not connected yet</p>' : '') + '<p class="cap"></p>';
+        (F.soon ? '<p class="soon">Not connected yet</p>' : '') + '<p class="cap"></p><a class="dl">Download image</a>';
       card.querySelector('img').src = rendered[key];
+      const dl = card.querySelector('.dl'); dl.href = rendered[key]; dl.download = 'yonke-law-' + key.replace('_', '-') + '.jpg';
       card.querySelector('.cap').textContent = message || doing;
       cards.appendChild(card);
     }
@@ -810,7 +824,7 @@ Example:   YL_META_AUTO_KCMETRO_LEAD_RETARGET30_VIDEOMIKE_V2</pre>
     const targets = picks().filter((p) => p.checked).map((p) => p.closest('.pcard').dataset.key);
     const msg = $('act-msg');
     if (!targets.length) { msg.textContent = 'Pick at least one place to post.'; return; }
-    const btn = $('act-submit'); btn.disabled = true; btn.textContent = 'Sending…'; msg.textContent = '';
+    const btn = $('act-submit'); btn.disabled = true; btn.textContent = 'Saving…'; msg.textContent = '';
     const images = {}; targets.forEach((t) => (images[t] = rendered[t]));
     try {
       const res = await fetch('/command/api/activity', { method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -820,12 +834,12 @@ Example:   YL_META_AUTO_KCMETRO_LEAD_RETARGET30_VIDEOMIKE_V2</pre>
       const names = targets.map((t) => FRAMES[t].name).join(', ');
       const waiting = Object.values(j.status || {}).some((s) => s === 'awaiting connection');
       msg.textContent = waiting
-        ? 'Saved for ' + names + '. It will go live as soon as the publishing connection is switched on.'
+        ? 'Saved for ' + names + '. Publishing switches on once Facebook, Instagram and Google are connected. You can also download each image above.'
         : 'Sent to ' + names + '.';
       if (!waiting) { $('act-form').reset(); photos = []; drawThumbs(); }
     } catch (e) {
       msg.textContent = 'Could not send: ' + e.message + '. Your posts are still here; try again.';
-    } finally { btn.disabled = false; btn.textContent = 'Submit'; }
+    } finally { btn.disabled = false; btn.textContent = 'Save my posts'; }
   });
 })();
 </script>
