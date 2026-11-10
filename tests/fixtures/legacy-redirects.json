@@ -1,0 +1,97 @@
+[
+  {
+    "originalPath": "/medical-malpractice",
+    "intermediatePath": "/practice-areas/medical-malpractice",
+    "destination": "/what-we-handle/medical-malpractice"
+  },
+  {
+    "originalPath": "/premises-liability",
+    "intermediatePath": "/practice-areas/premises-liability",
+    "destination": "/what-we-handle/premises-liability"
+  },
+  {
+    "originalPath": "/motor-vehicle-accidents/truck-accidents",
+    "intermediatePath": "/practice-areas/truck-accidents",
+    "destination": "/what-we-handle/truck-accidents"
+  },
+  {
+    "originalPath": "/wrongful-death",
+    "intermediatePath": "/practice-areas/wrongful-death",
+    "destination": "/what-we-handle/wrongful-death"
+  },
+  {
+    "originalPath": "/dangerous-drugs",
+    "intermediatePath": "/practice-areas/dangerous-drugs",
+    "destination": "/what-we-handle/product-liability"
+  },
+  {
+    "originalPath": "/work-related-injuries",
+    "intermediatePath": "/practice-areas/work-related-injuries",
+    "destination": "/what-we-handle/workplace-injuries"
+  },
+  {
+    "originalPath": "/work-related-injuries/construction-accidents",
+    "intermediatePath": "/practice-areas/construction-accidents",
+    "destination": "/what-we-handle/construction-injury"
+  },
+  {
+    "originalPath": "/work-related-injuries/workers-compensation",
+    "intermediatePath": "/practice-areas/workers-compensation",
+    "destination": "/what-we-handle/workplace-injuries"
+  },
+  {
+    "originalPath": "/motor-vehicle-accidents/car-accidents",
+    "intermediatePath": "/previous-site/car-accidents",
+    "destination": "/what-we-handle/car-accidents"
+  },
+  {
+    "originalPath": "/motor-vehicle-accidents/distracted-driver-accidents",
+    "intermediatePath": "/previous-site/distracted-driver-accidents",
+    "destination": "/what-we-handle/car-accidents"
+  },
+  {
+    "originalPath": "/motor-vehicle-accidents/drunk-driving-accidents",
+    "intermediatePath": "/previous-site/drunk-driving-accidents",
+    "destination": "/what-we-handle/car-accidents"
+  },
+  {
+    "originalPath": "/motor-vehicle-accidents/motorcycle-accidents",
+    "intermediatePath": "/previous-site/motorcycle-accidents",
+    "destination": "/what-we-handle/motorcycle-accidents"
+  },
+  {
+    "originalPath": "/motor-vehicle-accidents/pedestrian-accidents",
+    "intermediatePath": "/previous-site/pedestrian-accidents",
+    "destination": "/what-we-handle/pedestrian-bicycle"
+  },
+  {
+    "originalPath": "/work-related-injuries/third-party-claims",
+    "intermediatePath": "/previous-site/third-party-claims",
+    "destination": "/what-we-handle/workplace-injuries"
+  },
+  {
+    "originalPath": "/medical-malpractice/birth-injuries",
+    "intermediatePath": "/previous-site/birth-injuries",
+    "destination": "/what-we-handle/birth-injury"
+  },
+  {
+    "originalPath": "/medical-malpractice/surgical-errors",
+    "intermediatePath": "/previous-site/surgical-errors",
+    "destination": "/what-we-handle/surgical-error"
+  },
+  {
+    "originalPath": "/premises-liability/inadequate-security",
+    "intermediatePath": "/previous-site/inadequate-security",
+    "destination": "/what-we-handle/premises-liability"
+  },
+  {
+    "originalPath": "/premises-liability/slip-and-falls",
+    "intermediatePath": "/previous-site/slip-and-falls",
+    "destination": "/what-we-handle/premises-liability"
+  },
+  {
+    "originalPath": "/nursing-home-negligence",
+    "intermediatePath": "/previous-site/nursing-home-negligence",
+    "destination": "/what-we-handle/nursing-home-abuse"
+  }
+]
