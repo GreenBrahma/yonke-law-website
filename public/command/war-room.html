@@ -28,7 +28,7 @@
   .status { display:grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; align-items:center; justify-items:center; gap:4px 8px; }
   .status .globe { grid-row:1 / span 2; width:100%; max-width:170px; aspect-ratio:1; }
   .status .gauge { width:100%; max-width:110px; aspect-ratio:1; }
-  .status .grade { font-size:3.4rem; font-weight:700; color:var(--forest); line-height:1; }
+  .status .grade { font-size:3.4rem; font-weight:700; color:#16A34A; line-height:1; }
   .status .lab { font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; text-align:center; }
   .metric { display:flex; flex-direction:column; align-items:center; }
   .note { font-size:.72rem; font-weight:700; text-align:center; }
@@ -39,6 +39,12 @@
   .card h3 { margin:0; font-size:.95rem; letter-spacing:.06em; text-transform:uppercase; color:var(--obsidian); }
   .card .sub { font-size:.78rem; margin:2px 0 4px; min-height:1.1em; }
   .card .flag { display:inline-block; font-size:.7rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; border:1px solid var(--obsidian); padding:0 6px; margin-left:6px; vertical-align:middle; }
+  .card { border-left-width:8px; }
+  .card.st-good { border-left-color:#16A34A; } .card.st-watch { border-left-color:#D97706; } .card.st-bad { border-left-color:#DC2626; }
+  .chip { display:inline-block; font-size:.7rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; padding:1px 8px; border-radius:10px; margin-left:6px; vertical-align:middle; color:#fff; }
+  .chip.good { background:#16A34A; } .chip.watch { background:#D97706; } .chip.bad { background:#DC2626; }
+  .legendbar { display:flex; flex-wrap:wrap; gap:14px; font-size:.8rem; font-weight:700; margin:10px 0 0; }
+  .legendbar span::before { content:""; display:inline-block; width:11px; height:11px; margin-right:5px; vertical-align:-1px; background:var(--c); }
   .chart { position:relative; height:170px; }
   .chart svg { display:block; width:100%; height:100%; }
   .chart svg text { fill:#000; font-family:Calibri, Carlito, "Segoe UI", Arial, sans-serif; font-size:11px; }
@@ -64,6 +70,8 @@
   </div>
   <span id="populate-help" hidden>When checked, the charts show measured performance. When unchecked, every chart reads zero.</span>
 
+  <div class="legendbar"><span style="--c:#16A34A">Up or steady</span><span style="--c:#D97706">Down 10–30%: watch</span><span style="--c:#DC2626">Down more than 30%: needs attention</span><span style="--c:#2563EB">Starting point or no comparison</span></div>
+
   <section class="row1">
     <div class="status" aria-label="Site status">
       <div class="globe" id="g_globe"></div>
@@ -87,7 +95,26 @@
 <script>
 (function () {
   const D = {"lsa": [{"year_month": "2026|8", "campaign": "LocalServices", "spend": 1739.01, "impressions": 569, "clicks": 67, "conversions": 23}, {"year_month": "2026|9", "campaign": "LocalServices", "spend": 1540.57, "impressions": 426, "clicks": 57, "conversions": 9}], "meta": [{"date": "2026-08-15", "spend": 3.09, "impressions": 300, "clicks": 18}, {"date": "2026-08-16", "spend": 5.12, "impressions": 416, "clicks": 25}, {"date": "2026-08-17", "spend": 3.93, "impressions": 251, "clicks": 17}, {"date": "2026-08-18", "spend": 5.5, "impressions": 382, "clicks": 21}, {"date": "2026-08-19", "spend": 4.98, "impressions": 329, "clicks": 16}, {"date": "2026-08-20", "spend": 4.39, "impressions": 373, "clicks": 13}, {"date": "2026-08-21", "spend": 6.8, "impressions": 473, "clicks": 21}, {"date": "2026-08-22", "spend": 4.08, "impressions": 220, "clicks": 6}, {"date": "2026-08-23", "spend": 7.09, "impressions": 498, "clicks": 30}, {"date": "2026-08-24", "spend": 5.13, "impressions": 425, "clicks": 20}, {"date": "2026-08-25", "spend": 5.17, "impressions": 359, "clicks": 16}, {"date": "2026-08-26", "spend": 3.62, "impressions": 255, "clicks": 12}, {"date": "2026-08-27", "spend": 4.23, "impressions": 288, "clicks": 9}, {"date": "2026-08-28", "spend": 4.06, "impressions": 180, "clicks": 12}, {"date": "2026-08-29", "spend": 5.48, "impressions": 273, "clicks": 16}, {"date": "2026-08-30", "spend": 5.75, "impressions": 277, "clicks": 11}, {"date": "2026-08-31", "spend": 6.52, "impressions": 221, "clicks": 20}, {"date": "2026-09-01", "spend": 6.2, "impressions": 237, "clicks": 21}, {"date": "2026-09-02", "spend": 3.06, "impressions": 141, "clicks": 5}, {"date": "2026-10-10", "spend": 8.3, "impressions": 512, "clicks": 24}, {"date": "2026-10-11", "spend": 6.36, "impressions": 314, "clicks": 11}, {"date": "2026-10-12", "spend": 2.87, "impressions": 132, "clicks": 5}, {"date": "2026-10-13", "spend": 5.72, "impressions": 275, "clicks": 16}, {"date": "2026-10-14", "spend": 4.5, "impressions": 191, "clicks": 10}, {"date": "2026-10-15", "spend": 5.2, "impressions": 227, "clicks": 14}, {"date": "2026-10-16", "spend": 5.78, "impressions": 275, "clicks": 13}, {"date": "2026-10-17", "spend": 4.32, "impressions": 226, "clicks": 17}, {"date": "2026-10-18", "spend": 6.02, "impressions": 306, "clicks": 12}, {"date": "2026-10-19", "spend": 4.45, "impressions": 210, "clicks": 5}, {"date": "2026-10-20", "spend": 4.24, "impressions": 226, "clicks": 9}, {"date": "2026-10-21", "spend": 5.2, "impressions": 251, "clicks": 8}, {"date": "2026-10-22", "spend": 4.93, "impressions": 240, "clicks": 12}, {"date": "2026-10-23", "spend": 5.86, "impressions": 276, "clicks": 17}, {"date": "2026-10-24", "spend": 3.99, "impressions": 209, "clicks": 5}, {"date": "2026-10-25", "spend": 5.96, "impressions": 334, "clicks": 17}, {"date": "2026-10-26", "spend": 4.68, "impressions": 242, "clicks": 11}, {"date": "2026-10-27", "spend": 6.02, "impressions": 337, "clicks": 15}, {"date": "2026-10-28", "spend": 4.85, "impressions": 260, "clicks": 15}, {"date": "2026-10-29", "spend": 3.51, "impressions": 156, "clicks": 8}, {"date": "2026-10-30", "spend": 5.06, "impressions": 216, "clicks": 10}, {"date": "2026-10-31", "spend": 4.67, "impressions": 238, "clicks": 6}, {"date": "2026-11-01", "spend": 6.47, "impressions": 348, "clicks": 13}, {"date": "2026-11-02", "spend": 4.69, "impressions": 249, "clicks": 8}, {"date": "2026-11-03", "spend": 4.92, "impressions": 316, "clicks": 11}, {"date": "2026-11-04", "spend": 3.96, "impressions": 252, "clicks": 10}, {"date": "2026-11-05", "spend": 5.16, "impressions": 310, "clicks": 11}, {"date": "2026-11-06", "spend": 4.75, "impressions": 267, "clicks": 7}], "gbp": [{"year_month_name": "May 2026", "impressions": 136, "call_clicks": 6, "website_clicks": 17, "direction_requests": 60}, {"year_month_name": "Jun 2026", "impressions": 140, "call_clicks": 6, "website_clicks": 17, "direction_requests": 27}, {"year_month_name": "Jul 2026", "impressions": 131, "call_clicks": 6, "website_clicks": 17, "direction_requests": 36}, {"year_month_name": "Aug 2026", "impressions": 151, "call_clicks": 9, "website_clicks": 23, "direction_requests": 33}, {"year_month_name": "Sep 2026", "impressions": 143, "call_clicks": 3, "website_clicks": 23, "direction_requests": 68}, {"year_month_name": "Oct 2026", "impressions": 167, "call_clicks": 4, "website_clicks": 11, "direction_requests": 35}], "reviews": [{"review_total_count": 28, "review_average_rating_total": 4.6}], "ga4": [{"year_month": "202509", "sessions": 6, "totalusers": 4}, {"year_month": "202510", "sessions": 107, "totalusers": 59}, {"year_month": "202511", "sessions": 47, "totalusers": 29}, {"year_month": "202512", "sessions": 40, "totalusers": 34}], "yt": [{"video_title": "Yonke Law   The Standard", "views": 13}, {"video_title": "Car Accident in Missouri or Kansas — What to Do Next | Yonke Law", "views": 2}, {"video_title": "What Is a Personal Injury Case? | Yonke Law — Kansas City", "views": 8}, {"video_title": "Got a deposition notice? Here’s how to get through it in four steps without oversharing.", "views": 163}, {"video_title": "Personal Injury Law in Missouri — Statutes, Fault Rules, and Timelines | Yonke Law", "views": 1}, {"video_title": "Motorcycle Accident Cases — What Riders Need to Know | Yonke Law", "views": 1}, {"video_title": "Medical Malpractice — When Trust Is Broken | Yonke Law", "views": 1}, {"video_title": "Truck Accident — Why These Cases Are Different | Yonke Law", "views": 1}]};
-  const G = '#1F3D2B', A = '#B89B5E', C = '#2E2F33', GRID = '#E5E7EB';
+  const GOOD = '#16A34A', WATCH = '#D97706', BAD = '#DC2626', BLUE = '#2563EB', PURPLE = '#7C3AED', TEAL = '#0891B2', GRID = '#E5E7EB';
+  const G = BLUE, A = GOOD, C = PURPLE;
+  // Status of a series: last period vs the one before. Up or within 10% = good; 10-30% down = watch; worse, or zero after activity = needs attention.
+  function statusOf(vals) {
+    const v = vals.filter((x) => x != null); if (v.length < 2) return null;
+    const last = v[v.length - 1], prev = v[v.length - 2];
+    if (!last && !prev) return null;
+    if (prev === 0) return 'good';
+    const ch = (last - prev) / prev;
+    return ch >= -0.10 ? 'good' : ch >= -0.30 ? 'watch' : 'bad';
+  }
+  const STC = { good: GOOD, watch: WATCH, bad: BAD };
+  const STL = { good: 'On track', watch: 'Watch', bad: 'Needs attention' };
+  // Bar color by change from the bar before it
+  const stepColor = (vals) => vals.map((v, i) => (i === 0 ? BLUE : STC[statusOf([vals[i - 1], v])] || BLUE));
+  function setStatus(id, st) {
+    const el = document.getElementById(id); if (!el) return; const card = el.closest('.card'); if (!card) return;
+    card.classList.remove('st-good', 'st-watch', 'st-bad'); const h = card.querySelector('h3'); const old = h.querySelector('.chip'); if (old) old.remove();
+    if (!st) return; card.classList.add('st-' + st); const c = document.createElement('span'); c.className = 'chip ' + st; c.textContent = STL[st]; h.appendChild(c);
+  }
   const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   const ymKey = (s) => { s = String(s); if (s.includes('|')) { const [y, m] = s.split('|'); return +y * 100 + +m; } return +s.slice(0, 6); };
   const ymLabel = (k) => MON[(k % 100) - 1] + ' ' + String(Math.floor(k / 100)).slice(2);
@@ -96,7 +123,7 @@
   const PLAN = ['Dec','Jan','Feb','Mar','Apr','May','Jun'];
 
   const SOCIAL = [
-    { id: 'c_fb', name: 'Facebook', sub: 'Link clicks by day, last 90 days', source: 'meta' },
+    { id: 'c_fb', name: 'Facebook', sub: 'Link clicks by week, last 90 days', source: 'meta' },
     { id: 'c_ig', name: 'Instagram', sub: 'Profile visits by month' },
     { id: 'c_yt', name: 'YouTube', sub: 'Views by video, last 90 days', source: 'yt' },
     { id: 'c_tt', name: 'TikTok', sub: 'Views by month' },
@@ -138,7 +165,7 @@
     rows.forEach((r, i) => series.forEach((s) => {
       const v = r.values[s.key] || 0;
       svg.append('rect').attr('x', x0(i) + x1(s.key)).attr('width', x1.bandwidth()).attr('y', y(v)).attr('height', Math.max(0, y(0) - y(v)))
-        .attr('fill', s.color).attr('fill-opacity', .88)
+        .attr('fill', (r.colors && r.colors[s.key]) || s.color).attr('fill-opacity', .92)
         .on('mousemove', (ev) => showTip(tip, el, ev, r.tip || [r.label, s.name + ' ' + int(v)])).on('mouseleave', () => tip.style('display', 'none'));
       if (opt.top && v) svg.append('text').attr('x', x0(i) + x0.bandwidth() / 2).attr('y', y(v) - 4).attr('text-anchor', 'middle').style('font-weight', 700).text(int(v));
     }));
@@ -165,15 +192,20 @@
   // Each chart: draw(on). When the switch is off every value is zero; categories stay so the frame is readable.
   const z = (on, v) => (on ? +v || 0 : 0);
   const CHARTS = {
-    c_ga4: (el, on) => bars(el, D.ga4.map((r) => ({ label: ymLabel(ymKey(r.year_month)), values: { s: z(on, r.sessions) },
-      tip: [ymLabel(ymKey(r.year_month)), 'Sessions ' + int(z(on, r.sessions)), 'Users ' + int(z(on, r.totalusers))] })), [{ key: 's', name: 'Sessions', color: A }]),
-    c_gbp: (el, on) => bars(el, D.gbp.map((r) => ({ label: String(r.year_month_name).slice(0, 3), values: { c: z(on, r.call_clicks), w: z(on, r.website_clicks), d: z(on, r.direction_requests) },
+    c_ga4: (el, on) => { const v = D.ga4.map((r) => z(on, r.sessions)), col = stepColor(v); setStatus('c_ga4', on ? statusOf(v) : null);
+      bars(el, D.ga4.map((r, i) => ({ label: ymLabel(ymKey(r.year_month)), values: { s: v[i] }, colors: { s: col[i] },
+      tip: [ymLabel(ymKey(r.year_month)), 'Sessions ' + int(v[i]), 'Users ' + int(z(on, r.totalusers))] })), [{ key: 's', name: 'Sessions', color: BLUE }]); },
+    c_gbp: (el, on) => (setStatus('c_gbp', on ? statusOf(D.gbp.map((r) => z(on, r.call_clicks) + z(on, r.website_clicks) + z(on, r.direction_requests))) : null), bars(el, D.gbp.map((r) => ({ label: String(r.year_month_name).slice(0, 3), values: { c: z(on, r.call_clicks), w: z(on, r.website_clicks), d: z(on, r.direction_requests) },
       tip: [r.year_month_name, 'Calls ' + int(z(on, r.call_clicks)), 'Website clicks ' + int(z(on, r.website_clicks)), 'Directions ' + int(z(on, r.direction_requests))] })),
-      [{ key: 'c', name: 'Calls', color: A }, { key: 'w', name: 'Website', color: C }, { key: 'd', name: 'Directions', color: G }]),
-    c_lsa: (el, on) => bars(el, D.lsa.map((r) => ({ label: ymLabel(ymKey(r.year_month)), values: { l: z(on, r.conversions) },
-      tip: [ymLabel(ymKey(r.year_month)), 'Leads ' + int(z(on, r.conversions)), 'Clicks ' + int(z(on, r.clicks)), 'Impressions ' + int(z(on, r.impressions))] })), [{ key: 'l', name: 'Leads', color: G }], { top: true }),
-    c_fb: (el, on) => { const f = d3.utcFormat('%b %-d'); bars(el, D.meta.map((r) => ({ label: f(new Date(r.date)), values: { c: z(on, r.clicks) },
-      tip: [f(new Date(r.date)), 'Clicks ' + int(z(on, r.clicks)), 'Impressions ' + int(z(on, r.impressions))] })), [{ key: 'c', name: 'Clicks', color: G }]); },
+      [{ key: 'c', name: 'Calls', color: BLUE }, { key: 'w', name: 'Website', color: PURPLE }, { key: 'd', name: 'Directions', color: TEAL }])),
+    c_lsa: (el, on) => { const v = D.lsa.map((r) => z(on, r.conversions)), col = stepColor(v); setStatus('c_lsa', on ? statusOf(v) : null);
+      bars(el, D.lsa.map((r, i) => ({ label: ymLabel(ymKey(r.year_month)), values: { l: v[i] }, colors: { l: col[i] },
+      tip: [ymLabel(ymKey(r.year_month)), 'Leads ' + int(v[i]), 'Clicks ' + int(z(on, r.clicks)), 'Impressions ' + int(z(on, r.impressions))] })), [{ key: 'l', name: 'Leads', color: BLUE }], { top: true }); },
+    c_fb: (el, on) => { // weekly totals so the colors show the trend, not daily noise
+      const f = d3.utcFormat('%b %-d'), wk = d3.rollups(D.meta, (rs) => ({ c: d3.sum(rs, (r) => r.clicks), i: d3.sum(rs, (r) => r.impressions) }), (r) => +d3.utcMonday.floor(new Date(r.date))).sort((a, b) => a[0] - b[0]);
+      const v = wk.map(([, t]) => z(on, t.c)), col = stepColor(v); setStatus('c_fb', on ? statusOf(v) : null);
+      bars(el, wk.map(([k, t], i) => ({ label: f(new Date(k)), values: { c: v[i] }, colors: { c: col[i] },
+      tip: ['Week of ' + f(new Date(k)), 'Clicks ' + int(v[i]), 'Impressions ' + int(z(on, t.i))] })), [{ key: 'c', name: 'Clicks', color: BLUE }]); },
     c_yt: (el, on) => hbars(el, D.yt.map((r) => ({ t: String(r.video_title).replace(/\s*\|\s*Yonke Law.*$/i, '').replace(/\s+/g, ' ').trim(), v: z(on, r.views) }))
       .sort((a, b) => b.v - a.v || a.t.localeCompare(b.t)))
   };
@@ -192,8 +224,8 @@
     const arc = d3.arc().innerRadius(r - w).outerRadius(r).startAngle(-Math.PI * 0.75);
     const g = svg.append('g').attr('transform', `translate(${S / 2},${S / 2 + 6})`);
     g.append('path').attr('d', arc.endAngle(Math.PI * 0.75)()).attr('fill', GRID);
-    g.append('path').attr('d', arc.endAngle(-Math.PI * 0.75 + Math.PI * 1.5 * WEBSITE_HEALTH)()).attr('fill', G);
-    g.append('text').attr('text-anchor', 'middle').attr('y', 9).style('fill', G).style('font-size', '26px').style('font-weight', 700).text(d3.format('.0%')(WEBSITE_HEALTH));
+    g.append('path').attr('d', arc.endAngle(-Math.PI * 0.75 + Math.PI * 1.5 * WEBSITE_HEALTH)()).attr('fill', WEBSITE_HEALTH >= 0.9 ? GOOD : WEBSITE_HEALTH >= 0.75 ? WATCH : BAD);
+    g.append('text').attr('text-anchor', 'middle').attr('y', 9).style('fill', WEBSITE_HEALTH >= 0.9 ? GOOD : WEBSITE_HEALTH >= 0.75 ? WATCH : BAD).style('font-size', '26px').style('font-weight', 700).text(d3.format('.0%')(WEBSITE_HEALTH));
   })();
   (function globe() {
     const el = document.getElementById('g_globe'); const S = 240;

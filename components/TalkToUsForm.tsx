@@ -2,7 +2,7 @@
 
 import { trackLead } from "@/components/Analytics";
 
-import { useState, type FormEvent } from "react";
+import { useId, useState, type FormEvent } from "react";
 import { SmsConsent } from "@/components/SmsConsent";
 import { CaseTypeSelect } from "@/components/CaseTypeSelect";
 import { sendToLeadDocket } from "@/lib/lead-docket";
@@ -11,13 +11,25 @@ import { TalkToUsFileInput } from "@/components/TalkToUsFileInput";
 type FormState = "idle" | "sending" | "sent" | "error";
 
 /**
- * Client-side Talk to Us form.
- * Submits via /api/send-mail (Microsoft Graph) to
- * mike@yonke.law, jyonke@yonke.law, and michelle@yonke.law.
+ * The one lead form used everywhere on yonke.law (pages, homepage concierge,
+ * help widget). Every submission goes to Lead Docket (with the SMS consent
+ * record) and to the firm by email, and is counted in GA4 as generate_lead.
+ *
+ * compact: tighter layout for chat panels (no file upload, stacked names).
+ * context: extra text (e.g. a chat transcript) added to the summary.
+ * onSent: called after a successful submission.
  */
-export function TalkToUsForm({ source = "Talk to Us page" }: { source?: string } = {}) {
+type TalkToUsFormProps = {
+  source?: string;
+  compact?: boolean;
+  context?: string;
+  onSent?: () => void;
+};
+
+export function TalkToUsForm({ source = "Talk to Us page", compact = false, context = "", onSent }: TalkToUsFormProps = {}) {
   const [state, setState] = useState<FormState>("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const idp = useId().replace(/:/g, "") + "-";
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -33,7 +45,8 @@ export function TalkToUsForm({ source = "Talk to Us page" }: { source?: string }
     const phone = data.get("phone") as string;
     const email = data.get("email") as string;
     const caseType = data.get("case_type") as string;
-    const message = data.get("message") as string;
+    const typed = (data.get("message") as string) || "";
+    const message = context ? `${typed}\n\n--- ${context}` : typed;
     const smsConsent = data.get("sms_consent") === "yes";
 
     // Build a professional HTML email body
@@ -106,6 +119,7 @@ export function TalkToUsForm({ source = "Talk to Us page" }: { source?: string }
           setState("sent");
           trackLead(source);
           form.reset();
+          onSent?.();
           return;
         }
         throw new Error(err.detail || "Failed to send message");
@@ -114,6 +128,7 @@ export function TalkToUsForm({ source = "Talk to Us page" }: { source?: string }
       setState("sent");
       trackLead(source);
       form.reset();
+      onSent?.();
     } catch (err) {
       setState("error");
       setErrorMsg(
@@ -157,18 +172,18 @@ export function TalkToUsForm({ source = "Talk to Us page" }: { source?: string }
   // ── Form state ─────────────────────────────────────────────────────────────
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="grid sm:grid-cols-2 gap-6">
+    <form onSubmit={handleSubmit} className={compact ? "space-y-3 text-left" : "space-y-6"}>
+      <div className={compact ? "grid gap-3" : "grid sm:grid-cols-2 gap-6"}>
         <div>
           <label
-            htmlFor="first_name"
+            htmlFor={`${idp}first_name`}
             className="block text-sm text-steel-silver mb-2"
           >
             First name
           </label>
           <input
             type="text"
-            id="first_name"
+            id={`${idp}first_name`}
             name="first_name"
             autoComplete="given-name"
             required
@@ -177,14 +192,14 @@ export function TalkToUsForm({ source = "Talk to Us page" }: { source?: string }
         </div>
         <div>
           <label
-            htmlFor="last_name"
+            htmlFor={`${idp}last_name`}
             className="block text-sm text-steel-silver mb-2"
           >
             Last name
           </label>
           <input
             type="text"
-            id="last_name"
+            id={`${idp}last_name`}
             name="last_name"
             autoComplete="family-name"
             required
@@ -195,32 +210,32 @@ export function TalkToUsForm({ source = "Talk to Us page" }: { source?: string }
 
       <div>
           <label
-            htmlFor="phone"
+            htmlFor={`${idp}phone`}
             className="block text-sm text-steel-silver mb-2"
           >
             Phone number
           </label>
           <input
             type="tel"
-            id="phone"
+            id={`${idp}phone`}
             name="phone"
             className="w-full bg-obsidian-graphite border border-steel-silver/20 rounded-lg px-4 py-3 text-chrome-highlight placeholder:text-steel-silver/40 focus:outline-none focus:border-muted-gold/50 transition-colors"
             placeholder="(xxx) xxx-xxxx"
           />
       </div>
 
-      <SmsConsent id="sms_consent" />
+      <SmsConsent id={`${idp}sms_consent`} compact={compact} />
 
       <div>
         <label
-          htmlFor="email"
+          htmlFor={`${idp}email`}
           className="block text-sm text-steel-silver mb-2"
         >
           Email address
         </label>
         <input
           type="email"
-          id="email"
+          id={`${idp}email`}
           name="email"
           required
           className="w-full bg-obsidian-graphite border border-steel-silver/20 rounded-lg px-4 py-3 text-chrome-highlight placeholder:text-steel-silver/40 focus:outline-none focus:border-muted-gold/50 transition-colors"
@@ -228,26 +243,26 @@ export function TalkToUsForm({ source = "Talk to Us page" }: { source?: string }
         />
       </div>
 
-      <CaseTypeSelect id="case-type" />
+      <CaseTypeSelect id={`${idp}case-type`} />
 
       <div>
         <label
-          htmlFor="message"
+          htmlFor={`${idp}message`}
           className="block text-sm text-steel-silver mb-2"
         >
           Tell us what happened
         </label>
         <textarea
-          id="message"
+          id={`${idp}message`}
           name="message"
-          rows={5}
+          rows={compact ? 3 : 5}
           required
           className="w-full bg-obsidian-graphite border border-steel-silver/20 rounded-lg px-4 py-3 text-chrome-highlight placeholder:text-steel-silver/40 focus:outline-none focus:border-muted-gold/50 transition-colors resize-y"
           placeholder="Share as much or as little as you're comfortable with. Everything is confidential."
         />
       </div>
 
-      <TalkToUsFileInput />
+      {!compact && <TalkToUsFileInput />}
 
       {state === "error" && errorMsg && (
         <div className="bg-signal-red/10 border border-signal-red/30 rounded-lg p-4">

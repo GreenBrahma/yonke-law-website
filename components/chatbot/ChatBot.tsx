@@ -1,36 +1,12 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
+import { TalkToUsForm } from "@/components/TalkToUsForm";
 import Image from "next/image";
 
 export function ChatBot() {
   const [isOpen, setIsOpen] = useState(false);
   const [isDismissed, setIsDismissed] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [message, setMessage] = useState("");
-  const inputRef = useRef<HTMLTextAreaElement>(null);
-
-  useEffect(() => {
-    if (isOpen && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [isOpen]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!message.trim()) return;
-    
-    setIsSubmitted(true);
-    setMessage("");
-
-    // The message could be sent to an API here.
-    // For now, we simulate success as requested.
-    
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setIsOpen(false);
-    }, 2500);
-  };
 
   if (isDismissed) {
     return (
@@ -63,38 +39,18 @@ export function ChatBot() {
             How can I help?
           </h3>
           <p className="text-sm text-steel-silver text-center mt-1">
-            Describe your situation or ask a question.
+            Tell us what happened. Mike or Janell will follow up, usually the same business day.
           </p>
         </div>
 
-        <div className="p-5 bg-obsidian-graphite">
-          {isSubmitted ? (
-            <div className="flex flex-col items-center justify-center py-8 opacity-100 animate-in fade-in duration-500">
-              <div className="text-muted-gold text-3xl mb-3">✓</div>
-              <p className="text-chrome-highlight text-sm text-center font-medium">
-                Got it, we'll look into it.
-              </p>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="flex flex-col gap-3 animate-in fade-in duration-300">
-              <textarea
-                ref={inputRef}
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                placeholder="Type your question..."
-                rows={3}
-                className="w-full bg-charcoal-slate border border-steel-silver/20 rounded-lg px-3 py-2 text-sm text-chrome-highlight placeholder:text-steel-silver/50 focus:outline-none focus:border-muted-gold/50 resize-none transition-colors"
-                required
-              />
-              <button
-                type="submit"
-                disabled={!message.trim()}
-                className="bg-muted-gold text-obsidian-graphite font-semibold py-2.5 rounded-lg text-sm hover:bg-muted-gold/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Send Message
-              </button>
-            </form>
-          )}
+        <div className="p-5 bg-obsidian-graphite max-h-[60vh] overflow-y-auto">
+          <TalkToUsForm
+            source="Help widget"
+            compact
+            onSent={() => {
+              setTimeout(() => setIsOpen(false), 4000);
+            }}
+          />
         </div>
 
         <div className="bg-charcoal-slate p-2 flex justify-end border-t border-steel-silver/10">
