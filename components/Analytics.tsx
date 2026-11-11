@@ -81,8 +81,34 @@ fbq('init','${PIXEL_ID}');`}
   );
 }
 
-/** Call after a form is successfully submitted. Sends no personal data. */
+/**
+ * Call after a form is successfully submitted. Sends no personal data.
+ * On no-tracking pages (e.g. Just Happened) the lead is still counted, but
+ * as a single event with the page address replaced by the site root, so the
+ * visit itself is never recorded. Tracking is switched back off right after.
+ */
 export function trackLead(source: string) {
   const w = window as unknown as W;
-  if (GA4_ID && w.gtag) w.gtag("event", "generate_lead", { form_source: source });
+  if (!GA4_ID || !w.gtag) return;
+  const flag = `ga-disable-${GA4_ID}`;
+  const blocked = matches(window.location.pathname, NO_TRACKING);
+  if (!blocked) {
+    w.gtag("event", "generate_lead", { form_source: source });
+    return;
+  }
+  w[flag] = false;
+  w.gtag("event", "generate_lead", {
+    form_source: source,
+    page_location: window.location.origin + "/",
+    page_path: "/",
+    page_title: "Lead",
+    page_referrer: "",
+    event_callback: () => {
+      w[flag] = true;
+    },
+  });
+  // Fallback in case the callback never fires
+  setTimeout(() => {
+    w[flag] = true;
+  }, 2000);
 }

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Libre_Baskerville, Inter } from "next/font/google";
 import { TopNav } from "@/components/TopNav";
 import { Footer } from "@/components/Footer";
-import { ChatBot } from "@/components/chatbot/ChatBot";
 import { CacheBuster } from "@/components/CacheBuster";
 import { Analytics } from "@/components/Analytics";
 import Breadcrumb from "@/components/Breadcrumb";
@@ -81,7 +80,6 @@ export default function RootLayout({
         </main>
 
         <Footer />
-        <ChatBot />
         <CacheBuster />
         <Analytics />
       </body>
