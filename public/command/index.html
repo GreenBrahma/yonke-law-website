@@ -745,9 +745,12 @@ Example:   YL_META_AUTO_KCMETRO_LEAD_RETARGET30_VIDEOMIKE_V2</pre>
     if (lines.length === maxLines) lines[maxLines - 1] = lines[maxLines - 1].replace(/\s*\S*$/, '') + '…';
     return { size: minSize, lines };
   }
+  // Fill the box with the photo. When the photo has to be trimmed top/bottom, keep the
+  // top of the picture (faces and heads sit there in portraits) instead of the middle.
   function cover(ctx, img, x, y, w, h) {
     const r = Math.max(w / img.width, h / img.height), sw = w / r, sh = h / r;
-    ctx.drawImage(img, (img.width - sw) / 2, (img.height - sh) / 2, sw, sh, x, y, w, h);
+    const sy = (img.height - sh) * 0.12;
+    ctx.drawImage(img, (img.width - sw) / 2, sy, sw, sh, x, y, w, h);
   }
 
   // ---- Render one platform image ----
