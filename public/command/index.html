@@ -682,8 +682,15 @@ Example:   YL_META_AUTO_KCMETRO_LEAD_RETARGET30_VIDEOMIKE_V2</pre>
     facebook:        { name: 'Facebook',                size: 'Landscape 1.91:1', src: '/command/frames/landscape191.jpg',  w: 1731, h: 909,  x0: 16, y0: 16, x1: 1718, logoTop: 737 },
     instagram:       { name: 'Instagram',               size: 'Portrait 4:5',     src: '/command/frames/portrait4x5.jpg',   w: 1122, h: 1402, x0: 13, y0: 13, x1: 1109, logoTop: 1236 },
     google_business: { name: 'Google Business Profile', size: 'Landscape 16:9',   src: '/command/frames/landscape16x9.jpg', w: 1672, h: 941,  x0: 15, y0: 14, x1: 1659, logoTop: 753 },
-    linkedin:        { name: 'LinkedIn',                size: 'Square 1:1',       src: '/command/frames/square.jpg',        w: 1254, h: 1254, x0: 19, y0: 18, x1: 1236, logoTop: 1086, soon: true }
+    tiktok:          { name: 'TikTok',                  size: 'Vertical 9:16',    from: 'instagram', w: 1080, h: 1920 },
+    linkedin:        { name: 'LinkedIn',                size: 'Square 1:1',       src: '/command/frames/square.jpg',        w: 1254, h: 1254, x0: 19, y0: 18, x1: 1236, logoTop: 1086 }
   };
+  // Which platforms are connected for publishing (from the server); the rest show "Not connected yet"
+  let CONNECTED = [], MODE = 'draft';
+  fetch('/command/api/activity').then((r) => r.json()).then((j) => { CONNECTED = j.connected || []; MODE = j.mode || 'draft';
+    Object.keys(FRAMES).forEach((k) => (FRAMES[k].soon = !CONNECTED.includes(k)));
+    $('act-submit').textContent = MODE === 'draft' ? 'Send for approval' : 'Post now'; }).catch(() => {});
+  Object.keys(FRAMES).forEach((k) => (FRAMES[k].soon = true));
   const FONT = 'Calibri, Carlito, "Segoe UI", Arial, sans-serif';
   let photos = [];            // [{ file, url, img }]
   let rendered = {};          // platform -> dataURL
@@ -746,6 +753,20 @@ Example:   YL_META_AUTO_KCMETRO_LEAD_RETARGET30_VIDEOMIKE_V2</pre>
   // ---- Render one platform image ----
   async function render(key, doing, message) {
     const F = FRAMES[key];
+    if (F.from) {
+      // Vertical frame: the 4:5 Yonke Law post centered on a full-height brand background
+      const base = await load(await render(F.from, doing, message));
+      const c = document.createElement('canvas'); c.width = F.w; c.height = F.h;
+      const ctx = c.getContext('2d');
+      ctx.fillStyle = '#1C1C1E'; ctx.fillRect(0, 0, F.w, F.h);
+      const bw = F.w, bh = Math.round(base.height * (F.w / base.width)), by = Math.round((F.h - bh) / 2);
+      ctx.drawImage(base, 0, by, bw, bh);
+      ctx.fillStyle = '#B89B5E'; ctx.fillRect(F.w * 0.4, by + bh + 60, F.w * 0.2, 6);
+      ctx.fillStyle = '#F2F4F7'; ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+      ctx.font = '700 64px ' + FONT; ctx.fillText('yonke.law', F.w / 2, by + bh + 100);
+      ctx.font = '400 40px ' + FONT; ctx.fillText('816-221-6400', F.w / 2, by + bh + 180);
+      return c.toDataURL('image/jpeg', 0.88);
+    }
     const tpl = await load(F.src);
     const c = document.createElement('canvas'); c.width = F.w; c.height = F.h;
     const ctx = c.getContext('2d');
@@ -832,14 +853,18 @@ Example:   YL_META_AUTO_KCMETRO_LEAD_RETARGET30_VIDEOMIKE_V2</pre>
       const j = await res.json();
       if (!j.ok) throw new Error(j.error || 'Something went wrong');
       const names = targets.map((t) => FRAMES[t].name).join(', ');
-      const waiting = Object.values(j.status || {}).some((s) => s === 'awaiting connection');
-      msg.textContent = waiting
-        ? 'Saved for ' + names + '. Publishing switches on once Facebook, Instagram and Google are connected. You can also download each image above.'
-        : 'Sent to ' + names + '.';
-      if (!waiting) { $('act-form').reset(); photos = []; drawThumbs(); }
+      const st = j.status || {};
+      const by = (v) => targets.filter((t) => st[t] === v).map((t) => FRAMES[t].name);
+      const parts = [];
+      if (by('sent for approval').length) parts.push('Sent for approval: ' + by('sent for approval').join(', ') + '. Geoff reviews it before it goes live.');
+      if (by('scheduled').length) parts.push('Posting in a few minutes: ' + by('scheduled').join(', ') + '.');
+      if (by('failed').length) parts.push('Could not send to ' + by('failed').join(', ') + '. Try again, or download the image above.');
+      if (by('awaiting connection').length) parts.push('Saved only (not connected yet): ' + by('awaiting connection').join(', ') + '.');
+      msg.textContent = parts.join(' ') || 'Saved for ' + names + '.';
+      if (!by('failed').length && !by('awaiting connection').length) { $('act-form').reset(); photos = []; drawThumbs(); }
     } catch (e) {
       msg.textContent = 'Could not send: ' + e.message + '. Your posts are still here; try again.';
-    } finally { btn.disabled = false; btn.textContent = 'Save my posts'; }
+    } finally { btn.disabled = false; btn.textContent = MODE === 'draft' ? 'Send for approval' : 'Post now'; }
   });
 })();
 </script>

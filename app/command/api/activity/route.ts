@@ -9,7 +9,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
-import { publish, PLATFORMS, type Platform } from "@/lib/activity/publish";
+import { publish, PLATFORMS, connectedPlatforms, publishMode, type Platform } from "@/lib/activity/publish";
 
 export const dynamic = "force-dynamic";
 
@@ -71,5 +71,5 @@ export async function GET() {
     .map((s) => JSON.parse(s as string))
     .sort((a, b) => (a.created < b.created ? 1 : -1))
     .slice(0, 10);
-  return NextResponse.json({ ok: true, posts });
+  return NextResponse.json({ ok: true, posts, connected: connectedPlatforms(), mode: publishMode() });
 }

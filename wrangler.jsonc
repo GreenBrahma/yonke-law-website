@@ -21,6 +21,11 @@
     "MS365_ATTORNEY_EMAIL": "mike@yonke.law",
     "MS365_SENDER_EMAIL": "mike@yonke.law",
     "AUTH_URL": "https://yonke.law",
-    "NEXTAUTH_URL": "https://yonke.law"
+    "NEXTAUTH_URL": "https://yonke.law",
+    // Mike's Add Activity -> Metricool (brand "Yonke Law"). Token is a Worker secret: METRICOOL_TOKEN
+    "METRICOOL_USER_ID": "6111543",
+    "METRICOOL_BLOG_ID": "7809690",
+    "METRICOOL_NETWORKS": "gmb,tiktok",
+    "ACTIVITY_PUBLISH_MODE": "draft"
   }
 }
