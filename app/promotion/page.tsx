@@ -422,20 +422,7 @@ export default function PromotionPage() {
                 addressRegion: "MO",
               },
             },
-            about: {
-              "@type": "Event",
-              name: "FIFA World Cup 2026",
-              location: {
-                "@type": "Place",
-                name: "Kansas City",
-                address: {
-                  "@type": "PostalAddress",
-                  addressLocality: "Kansas City",
-                  addressRegion: "MO",
-                  addressCountry: "US",
-                },
-              },
-            },
+
           }),
         }}
       />

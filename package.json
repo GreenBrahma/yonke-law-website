@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test:seo": "node --import tsx --test tests/legacy-redirects.unit.ts",
+    "test:seo": "node --import tsx --test tests/legacy-redirects.unit.ts tests/promotion-schema.unit.ts",
     "test:seo:http": "node --import tsx --test tests/legacy-redirects.http.ts",
     "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
