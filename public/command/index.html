@@ -194,6 +194,57 @@
   .act-msg { font-size:1.1rem; font-weight:700; margin-top:10px; }
   .ex { justify-self:start; font:inherit; font-size:1rem; font-weight:700; padding:6px 14px; background:#fff; color:#1C1C1E; border:2px solid #B89B5E; cursor:pointer; }
   .pcard .dl { display:inline-block; margin-top:8px; font-weight:700; color:#1F3D2B; }
+
+  /* ---- Marketing Plan: the written plan, a drop-down above the calendar ---- */
+  #view-wall .plan-bar { flex:none; display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin:0 0 8px; }
+  #view-wall .plan-bar h2 { margin:0; font-size:1.5rem; }
+  #view-wall .plan-bar .hint { margin:0; font-size:1rem; }
+  .plan-toggle { appearance:none; width:38px; height:38px; padding:0; display:inline-flex; align-items:center; justify-content:center; background:#C9CCD1; border:2px solid var(--line); cursor:pointer; }
+  .plan-toggle:hover { background:#E5E7EB; }
+  .plan-toggle svg { width:22px; height:22px; display:block; transition:transform .15s ease; }
+  .plan-toggle[aria-expanded="false"] svg { transform:rotate(-90deg); }
+  @media (prefers-reduced-motion:reduce) { .plan-toggle svg { transition:none; } }
+  #plan-full { margin-left:auto; }
+  #view-wall .plan-panel { flex:0 0 auto; height:46%; min-height:190px; max-height:calc(100% - 150px); overflow:auto; resize:vertical; background:#F2F4F7; border:2px solid var(--line); border-radius:18px; padding:16px 22px 22px; margin:0 0 12px; }
+  #view-wall .plan-panel[hidden] { display:none; }
+  /* Reading mode: the plan takes the whole view and the calendar steps aside */
+  #view-wall.plan-reading .plan-panel { flex:1 1 auto; height:auto !important; max-height:none; min-height:0; resize:none; margin-bottom:0; }
+  #view-wall.plan-reading .wall-bar, #view-wall.plan-reading .wall-scroll { display:none; }
+  .plan-panel section { padding:14px 0 4px; border-bottom:1px solid #C9CCD1; }
+  .plan-panel h3 { font-size:1.375rem; margin:0 0 8px; }
+  .plan-panel h4 { font-size:1.125rem; margin:16px 0 6px; }
+  .plan-panel p, .plan-panel li { font-size:1.0625rem; }
+  .plan-panel p.lead { font-size:1.1875rem; }
+  .plan-panel table { background:#fff; }
+  .plan-panel .table-scroll { margin:6px 0 14px; }
+  .plan-top { display:grid; grid-template-columns:minmax(0,1fr) minmax(300px,44%); gap:22px; align-items:start; }
+  .plan-panel .plan-kicker { font-size:1rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; margin:0 0 4px; }
+  .plan-panel .plan-title { font-size:1.75rem; font-weight:700; line-height:1.2; margin:0 0 4px; }
+  .plan-panel .plan-state { display:inline-block; font-size:1rem; font-weight:700; border:2px solid var(--gold); background:#fff; padding:2px 10px; margin:6px 0 12px; }
+  .plan-fig { margin:0; }
+  .plan-fig a { display:block; border:2px solid var(--line); border-radius:12px; overflow:hidden; background:#fff; }
+  .plan-fig img { display:block; width:100%; height:auto; }
+  .plan-fig figcaption { font-size:1rem; margin-top:6px; }
+  .plan-glance { display:grid; grid-template-columns:repeat(auto-fit, minmax(128px,1fr)); gap:8px; margin:10px 0 4px; padding:0; list-style:none; }
+  .plan-glance li { background:#fff; border:1px solid var(--line); padding:8px 10px; margin:0; font-size:1rem; line-height:1.3; }
+  .plan-glance strong { display:block; font-size:1.625rem; line-height:1.1; }
+  .plan-jump { display:flex; flex-wrap:wrap; gap:6px; margin:16px 0 0; }
+  .plan-jump .btn { border-width:1px; padding:4px 10px; }
+  .plan-script { background:#fff; border-left:4px solid var(--gold); padding:10px 14px; margin:6px 0 12px; }
+  .plan-script p { margin:0; }
+  @media (max-width:900px) {
+    .plan-top { grid-template-columns:1fr; }
+    #view-wall .plan-panel { padding:12px 14px 16px; border-radius:14px; }
+    .plan-panel .plan-title { font-size:1.375rem; }
+  }
+  /* Phones and very short windows: there is no room for both, so an open plan
+     takes the whole view and the arrow brings the calendar back. */
+  @media (max-width:640px), (max-height:520px) {
+    #view-wall.plan-open .plan-panel { flex:1 1 auto; height:auto !important; max-height:none; min-height:0; resize:none; margin-bottom:0; }
+    #view-wall.plan-open .wall-bar, #view-wall.plan-open .wall-scroll { display:none; }
+    #view-wall #plan-full { display:none; }
+    #view-wall .plan-bar .hint { display:none; }
+  }
 </style>
 </head>
 <body>
@@ -344,6 +395,239 @@
 <!-- =========================== PLANNING WALL =========================== -->
 <div class="view" id="view-wall">
 <div class="wide">
+  <!-- Marketing Plan: the written plan, shown before the calendar as a drop-down -->
+  <div class="plan-bar">
+    <h2 id="plan-heading">Marketing Plan</h2>
+    <button type="button" class="plan-toggle" id="plan-toggle" aria-expanded="true" aria-controls="plan-panel" aria-label="Hide the marketing plan" title="Show or hide the marketing plan">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18L12 20z" fill="#2E2F33" stroke="#1C1C1E" stroke-width="1.5" stroke-linejoin="round"/></svg>
+    </button>
+    <p class="hint" id="plan-hint">Thanksgiving 2026 through December 2027</p>
+    <button type="button" class="btn" id="plan-full" aria-pressed="false">Read full screen</button>
+  </div>
+  <div class="plan-panel" id="plan-panel" role="region" aria-labelledby="plan-heading" tabindex="0">
+
+    <div class="plan-top">
+      <div class="plan-intro">
+        <p class="plan-kicker">People First</p>
+        <p class="plan-title">Yonke Law Content and Publishing Plan</p>
+        <p class="plan-state">Draft for Mike's review. Nothing here is approved or scheduled yet.</p>
+        <p class="lead">We will combine a planned editorial calendar with daily observations about how Mike helps people. The planned stories give the year direction. Mike's real questions, work and perspective keep it current and personal.</p>
+        <p><strong>What it should accomplish.</strong> Help people recognize situations in which they may want information, understand what working with Yonke Law involves, and feel more comfortable starting an appropriate conversation. Strengthen professional referrals by showing how Mike thinks and approaches a matter.</p>
+        <p><strong>The story theme for the year:</strong> When life gets interrupted.</p>
+        <ul class="plan-glance" aria-label="The plan at a glance">
+          <li><strong>401</strong> dated opportunities, one a day</li>
+          <li><strong>236</strong> planned entries</li>
+          <li><strong>165</strong> flexible timely slots</li>
+          <li><strong>30</strong> story cycles</li>
+          <li><strong>23</strong> practice spotlights</li>
+          <li><strong>5</strong> resources to build</li>
+        </ul>
+      </div>
+      <figure class="plan-fig">
+        <a href="/command/paid-owned-earned-media.jpg" target="_blank" rel="noopener"><img src="/command/paid-owned-earned-media.jpg" width="1491" height="1055" loading="lazy" alt="Paid, Owned and Earned Media diagram. Paid and owned overlap on social media: Facebook, Instagram, YouTube, TikTok and LinkedIn. Owned media: the Yonke.Law website, the People Portal and WhatsApp. Business platforms: Google Business Profile, Yelp and Substack. Earned media and legal platforms: Best Lawyers, Super Lawyers, LLM visibility and Reddit. Google Search sits between paid and earned."></a>
+        <figcaption>Where each platform on the calendar sits. Tap the picture to open it full size.</figcaption>
+      </figure>
+    </div>
+
+    <div class="plan-jump" role="group" aria-label="Jump to a section of the plan">
+      <button type="button" class="btn" data-jump="plan-s-rhythm">Daily rhythm</button>
+      <button type="button" class="btn" data-jump="plan-s-launch">Launch</button>
+      <button type="button" class="btn" data-jump="plan-s-2027">2027 calendar</button>
+      <button type="button" class="btn" data-jump="plan-s-resources">Resources</button>
+      <button type="button" class="btn" data-jump="plan-s-channels">Channels</button>
+      <button type="button" class="btn" data-jump="plan-s-formats">Formats</button>
+      <button type="button" class="btn" data-jump="plan-s-roles">Who does what</button>
+      <button type="button" class="btn" data-jump="plan-s-measure">Measurement</button>
+    </div>
+
+    <section id="plan-s-streams">
+      <h3>Two streams, one calendar</h3>
+      <div class="table-scroll"><table>
+        <thead><tr><th>Stream</th><th>What it contributes</th><th>How it is supplied</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Planned stories</strong></td><td>Consistent explanations, useful resources and seasonal messages.</td><td>One connected story about every two weeks, with lighter holiday messages.</td></tr>
+          <tr><td><strong>Daily timely content</strong></td><td>Actual questions, useful work observations, developments and approved examples of Mike helping people.</td><td>Short notes or recordings from Mike, adapted through the publishing system.</td></tr>
+        </tbody>
+      </table></div>
+      <p>The starting mix is about 60 percent planned and 40 percent flexible. Every flexible slot carries an evergreen alternative, so there is a useful post ready on days with no suitable new event to discuss.</p>
+    </section>
+
+    <section id="plan-s-rhythm">
+      <h3>A daily rhythm that leaves room for real life</h3>
+      <div class="table-scroll"><table>
+        <thead><tr><th>Day</th><th>Editorial opportunity</th><th>Typical execution</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Monday</strong></td><td>A reader or intake question</td><td>Mike answers one verified question, or records the scheduled evergreen FAQ.</td></tr>
+          <tr><td><strong>Tuesday</strong></td><td>A useful planned explanation</td><td>One distinction, a practical takeaway, or one of the 23 dated practice spotlights.</td></tr>
+          <tr><td><strong>Wednesday</strong></td><td>How Mike helps people</td><td>A verified work moment or a clear explanation of his approach.</td></tr>
+          <tr><td><strong>Thursday</strong></td><td>Story launch or a deeper look</td><td>A resource, complete explanation, process video or second question from the current story.</td></tr>
+          <tr><td><strong>Friday</strong></td><td>What mattered during the week</td><td>A short observation from Mike, with an approved alternative ready.</td></tr>
+          <tr><td><strong>Saturday</strong></td><td>Something useful to save or try</td><td>A carousel, one section of a resource, or a short demonstration.</td></tr>
+          <tr><td><strong>Sunday</strong></td><td>Family and community connection</td><td>A light reflection, practical offer of help or thoughtful question.</td></tr>
+        </tbody>
+      </table></div>
+      <h4>What Mike sends us</h4>
+      <p>A useful note can be brief. Capture what the person needed, what was at stake, what Mike actually did, and what the work clarified or changed. Add the general lesson a reader could use, and name any client details that need permission.</p>
+      <p>The employment and temporary restraining order story provides the structure: a person wanted another job, the employer asked a court to stop the move, Mike represented the person, and the court reached an outcome. Before using that account, the post needs the exact confirmed outcome and the appropriate permissions. We can use the same structure for stories within the firm's practice priorities.</p>
+      <p>A helpful post can also show careful listening, preparation, a question Mike investigated, or an explanation that made a choice easier to understand. A completed case or courtroom result is only one possible source.</p>
+      <h4>How a timely post replaces the planned one</h4>
+      <p>Geoff selects the date, adds the actual topic and verified source details, and prepares the channel versions. Mike reviews the substance and any client permissions. Approved material moves through the publishing system. The published links, audience questions and inquiry feedback return to the same story record.</p>
+    </section>
+
+    <section id="plan-s-launch">
+      <h3>Thanksgiving through the end of 2026</h3>
+      <p>The launch introduces the People First approach, gives readers the first useful resource, and carries that resource into a manageable New Year resolution.</p>
+      <div class="table-scroll"><table>
+        <thead><tr><th>Launch</th><th>Story and execution</th><th>Next step for the reader</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Nov 26</strong></td><td><strong>The people who help us through.</strong> A 25-second Thanksgiving note with a candid permitted photograph or simple visual.</td><td>Read or share a message of gratitude.</td></tr>
+          <tr><td><strong>Dec 10</strong></td><td><strong>When life gets interrupted during the holidays.</strong> A tabletop explanation and phone walkthrough introduce the Family Information Organizer.</td><td>Use the organizer or share it with someone helping.</td></tr>
+          <tr><td><strong>Dec 25</strong></td><td><strong>For those whose Christmas looks different.</strong> A brief compassionate message with warm natural light.</td><td>A thoughtful check-in, with no commercial ask.</td></tr>
+          <tr><td><strong>Dec 31</strong></td><td><strong>A resolution to make your family easier to help.</strong> A short demonstration and saveable carousel turn preparedness into one practical task.</td><td>Save the organizer and complete one section.</td></tr>
+        </tbody>
+      </table></div>
+      <h4>Launch production dates</h4>
+      <div class="table-scroll"><table>
+        <thead><tr><th>By</th><th>What is due</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Nov 23</strong></td><td>Mike approves the Thanksgiving message.</td></tr>
+          <tr><td><strong>Dec 3</strong></td><td>Family Information Organizer is built.</td></tr>
+          <tr><td><strong>Dec 7</strong></td><td>Mike approves the organizer introduction.</td></tr>
+          <tr><td><strong>Dec 18</strong></td><td>Christmas and New Year assets are recorded and approved. First-month review.</td></tr>
+          <tr><td><strong>Jan 14</strong></td><td>The regular every-other-Thursday launch rhythm resumes. Jan 1 to 13 continues the Dec 31 story.</td></tr>
+        </tbody>
+      </table></div>
+      <h4>Draft Thanksgiving message for Mike to record</h4>
+      <div class="plan-script"><p>This Thanksgiving, I want to recognize the people who help when life gets complicated. Sometimes that help is a ride to an appointment or a phone call at the right time. Thank you to the people showing up for someone else.</p></div>
+      <h4>Draft New Year message for Mike to record</h4>
+      <div class="plan-script"><p>Here is one resolution you can start with a small task: make the important information easier for your family to find. Add a useful contact, a document location or a question to the Family Information Organizer. Start with the section that would make the biggest difference for you.</p></div>
+    </section>
+
+    <section id="plan-s-2027">
+      <h3>The 2027 editorial calendar</h3>
+      <p>The year holds 26 new story launches, supported by daily planned and timely entries.</p>
+      <div class="table-scroll"><table>
+        <thead><tr><th>Month</th><th>Launch days</th><th>Story emphasis</th></tr></thead>
+        <tbody>
+          <tr><td><strong>January</strong></td><td>14 and 28</td><td>Start with one place; The first conversation</td></tr>
+          <tr><td><strong>February</strong></td><td>11 and 25</td><td>When you become the helper; Beyond the medical bills</td></tr>
+          <tr><td><strong>March</strong></td><td>11 and 25</td><td>Questions after a truck crash; Questions about medical care</td></tr>
+          <tr><td><strong>April</strong></td><td>8 and 22</td><td>Keep the questions together; Questions about a property incident</td></tr>
+          <tr><td><strong>May</strong></td><td>6 and 20</td><td>The people doing the helping; Before the long weekend</td></tr>
+          <tr><td><strong>June</strong></td><td>3 and 17</td><td>Questions before a summer outing; When work and home are interrupted</td></tr>
+          <tr><td><strong>July</strong></td><td>1, 15 and 29</td><td>A plan to get home; Questions for an insurance conversation; For the person handling everything</td></tr>
+          <tr><td><strong>August</strong></td><td>12 and 26</td><td>When routines change; Is it worth asking?</td></tr>
+          <tr><td><strong>September</strong></td><td>9 and 23</td><td>The work people do; How Mike reviews a matter</td></tr>
+          <tr><td><strong>October</strong></td><td>7 and 21</td><td>A family with questions about care; Looking beyond one photograph</td></tr>
+          <tr><td><strong>November</strong></td><td>4 and 18</td><td>After a loss; Who helped this year?</td></tr>
+          <tr><td><strong>December</strong></td><td>2, 16 and 30</td><td>When plans change again; Questions worth keeping; Carry useful things forward</td></tr>
+        </tbody>
+      </table></div>
+      <h4>Quarterly direction</h4>
+      <ul>
+        <li><strong>January to March:</strong> make it easier to begin a conversation and organize questions.</li>
+        <li><strong>April to June:</strong> practical demonstrations, and the effects of interrupted work and family responsibilities.</li>
+        <li><strong>July to September:</strong> clearer explanations of insurance conversations and Mike's review process.</li>
+        <li><strong>October to December:</strong> concerns about care, evidence, loss, gratitude and useful resources.</li>
+      </ul>
+      <p>The 23 dated practice spotlights run on Tuesdays and cover the website's topic collection across the year. Mike answers one substantive question for each. Sensitive topics use a private next step.</p>
+    </section>
+
+    <section id="plan-s-resources">
+      <h3>Five resources that give the content somewhere useful to lead</h3>
+      <p>We will build a small collection and improve it over time. A new story can introduce a different use of an existing tool, so each campaign adds understanding without another near-identical download.</p>
+      <div class="table-scroll"><table>
+        <thead><tr><th>Resource</th><th>Build by</th><th>First use</th><th>What we will create</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Family Information Organizer</strong></td><td>Dec 3, 2026</td><td>Dec 10, 2026</td><td>Contacts, document locations, dated questions, communications and family help responsibilities, with a one-page contact card.</td></tr>
+          <tr><td><strong>First Conversation Guide</strong></td><td>Jan 14, 2027</td><td>Jan 28, 2027</td><td>The actual inquiry process, useful preparation, questions to ask, next steps and selected incident-specific question pages.</td></tr>
+          <tr><td><strong>Daily Life Impact Log</strong></td><td>Feb 11, 2027</td><td>Feb 25, 2027</td><td>Dated observations about work, ordinary activities, help needed, appointments and related expenses.</td></tr>
+          <tr><td><strong>Medical Care Timeline</strong></td><td>Mar 11, 2027</td><td>Mar 25, 2027</td><td>Dates, providers, events, records, observations and unanswered questions, with the source of each observation.</td></tr>
+          <tr><td><strong>How Mike Reviews a Matter</strong></td><td>Sep 9, 2027</td><td>Sep 23, 2027</td><td>A clear account of Mike's actual review process, with a visual explanation and a short attorney video.</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section id="plan-s-channels">
+      <h3>One approved idea across the channel system</h3>
+      <p>Each version gets a useful role and enough context to stand on its own. These are starting rhythms, adjusted through audience response and capacity. The rows match the calendar below.</p>
+      <div class="table-scroll"><table>
+        <thead><tr><th>Channel</th><th>Starting rhythm</th><th>Role</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Yonke.Law website</strong></td><td>Each substantive story or useful refresh</td><td>The complete public explanation and relevant resource.</td></tr>
+          <tr><td><strong>People Portal</strong></td><td>When a resource supports its intended users</td><td>Useful support and the appropriate service route.</td></tr>
+          <tr><td><strong>Google Business Profile</strong></td><td>One or two relevant updates weekly</td><td>A concise local entry to a useful resource or explanation.</td></tr>
+          <tr><td><strong>Google Search</strong></td><td>Monthly review</td><td>Relevant discovery, resource visits and inquiry paths.</td></tr>
+          <tr><td><strong>LLM Visibility</strong></td><td>Monthly sample and accuracy review</td><td>Correct firm facts and observable referrals, recorded by system, question and date.</td></tr>
+          <tr><td><strong>Yelp</strong></td><td>Quarterly and when facts change</td><td>Accurate business information and evaluation context.</td></tr>
+          <tr><td><strong>Best Lawyers</strong></td><td>Quarterly and eligible opportunities</td><td>Accurate attorney credentials and recognition.</td></tr>
+          <tr><td><strong>Super Lawyers</strong></td><td>Quarterly and eligible opportunities</td><td>Accurate profile details and recognition.</td></tr>
+          <tr><td><strong>Substack</strong></td><td>One substantial perspective monthly</td><td>A distinct essay from a question worth developing.</td></tr>
+          <tr><td><strong>Facebook</strong></td><td>Daily opportunity</td><td>Family and community explanation, conversation and sharing.</td></tr>
+          <tr><td><strong>WhatsApp</strong></td><td>Requested resources and opted-in follow-up</td><td>Helpful delivery through the firm's approved process.</td></tr>
+          <tr><td><strong>Instagram</strong></td><td>Daily when the format fits</td><td>A visual summary, carousel, Story or captioned short video.</td></tr>
+          <tr><td><strong>YouTube</strong></td><td>A substantive explainer when useful</td><td>Complete explanations plus selected Shorts.</td></tr>
+          <tr><td><strong>TikTok</strong></td><td>Selected approved short videos</td><td>One complete useful answer in a native short format.</td></tr>
+          <tr><td><strong>LinkedIn</strong></td><td>Two or three relevant posts weekly</td><td>Mike's judgment and perspective for professional contacts.</td></tr>
+          <tr><td><strong>Reddit</strong></td><td>When a relevant discussion warrants it</td><td>Useful, transparent participation under community rules.</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section id="plan-s-formats">
+      <h3>Creative executions that can be repeated</h3>
+      <p>A small set of recognizable formats, with the people, questions and situations varied. The same approved explanation can supply a complete video, a short answer, a visual takeaway and a resource demonstration.</p>
+      <div class="table-scroll"><table>
+        <thead><tr><th>Format</th><th>Execution</th><th>Best use</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Mike answers</strong></td><td>A captioned vertical answer to one question, usually 30 to 60 seconds.</td><td>Approachable explanation and reader questions.</td></tr>
+          <tr><td><strong>How Mike helps</strong></td><td>Situation, personal stakes, Mike's contribution, what changed or was clarified.</td><td>A verified client story or an explanation of his method.</td></tr>
+          <tr><td><strong>Save this</strong></td><td>A four to six panel carousel with one useful task and one example.</td><td>A practical takeaway people can keep or share.</td></tr>
+          <tr><td><strong>One useful distinction</strong></td><td>A simple image and a short approved explanation.</td><td>Clear language about an unfamiliar issue.</td></tr>
+          <tr><td><strong>From Mike's desk</strong></td><td>A short voice note or casual office video.</td><td>A timely observation with a human voice.</td></tr>
+          <tr><td><strong>People First moment</strong></td><td>A permitted real photograph or a clearly illustrative image.</td><td>Family, community and practical support.</td></tr>
+          <tr><td><strong>How it works</strong></td><td>A process shown with blank cards or a fictional example.</td><td>The first conversation or investigation process.</td></tr>
+          <tr><td><strong>Resource walkthrough</strong></td><td>A screen recording of one usable section.</td><td>The organizer, timeline or other working tool.</td></tr>
+          <tr><td><strong>Professional perspective</strong></td><td>An attorney-authored LinkedIn explanation.</td><td>Useful context for professional contacts and referrals.</td></tr>
+          <tr><td><strong>Holiday note</strong></td><td>A restrained short video or simple image.</td><td>Gratitude, remembrance and changed family circumstances.</td></tr>
+        </tbody>
+      </table></div>
+      <h4>A consistent visual treatment</h4>
+      <p>The approved Yonke Law charcoal, silver and muted gold treatment, readable titles and natural photography. A mix of White, Black and Hispanic people across professional, trade, worker and family roles, with different ages and relationships represented. Production masters: a vertical 9:16 video, a 4:5 carousel and a landscape 16:9 explanation, adapted for each channel.</p>
+    </section>
+
+    <section id="plan-s-roles">
+      <h3>Who does what</h3>
+      <div class="table-scroll"><table>
+        <thead><tr><th>Person</th><th>Responsibility</th><th>Rhythm</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Mike</strong></td><td>Supplies his perspective and approves substantive content: the facts, wording, client permissions and legal substance.</td><td>Short notes as useful moments occur, plus one 30-minute recording session every two weeks.</td></tr>
+          <tr><td><strong>Geoff</strong></td><td>Owns the calendar, writing, adaptations and creative production.</td><td>Prepares the next two weeks of planned material and keeps the timely slots flexible.</td></tr>
+          <tr><td><strong>Intake</strong></td><td>Owns the firm's response and records what influenced the inquiry.</td><td>Reviews inquiries each business day and records the response time.</td></tr>
+        </tbody>
+      </table></div>
+      <p>Client facts, permissions, jurisdiction-specific explanations and result wording stay in one review process. A short adaptation must preserve the meaning of the approved source. Public comments can invite general questions; personal circumstances move to the firm's private inquiry route.</p>
+    </section>
+
+    <section id="plan-s-measure">
+      <h3>Measure useful communication and appropriate new business</h3>
+      <p>We review the program by the quality of the attention and conversations it produces. Each major asset connects to a story identifier, with tagged links where the channel supports them. Intake asks both how someone first heard about the firm and what helped them decide to make contact.</p>
+      <div class="table-scroll"><table>
+        <thead><tr><th>Measure</th><th>What we will record</th><th>How we will use it</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Useful engagement</strong></td><td>Meaningful viewing, saves, shares, substantive questions and resource use.</td><td>Choose the explanations and creative formats worth developing.</td></tr>
+          <tr><td><strong>Appropriate inquiries</strong></td><td>Whether inquiries fit the firm's agreed practice, geography and intake criteria.</td><td>Adjust the audience emphasis and next steps.</td></tr>
+          <tr><td><strong>Consultations and signed matters</strong></td><td>Follow the month in which each inquiry was first received as later outcomes occur.</td><td>Avoid comparing unrelated monthly counts as if they were one conversion cohort.</td></tr>
+          <tr><td><strong>Professional referrals</strong></td><td>Relevant conversations and intake-reported professional influence.</td><td>Develop the explanations that help referral relationships.</td></tr>
+          <tr><td><strong>Effort and response</strong></td><td>Content production hours and the actual time taken to respond to inquiries.</td><td>Set a sustainable production scope and a workable intake response target.</td></tr>
+        </tbody>
+      </table></div>
+      <p>Actual performance stays blank until the data exists. We establish the baseline during the launch period, then agree targets with Mike. Content influence and tagged visits show associations; they do not by themselves establish that a particular post caused a signed matter.</p>
+      <p><strong>Review dates:</strong> December 18, 2026 for the first month, then March 31, June 30, September 30 and December 17, 2027.</p>
+    </section>
+
+  </div>
+
   <div class="wall-bar">
     <h1>Marketing Calendar</h1>
     <p class="hint">Tap a cell to type. Arrows reorder rows. Changes save to the Google Sheet automatically.</p>
@@ -532,6 +816,38 @@ Example:   YL_META_AUTO_KCMETRO_LEAD_RETARGET30_VIDEOMIKE_V2</pre>
   tabs.forEach(t => t.addEventListener('click', () => { show(t.dataset.view); try { history.replaceState(null, '', '#' + t.dataset.view); } catch (e) { location.hash = t.dataset.view; } }));
   window.addEventListener('hashchange', () => show(location.hash.slice(1)));
   show(location.hash.slice(1));
+
+  // ---------- Marketing Plan drop-down (above the calendar) ----------
+  // The choice is remembered on this device.
+  (function () {
+    const view = document.getElementById('view-wall');
+    const panel = document.getElementById('plan-panel');
+    const toggle = document.getElementById('plan-toggle');
+    const full = document.getElementById('plan-full');
+    function setReading(on) {
+      view.classList.toggle('plan-reading', on);
+      full.setAttribute('aria-pressed', String(on));
+      full.textContent = on ? 'Show calendar' : 'Read full screen';
+    }
+    function setOpen(open) {
+      panel.hidden = !open;
+      full.hidden = !open;
+      view.classList.toggle('plan-open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Hide the marketing plan' : 'Show the marketing plan');
+      if (!open) setReading(false);
+    }
+    toggle.addEventListener('click', () => { const open = panel.hidden; setOpen(open); LS.set('yl-plan-open', open); });
+    full.addEventListener('click', () => setReading(!view.classList.contains('plan-reading')));
+    panel.querySelectorAll('[data-jump]').forEach(b => b.addEventListener('click', () => {
+      const target = document.getElementById(b.dataset.jump);
+      if (target) panel.scrollTo({ top: panel.scrollTop + target.getBoundingClientRect().top - panel.getBoundingClientRect().top - 6, behavior: 'smooth' });
+    }));
+    // First visit: open on a computer, closed on a phone (where the open plan fills the screen).
+    const saved = LS.get('yl-plan-open');
+    const compact = window.matchMedia('(max-width:640px), (max-height:520px)').matches;
+    setOpen(typeof saved === 'boolean' ? saved : !compact);
+  })();
 
   // ---------- Phases ----------
   function el(tag, attrs, children) {
