@@ -8,7 +8,7 @@ import Image from "next/image";
    Includes:
    - Firm address (link columns removed Nov 2026; see note below)
    - Required disclaimer block (verbatim, non-negotiable)
-   - Bottom strip (logo, legal links, pronunciation note)
+   - Bottom strip (logo, legal links, LLM index and full-text links)
    ------------------------------------------------------- */
 
 const PHONE_NUMBER = "816-221-6400";
@@ -122,7 +122,7 @@ export function Footer() {
             />
           </a>
 
-          <div className="flex items-center gap-4 text-xs text-steel-silver/50">
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs text-steel-silver/50">
             <Link href="/privacy-policy" className="hover:text-chrome-highlight transition-colors duration-200">
               Privacy
             </Link>
@@ -134,6 +134,16 @@ export function Footer() {
             <Link href="/disclaimer" className="hover:text-chrome-highlight transition-colors duration-200">
               Disclaimer
             </Link>
+            {/* LLM discoverability files (Nov 2026). Plain <a>, not <Link>:
+                these are text files served by route handlers, not pages. */}
+            <span aria-hidden="true">·</span>
+            <a href="/llms.txt" className="hover:text-chrome-highlight transition-colors duration-200">
+              LLM index
+            </a>
+            <span aria-hidden="true">·</span>
+            <a href="/llms-full.txt" className="hover:text-chrome-highlight transition-colors duration-200">
+              LLM full text
+            </a>
           </div>
 
 

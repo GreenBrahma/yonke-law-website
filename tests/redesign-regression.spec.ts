@@ -123,6 +123,44 @@ test.describe("pin: slim footer", () => {
   });
 });
 
+test.describe("pin: LLM discoverability files", () => {
+  test("footer links to the LLM index and the LLM full text on every page type", async ({ page }) => {
+    for (const path of ["/", "/what-we-handle/car-accidents", "/talk-to-us"]) {
+      await open(page, path);
+      const footer = page.locator("footer");
+      await expect(footer.locator('a[href="/llms.txt"]')).toHaveText("LLM index");
+      await expect(footer.locator('a[href="/llms-full.txt"]')).toHaveText("LLM full text");
+    }
+  });
+
+  test("both files are served as plain text with the firm's content", async ({ request }) => {
+    const index = await request.get("/llms.txt");
+    expect(index.status()).toBe(200);
+    expect(index.headers()["content-type"]).toContain("text/plain");
+    const indexText = await index.text();
+    expect(indexText.startsWith("# Yonke Law")).toBe(true);
+    expect(indexText).toContain("https://yonke.law/what-we-handle/car-accidents");
+    expect(indexText).toContain("https://yonke.law/llms-full.txt");
+
+    const full = await request.get("/llms-full.txt");
+    expect(full.status()).toBe(200);
+    expect(full.headers()["content-type"]).toContain("text/plain");
+    const fullText = await full.text();
+    expect(fullText).toContain("PRACTICE AREAS");
+    expect(fullText).toContain("RSMo § 516.120");
+  });
+
+  test("every site link in llms.txt loads", async ({ request }) => {
+    const text = await (await request.get("/llms.txt")).text();
+    const paths = Array.from(text.matchAll(/\]\(https:\/\/yonke\.law([^)]*)\)/g), (m) => m[1] || "/");
+    expect(paths.length).toBeGreaterThan(40);
+    for (const path of paths) {
+      const res = await request.get(path);
+      expect(res.status(), path).toBe(200);
+    }
+  });
+});
+
 test.describe("pin: Meet Mike carries I Stand For", () => {
   test("statement is on /about and the old address redirects there", async ({ page, request }) => {
     await open(page, "/about");
