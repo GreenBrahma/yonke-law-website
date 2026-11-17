@@ -6,7 +6,7 @@ import Image from "next/image";
    Per homepage-spec.md Section 11 and AGENTS.md
    
    Includes:
-   - 4-column link grid (About, Practice Areas, Resources, Connect)
+   - Firm address (link columns removed Nov 2026; see note below)
    - Required disclaimer block (verbatim, non-negotiable)
    - Bottom strip (logo, legal links, pronunciation note)
    ------------------------------------------------------- */
@@ -15,105 +15,45 @@ const PHONE_NUMBER = "816-221-6400";
 const PHONE_TEL = "tel:+18162216400";
 const ADDRESS = "700 West 47th Street, Suite 550, Kansas City, MO 64112";
 
-const FOOTER_COLUMNS = {
-  about: {
-    heading: "About",
-    links: [
-      { label: "Michael T. Yonke", href: "/about" },
-      { label: "I Stand For", href: "/about/i-stand-for" },
-      { label: "Testimonials", href: "/about/testimonials" },
-      { label: "Recognition", href: "/about/recognition" },
-    ],
-  },
-  practiceAreas: {
-    heading: "Practice Areas",
-    links: [
-      { label: "Car Accidents", href: "/what-we-handle/car-accidents" },
-      { label: "Truck Accidents", href: "/what-we-handle/truck-accidents" },
-      { label: "Medical Malpractice", href: "/what-we-handle/medical-malpractice" },
-      { label: "Wrongful Death", href: "/what-we-handle/wrongful-death" },
-      { label: "Nursing Home Abuse", href: "/what-we-handle/nursing-home-abuse" },
-      { label: "Workplace Injuries", href: "/what-we-handle/workplace-injuries" },
-      { label: "Motorcycle Accidents", href: "/what-we-handle/motorcycle-accidents" },
-      { label: "Premises Liability", href: "/what-we-handle/premises-liability" },
-      { label: "Product Liability", href: "/what-we-handle/product-liability" },
-      { label: "Pedestrian & Bicycle", href: "/what-we-handle/pedestrian-bicycle" },
-    ],
-  },
-  resources: {
-    heading: "Resources",
-    links: [
-      { label: "Just Happened?", href: "/just-happened" },
-      { label: "People First", href: "/people-first" },
-      { label: "How to Prepare for a Deposition", href: "/how-to-prepare-for-a-deposition" },
-      { label: "Checklists", href: "/resources" },
-      { label: "FAQ", href: "/resources" },
-      { label: "Missouri Law", href: "/resources" },
-      { label: "Kansas Law", href: "/resources" },
-    ],
-  },
-  connect: {
-    heading: "Connect",
-    links: [
-      { label: PHONE_NUMBER, href: PHONE_TEL, external: true },
-      { label: ADDRESS, href: "#" },
-      { label: "Talk to Us", href: "/talk-to-us" },
-      { label: "Spotlight Corner", href: "/spotlight-corner" },
-    ],
-  },
-} as const;
+const MAPS_URL =
+  "https://www.google.com/maps/search/?api=1&query=" +
+  encodeURIComponent("Yonke Law, " + ADDRESS);
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
     <footer className="bg-obsidian-graphite border-t border-steel-silver/20">
-      {/* ---- Link columns ---- */}
-      <div className="mx-auto max-w-7xl px-4 py-12 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {Object.values(FOOTER_COLUMNS).map((column) => (
-            <div key={column.heading}>
-              <h3 className="text-sm font-semibold uppercase tracking-wider text-steel-silver">
-                {column.heading}
-              </h3>
-              <ul className="mt-4 space-y-2">
-                {column.links.map((link) => (
-                  <li key={link.label}>
-                    {"external" in link && link.external ? (
-                      <a
-                        href={link.href}
-                        className="text-sm text-steel-silver/70 hover:text-chrome-highlight transition-colors duration-200"
-                      >
-                        {link.label}
-                      </a>
-                    ) : (
-                      <Link
-                        href={link.href}
-                        className="text-sm text-steel-silver/70 hover:text-chrome-highlight transition-colors duration-200"
-                      >
-                        {link.label}
-                      </Link>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* ---- Required disclaimer block ---- */}
+      {/* ---- Address + required disclaimer block ----
+          Nov 2026 redesign, decided by Geoff: the four link columns were
+          removed because that content now lives on its own pages, reached
+          from the universal nav. The footer carries the address, the
+          required disclaimer, and the legal link row. The address line is
+          the first line of the verbatim block, styled up and linked; its
+          wording is unchanged. */}
       {/* NOTE: This text is VERBATIM from homepage-spec.md Section 11.
           It is mandatory on every page and must not be paraphrased,
           summarized, or modified. Per bar requirements. */}
-      <div className="border-t border-steel-silver/10">
+      <div>
         <div className="mx-auto max-w-7xl px-4 py-8 lg:px-8">
           <div className="max-w-3xl text-xs leading-relaxed text-steel-silver/50">
-            <p className="mb-3">
-              Yonke Law LLC, 700W 47th St Suite 550, Kansas City, MO 64112
+            <address className="mb-4 not-italic text-sm leading-relaxed text-steel-silver">
+              <a
+                href={MAPS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-chrome-highlight transition-colors duration-200"
+              >
+                Yonke Law LLC, 700W 47th St Suite 550, Kansas City, MO 64112
+              </a>
               <br />
-              {PHONE_NUMBER}
-            </p>
+              <a
+                href={PHONE_TEL}
+                className="hover:text-chrome-highlight transition-colors duration-200"
+              >
+                {PHONE_NUMBER}
+              </a>
+            </address>
             <p className="mb-3 font-semibold text-steel-silver/60">
               Yonke Law, LLC
             </p>
@@ -193,10 +133,6 @@ export function Footer() {
             <span aria-hidden="true">·</span>
             <Link href="/disclaimer" className="hover:text-chrome-highlight transition-colors duration-200">
               Disclaimer
-            </Link>
-            <span aria-hidden="true">·</span>
-            <Link href="#" className="hover:text-chrome-highlight transition-colors duration-200">
-              Accessibility
             </Link>
           </div>
 

@@ -36,6 +36,8 @@ const nextConfig: NextConfig = {
       { source: "/how-it-works", destination: "/people-first", permanent: true },
       { source: "/how-it-works/:path*", destination: "/people-first/:path*", permanent: true },
       { source: "/people-first/people-portal", destination: "/people-first", permanent: true },
+      // "I Stand For" now lives on the Meet Mike page
+      { source: "/about/i-stand-for", destination: "/about#i-stand-for", permanent: true },
       // Legacy testimonials shortcut
       { source: "/testimonials", destination: "/about/testimonials", permanent: true },
     ];
