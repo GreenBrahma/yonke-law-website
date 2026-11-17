@@ -31,6 +31,8 @@ const nextConfig: NextConfig = {
       { source: "/pedestrian-bicycle", destination: "/what-we-handle/pedestrian-bicycle", permanent: true },
       // Legacy bio URL
       { source: "/michael-t-yonke", destination: "/about", permanent: true },
+      // "I Stand For" now lives on the Meet Mike page
+      { source: "/about/i-stand-for", destination: "/about#i-stand-for", permanent: true },
       // Legacy testimonials shortcut
       { source: "/testimonials", destination: "/about/testimonials", permanent: true },
     ];

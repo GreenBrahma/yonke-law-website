@@ -7,6 +7,9 @@ import { CacheBuster } from "@/components/CacheBuster";
 import Breadcrumb from "@/components/Breadcrumb";
 import "./globals.css";
 
+// Help bot visibility switch. false = keep the code, show nothing.
+const SHOW_CHATBOT: boolean = false;
+
 /* -------------------------------------------------------
    Typography (doctrine §15)
    Display/serif: Libre Baskerville
@@ -80,7 +83,10 @@ export default function RootLayout({
         </main>
 
         <Footer />
-        <ChatBot />
+        {/* Help bot is intentionally hidden for now (Geoff, Nov 2026).
+            The component and its API stay in the codebase; set
+            SHOW_CHATBOT to true to bring it back. */}
+        {SHOW_CHATBOT && <ChatBot />}
         <CacheBuster />
       </body>
     </html>
