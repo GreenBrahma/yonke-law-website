@@ -85,16 +85,16 @@ export default function TalkToUsPage() {
             <p className="text-xs uppercase tracking-widest text-muted-gold mb-3">
               Free Review (Prior to Consultation*)
             </p>
-            <div className="flex items-center justify-center gap-6">
+            <div className="flex items-center justify-center gap-4 sm:gap-6">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/images/qr-send-message.png"
                 alt="QR code — Send us a message"
                 width={120}
                 height={120}
-                className="rounded"
+                className="rounded w-20 sm:w-[120px] h-auto shrink-0"
               />
-              <h2 className="font-display text-3xl md:text-4xl text-chrome-highlight">
+              <h2 className="font-display text-2xl sm:text-3xl md:text-4xl text-chrome-highlight">
                 Send us a message
               </h2>
             </div>
@@ -199,9 +199,9 @@ export default function TalkToUsPage() {
                 alt="QR code — Leave a recommendation"
                 width={120}
                 height={120}
-                className="rounded"
+                className="rounded w-20 sm:w-[120px] h-auto shrink-0"
               />
-              <h2 className="font-display text-3xl md:text-4xl text-chrome-highlight">
+              <h2 className="font-display text-2xl sm:text-3xl md:text-4xl text-chrome-highlight">
                 Leave a recommendation
               </h2>
             </div>
@@ -261,7 +261,7 @@ export default function TalkToUsPage() {
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-steel-silver mb-4">Prefer to call?</p>
           <a
-            href="tel:8162216400"
+            href="tel:+18162216400"
             className="font-display text-3xl text-muted-gold hover:text-chrome-highlight transition-colors"
           >
             816-221-6400

@@ -145,6 +145,7 @@ export function TopNav() {
             type="button"
             className="lg:hidden inline-flex items-center justify-center rounded p-2 text-steel-silver hover:text-chrome-highlight transition-colors duration-200"
             aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-controls="mobile-nav"
             aria-expanded={mobileMenuOpen}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
@@ -176,7 +177,7 @@ export function TopNav() {
 
       {/* ---- Mobile menu ---- */}
       {mobileMenuOpen && (
-        <div className="lg:hidden border-t border-steel-silver/20 bg-obsidian-graphite">
+        <div id="mobile-nav" className="lg:hidden border-t border-steel-silver/20 bg-obsidian-graphite">
           <ul className="flex flex-col gap-1 px-4 py-4">
             {NAV_ITEMS.map((item) => {
               const isActive = pathname === item.href || pathname.startsWith(item.href + '/');

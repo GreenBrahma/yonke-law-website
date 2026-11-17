@@ -9,7 +9,7 @@ import { test, expect } from "@playwright/test";
    be under file:// without --allow-file-access-from-files).
    ============================================================ */
 
-const PAGE = "/about/i-stand-for";
+const PAGE = "/about";
 
 test("values statement meets §6 acceptance criteria (measured)", async ({
   page,

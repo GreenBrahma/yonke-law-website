@@ -37,5 +37,5 @@ test("promotion preserves visible campaign content and contact CTA", () => {
   assert.ok(html.includes("The World Is Coming to Kansas City."));
   assert.ok(html.includes("Best Lawyers"));
   assert.ok(html.includes("/promotions/Yonke-Law-World-Cup-Video.mp4"));
-  assert.ok(html.includes('href="tel:8162216400"'));
+  assert.ok(html.includes('href="tel:+18162216400"'));
 });

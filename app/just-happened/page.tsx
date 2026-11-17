@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { TalkToUsForm } from "@/components/TalkToUsForm";
 
@@ -119,38 +120,56 @@ export default function JustHappenedHubPage() {
       />
 
       {/* ===========================================
-          Section 1 — Situation Grid (flush under nav)
+          Section 1 — Situation Grid (visual view)
+          One image card per situation. Each image carries its own
+          title, so the card is the image; the link text for screen
+          readers and search engines comes from the alt text and the
+          visually hidden label.
+          Images: public/images/just-happened/<slug>.webp (1120x630)
           =========================================== */}
       <section
         id="situations"
         className="bg-charcoal-slate pt-12 pb-24 px-4 lg:px-8"
       >
-        <div className="mx-auto max-w-5xl">
-          <div className="space-y-16">
+        <div className="mx-auto max-w-6xl">
+          <header className="mb-12 max-w-3xl">
+            <h1 className="font-display text-3xl md:text-5xl text-chrome-highlight leading-tight">
+              Something just happened. Find your situation.
+            </h1>
+            <p className="mt-4 text-lg leading-relaxed text-steel-silver">
+              Pick the picture closest to what happened. Each one opens
+              plain-English guidance on what to do next.
+            </p>
+          </header>
+
+          <div className="space-y-14">
             {CATEGORIES.map((category) => (
               <div key={category.title}>
-                <h2 className="font-display text-2xl md:text-3xl text-chrome-highlight mb-6 border-b border-steel-silver/10 pb-4">
+                <h2 className="font-display text-xl md:text-2xl text-chrome-highlight mb-5 border-b border-steel-silver/10 pb-3">
                   {category.title}
                 </h2>
-                <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+                <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                   {category.topics.map((slug) => (
-                    <Link
-                      key={slug}
-                      href={`/just-happened/${slug}`}
-                      className="bg-obsidian-graphite p-6 rounded border border-steel-silver/10 hover:border-muted-gold transition-colors duration-200 group flex items-center justify-between"
-                    >
-                      <span className="font-display text-lg text-chrome-highlight group-hover:text-muted-gold transition-colors pr-4">
-                        {TOPIC_LABELS[slug]}
-                      </span>
-                      <span
-                        className="text-muted-gold opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0"
-                        aria-hidden="true"
+                    <li key={slug}>
+                      <Link
+                        href={`/just-happened/${slug}`}
+                        className="group relative block overflow-hidden rounded-lg border border-steel-silver/10 bg-obsidian-graphite transition-colors duration-200 hover:border-muted-gold focus-visible:border-muted-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-muted-gold"
                       >
-                        →
-                      </span>
-                    </Link>
+                        <Image
+                          src={`/images/just-happened/${slug}.webp`}
+                          alt={TOPIC_LABELS[slug]}
+                          width={1120}
+                          height={630}
+                          sizes="(min-width: 1024px) 370px, (min-width: 640px) 50vw, 100vw"
+                          className="aspect-[16/9] w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+                        />
+                        <span className="sr-only">
+                          {TOPIC_LABELS[slug]}: what to do next
+                        </span>
+                      </Link>
+                    </li>
                   ))}
-                </div>
+                </ul>
               </div>
             ))}
           </div>
@@ -172,7 +191,7 @@ export default function JustHappenedHubPage() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
-              href="/"
+              href="#consultation"
               className="bg-charcoal-slate text-chrome-highlight border border-steel-silver/20 px-8 py-4 rounded hover:border-muted-gold transition-colors duration-200"
             >
               Describe it in your own words →
