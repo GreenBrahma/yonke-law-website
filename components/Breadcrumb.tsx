@@ -18,7 +18,7 @@ import { usePathname } from "next/navigation";
 
 /** Override map: slug → display label for special cases */
 const LABEL_OVERRIDES: Record<string, string> = {
-  "just-happened": "Just Happened?",
+  "just-happened": "Just Happened To Me",
   "what-we-handle": "What We Handle",
   "people-first": "People First",
   "talk-to-us": "Talk to Us",

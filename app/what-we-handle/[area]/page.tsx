@@ -268,7 +268,7 @@ export default async function PracticeAreaPage({
           <h2 className="font-display text-3xl text-chrome-highlight mb-6">Ready to talk about your {area.name.toLowerCase()} case?</h2>
           <p className="text-steel-silver mb-8">Free consultation. No fee unless we recover.</p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a href="tel:8162216400" className="bg-muted-gold text-obsidian-graphite font-semibold px-8 py-4 rounded hover:bg-muted-gold/90 transition-colors">
+            <a href="tel:+18162216400" className="bg-muted-gold text-obsidian-graphite font-semibold px-8 py-4 rounded hover:bg-muted-gold/90 transition-colors">
               Call 816-221-6400
             </a>
             <Link href="/talk-to-us" className="text-steel-silver hover:text-chrome-highlight transition-colors underline-offset-4 hover:underline">

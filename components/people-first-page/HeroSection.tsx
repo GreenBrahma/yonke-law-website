@@ -1,8 +1,11 @@
 import Link from "next/link";
 import { PageHero } from "@/components/PageHero";
 
-// YouTube ID of the People First explainer. null = section hidden.
-const PEOPLE_FIRST_VIDEO_ID: string | null = null;
+// People First explainer video (self-hosted).
+const PEOPLE_FIRST_VIDEO = {
+  src: "/media/people-first/people-first-portal.mp4",
+  poster: "/media/people-first/people-first-portal-poster.jpg",
+};
 
 export function HeroSection() {
   return (
@@ -38,13 +41,9 @@ export function HeroSection() {
         </div>
       </section>
 
-      {/* People First video.
-          The original YouTube video (sLcrjRp8qPc) was removed from YouTube
-          and there is no People First video on the @YonkeLaw channel as of
-          Nov 2026, so the section is hidden instead of showing a dead
-          player. Set PEOPLE_FIRST_VIDEO_ID to the new YouTube ID to bring
-          it back. */}
-      {PEOPLE_FIRST_VIDEO_ID && (
+      {/* People First video. Self-hosted (public/media/people-first; public/videos is git-ignored) because the
+          original YouTube video was removed from YouTube. The file is
+          compressed to stay under Cloudflare's 25 MB static-asset limit. */}
       <section className="bg-charcoal-slate py-16 px-4 lg:px-8">
         <div className="mx-auto max-w-4xl">
           <div className="text-center mb-8">
@@ -55,18 +54,21 @@ export function HeroSection() {
               This is what it looks like to be seen.
             </h2>
           </div>
-          <div className="aspect-video rounded-xl overflow-hidden border border-steel-silver/10">
-            <iframe
-              src={`https://www.youtube.com/embed/${PEOPLE_FIRST_VIDEO_ID}?rel=0`}
-              title="People First — What to Expect"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
+          <div className="aspect-video rounded-xl overflow-hidden border border-steel-silver/10 bg-obsidian-graphite">
+            <video
+              controls
+              preload="none"
+              playsInline
+              poster={PEOPLE_FIRST_VIDEO.poster}
+              aria-label="People First: what to expect"
               className="w-full h-full"
-            />
+            >
+              <source src={PEOPLE_FIRST_VIDEO.src} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
           </div>
         </div>
       </section>
-      )}
     </>
   );
 }

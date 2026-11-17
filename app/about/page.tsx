@@ -144,7 +144,7 @@ export default function AboutPage() {
       <section
         id="i-stand-for"
         aria-label="I Stand For"
-        className="bg-obsidian-graphite scroll-mt-24"
+        className="bg-obsidian-graphite scroll-mt-24 overflow-x-clip"
       >
         <ValuesStatement />
       </section>
@@ -275,7 +275,7 @@ export default function AboutPage() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a
-              href="tel:8162216400"
+              href="tel:+18162216400"
               className="bg-muted-gold text-obsidian-graphite font-semibold px-8 py-4 rounded hover:bg-muted-gold/90 transition-colors"
             >
               Call 816-221-6400

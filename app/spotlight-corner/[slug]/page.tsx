@@ -499,7 +499,7 @@ export default async function SpotlightArticlePage({
               Talk to Us
             </Link>
             <a
-              href="tel:8162216400"
+              href="tel:+18162216400"
               className="text-steel-silver hover:text-chrome-highlight transition-colors text-sm"
             >
               816-221-6400

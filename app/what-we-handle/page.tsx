@@ -205,7 +205,7 @@ export default function WhatWeHandlePage() {
               Talk to Us
             </Link>
             <a
-              href="tel:8162216400"
+              href="tel:+18162216400"
               className="text-steel-silver hover:text-chrome-highlight transition-colors"
             >
               or call 816-221-6400
