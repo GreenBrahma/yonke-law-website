@@ -18,13 +18,14 @@
 
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 
-export const PLATFORMS = ["facebook", "instagram", "google_business", "tiktok", "linkedin"] as const;
+export const PLATFORMS = ["facebook", "instagram", "threads", "google_business", "tiktok", "linkedin"] as const;
 export type Platform = (typeof PLATFORMS)[number];
 
 /** Our platform key -> Metricool network name */
 const NETWORK: Record<Platform, string> = {
   facebook: "facebook",
   instagram: "instagram",
+  threads: "threads",
   google_business: "gmb",
   tiktok: "tiktok",
   linkedin: "linkedin",
@@ -89,6 +90,7 @@ function networkData(net: string, post: Post): Record<string, unknown> {
     case "instagram": return { instagramData: { type: "POST" } };
     case "facebook": return { facebookData: { type: "POST" } };
     case "linkedin": return { linkedinData: { type: "post" } };
+    case "threads": return { threadsData: {} };
     default: return {};
   }
 }

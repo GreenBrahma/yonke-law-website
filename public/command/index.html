@@ -7,7 +7,7 @@
 <title>Yonke Law Command</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Carlito:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Carlito:wght@400;700&family=Archivo+Black&display=swap" rel="stylesheet">
 <link rel="manifest" href="/command/manifest.webmanifest" crossorigin="use-credentials">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="apple-mobile-web-app-title" content="YL Command">
@@ -176,13 +176,19 @@
   .act-h { font-size:1.4rem; margin:0 0 6px; }
   .all { display:inline-flex; align-items:center; gap:10px; font-size:1.15rem; font-weight:700; margin:4px 0 10px; }
   .act input[type=checkbox] { width:24px; height:24px; accent-color:#1F3D2B; }
-  .cards { display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:14px; align-items:start; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fill, minmax(440px, 1fr)); gap:14px; align-items:start; }
+  @media (max-width:520px) { .cards { grid-template-columns:1fr; } }
+  .opts { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .opt { border:3px solid transparent; padding:3px; background:#fff; cursor:pointer; text-align:left; font:inherit; }
+  .opt img { width:100%; display:block; border:1px solid #E5E7EB; }
+  .opt span { display:block; font-size:.85rem; font-weight:700; margin-top:4px; }
+  .opt[aria-pressed="true"] { border-color:#1F3D2B; }
+  .opt[aria-pressed="true"] span::before { content:"\2713  "; color:#1F3D2B; }
   .pcard { border:2px solid #1C1C1E; padding:10px; background:#fff; }
   .pcard.off { opacity:.55; }
   .pcard header { display:flex; align-items:center; gap:10px; border:none; padding:0 0 8px; }
   .pcard header strong { font-size:1.1rem; }
   .pcard header small { margin-left:auto; font-size:.85rem; }
-  .pcard img { width:100%; display:block; border:1px solid #E5E7EB; }
   .pcard .cap { font-size:.95rem; margin:8px 0 0; white-space:pre-wrap; }
   .pcard .soon { font-size:.85rem; font-weight:700; color:#7A1C1C; }
   .act-msg { font-size:1.1rem; font-weight:700; margin-top:10px; }
@@ -679,6 +685,7 @@ Example:   YL_META_AUTO_KCMETRO_LEAD_RETARGET30_VIDEOMIKE_V2</pre>
     facebook:        { name: 'Facebook',                size: 'Landscape 1.91:1', src: '/command/frames/landscape191.jpg',  w: 1731, h: 909,  x0: 16, y0: 16, x1: 1718, logoTop: 737 },
     instagram:       { name: 'Instagram',               size: 'Portrait 4:5',     src: '/command/frames/portrait4x5.jpg',   w: 1122, h: 1402, x0: 13, y0: 13, x1: 1109, logoTop: 1236 },
     google_business: { name: 'Google Business Profile', size: 'Landscape 16:9',   src: '/command/frames/landscape16x9.jpg', w: 1672, h: 941,  x0: 15, y0: 14, x1: 1659, logoTop: 753 },
+    threads:         { name: 'Threads',                 size: 'Portrait 4:5',     src: '/command/frames/portrait4x5.jpg',   w: 1122, h: 1402, x0: 13, y0: 13, x1: 1109, logoTop: 1236 },
     tiktok:          { name: 'TikTok',                  size: 'Vertical 9:16',    from: 'instagram', w: 1080, h: 1920 },
     linkedin:        { name: 'LinkedIn',                size: 'Square 1:1',       src: '/command/frames/square.jpg',        w: 1254, h: 1254, x0: 19, y0: 18, x1: 1236, logoTop: 1086 }
   };
@@ -690,7 +697,11 @@ Example:   YL_META_AUTO_KCMETRO_LEAD_RETARGET30_VIDEOMIKE_V2</pre>
   Object.keys(FRAMES).forEach((k) => (FRAMES[k].soon = true));
   const FONT = 'Calibri, Carlito, "Segoe UI", Arial, sans-serif';
   let photos = [];            // [{ file, url, img }]
-  let rendered = {};          // platform -> dataURL
+  let rendered = {};          // platform -> { classic: dataURL, bubble: dataURL }
+  let choice = {};            // platform -> 'classic' | 'bubble'
+  // Two wrappers Mike can choose from for every platform
+  const STYLES = { classic: 'Yonke Law border', bubble: 'Wait… can they do that?' };
+  const BUBBLE = { blue: '#0450C3', navy: '#051634', gold: '#F8B533', font: '"Archivo Black", "Arial Black", Arial, sans-serif' };
 
   const load = (src) => new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = no; i.src = src; });
 
@@ -748,6 +759,56 @@ Example:   YL_META_AUTO_KCMETRO_LEAD_RETARGET30_VIDEOMIKE_V2</pre>
     const r = Math.max(w / img.width, h / img.height), sw = w / r, sh = h / r;
     const sy = (img.height - sh) * 0.12;
     ctx.drawImage(img, (img.width - sw) / 2, sy, sw, sh, x, y, w, h);
+  }
+
+  // ---- "Wait... can they do that?" wrapper: white card, speech-bubble lockup, bold navy headline ----
+  function fitBubble(ctx, text, maxW, maxH, start, minSize, maxLines) {
+    for (let size = start; size >= minSize; size -= 2) {
+      ctx.font = size + 'px ' + BUBBLE.font;
+      const lines = wrap(ctx, text, maxW);
+      if (lines.length <= maxLines && lines.length * size * 1.12 <= maxH) return { size, lines };
+    }
+    ctx.font = minSize + 'px ' + BUBBLE.font;
+    const lines = wrap(ctx, text, maxW).slice(0, maxLines);
+    return { size: minSize, lines };
+  }
+  async function renderBubble(key, doing, message) {
+    const F = FRAMES[key];
+    const w = F.from ? F.w : F.w, h = F.h;
+    const lock = await load('/command/frames/wait-bubbles.png');
+    const c = document.createElement('canvas'); c.width = w; c.height = h;
+    const ctx = c.getContext('2d');
+    ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0, 0, w, h);
+    // Blue frame line, echoing the classic border
+    const m = Math.round(Math.min(w, h) * 0.022);
+    ctx.strokeStyle = BUBBLE.blue; ctx.lineWidth = Math.max(4, Math.round(m * 0.35)); ctx.strokeRect(m, m, w - 2 * m, h - 2 * m);
+    const pad = Math.round(Math.min(w, h) * 0.06);
+    const L = pad, R = w - pad, T = pad, B = h - pad, W = R - L, H = B - T;
+    const head = doing || message;
+    const photo = photos[0] && photos[0].img;
+    ctx.textBaseline = 'top'; ctx.fillStyle = BUBBLE.navy;
+    const drawLines = (t, x, y) => t.lines.forEach((ln, i) => ctx.fillText(ln, x, y + i * t.size * 1.12));
+    if (w / h > 1.4) {
+      // Wide: photo left, lockup + headline right
+      const pw = photo ? Math.round(W * 0.52) : 0, gap = photo ? pad * 0.8 : 0, tx = L + pw + gap, tw = R - tx;
+      if (photo) { cover(ctx, photo, L, T, pw, H); ctx.strokeStyle = BUBBLE.navy; ctx.lineWidth = 3; ctx.strokeRect(L, T, pw, H); }
+      const lh = Math.round(tw * lock.height / lock.width);
+      ctx.drawImage(lock, tx, T, tw, lh);
+      ctx.fillStyle = BUBBLE.gold; ctx.fillRect(tx, T + lh + pad * 0.5, tw * 0.22, Math.max(6, h * 0.008)); ctx.fillStyle = BUBBLE.navy;
+      const ty = T + lh + pad * 0.5 + pad * 0.6;
+      const t = fitBubble(ctx, head, tw, B - ty, Math.round(h * 0.085), Math.round(h * 0.035), 5);
+      drawLines(t, tx, ty);
+    } else {
+      // Tall or square: lockup on top, headline, then the photo
+      const lw = Math.round(W * (h / w > 1.5 ? 1 : 0.86)), lh = Math.round(lw * lock.height / lock.width);
+      ctx.drawImage(lock, L + (W - lw) / 2, T, lw, lh);
+      let y = T + lh + pad * 0.55;
+      const t = fitBubble(ctx, head, W, photo ? H * 0.22 : B - y, Math.round(w * 0.075), Math.round(w * 0.04), photo ? 3 : 6);
+      drawLines(t, L, y);
+      y += t.lines.length * t.size * 1.12 + pad * 0.45;
+      if (photo) { cover(ctx, photo, L, y, W, B - y); ctx.strokeStyle = BUBBLE.navy; ctx.lineWidth = 3; ctx.strokeRect(L, y, W, B - y); }
+    }
+    return c.toDataURL('image/jpeg', 0.88);
   }
 
   // ---- Render one platform image ----
@@ -812,17 +873,19 @@ Example:   YL_META_AUTO_KCMETRO_LEAD_RETARGET30_VIDEOMIKE_V2</pre>
     const doing = $('act-doing').value.trim(), message = $('act-message').value.trim();
     if (!doing && !message) { $('act-doing').focus(); return; }
     const btn = $('act-preview'); btn.disabled = true; btn.textContent = 'Creating…';
-    try { await document.fonts.load('700 40px Carlito'); await document.fonts.load('400 40px Carlito'); } catch (e) {}
+    try { await document.fonts.load('700 40px Carlito'); await document.fonts.load('400 40px Carlito'); await document.fonts.load('40px "Archivo Black"'); } catch (e) {}
     rendered = {};
     const cards = $('act-cards'); cards.innerHTML = '';
     for (const [key, F] of Object.entries(FRAMES)) {
-      rendered[key] = await render(key, doing, message);
+      rendered[key] = { classic: await render(key, doing, message), bubble: await renderBubble(key, doing, message) };
+      choice[key] = choice[key] || 'classic';
       const card = document.createElement('div'); card.className = 'pcard' + (F.soon ? ' off' : ''); card.dataset.key = key;
       card.innerHTML = '<header><input type="checkbox" class="pick" aria-label="Post to ' + F.name + '"' + (F.soon ? ' disabled' : ' checked') + '>' +
-        '<strong>' + F.name + '</strong><small>' + F.size + '</small></header><img alt="' + F.name + ' post preview">' +
-        (F.soon ? '<p class="soon">Not connected yet</p>' : '') + '<p class="cap"></p><a class="dl">Download image</a>';
-      card.querySelector('img').src = rendered[key];
-      const dl = card.querySelector('.dl'); dl.href = rendered[key]; dl.download = 'yonke-law-' + key.replace('_', '-') + '.jpg';
+        '<strong>' + F.name + '</strong><small>' + F.size + '</small></header><div class="opts">' +
+        Object.entries(STYLES).map(([s, label]) => '<button type="button" class="opt" data-style="' + s + '" aria-pressed="' + (choice[key] === s) + '"><img alt="' + F.name + ', ' + label + '"><span>' + label + '</span></button>').join('') +
+        '</div>' + (F.soon ? '<p class="soon">Not connected yet</p>' : '') + '<p class="cap"></p><a class="dl">Download chosen image</a>';
+      card.querySelectorAll('.opt').forEach((b) => (b.querySelector('img').src = rendered[key][b.dataset.style]));
+      const dl = card.querySelector('.dl'); dl.href = rendered[key][choice[key]]; dl.download = 'yonke-law-' + key.replace('_', '-') + '.jpg';
       card.querySelector('.cap').textContent = message || doing;
       cards.appendChild(card);
     }
@@ -835,6 +898,13 @@ Example:   YL_META_AUTO_KCMETRO_LEAD_RETARGET30_VIDEOMIKE_V2</pre>
   // ---- Send to all / individual picks ----
   const picks = () => [...document.querySelectorAll('#act-cards .pick:not(:disabled)')];
   $('act-all').addEventListener('change', (e) => picks().forEach((p) => (p.checked = e.target.checked)));
+  $('act-cards').addEventListener('click', (e) => {
+    const b = e.target.closest('.opt'); if (!b) return;
+    const card = b.closest('.pcard'), key = card.dataset.key;
+    choice[key] = b.dataset.style;
+    card.querySelectorAll('.opt').forEach((o) => o.setAttribute('aria-pressed', String(o === b)));
+    card.querySelector('.dl').href = rendered[key][choice[key]];
+  });
   $('act-cards').addEventListener('change', (e) => {
     if (!e.target.classList.contains('pick')) return;
     $('act-all').checked = picks().every((p) => p.checked);
@@ -846,7 +916,7 @@ Example:   YL_META_AUTO_KCMETRO_LEAD_RETARGET30_VIDEOMIKE_V2</pre>
     const msg = $('act-msg');
     if (!targets.length) { msg.textContent = 'Pick at least one place to post.'; return; }
     const btn = $('act-submit'); btn.disabled = true; btn.textContent = 'Saving…'; msg.textContent = '';
-    const images = {}; targets.forEach((t) => (images[t] = rendered[t]));
+    const images = {}; targets.forEach((t) => (images[t] = rendered[t][choice[t]]));
     try {
       const res = await fetch('/command/api/activity', { method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ doing: $('act-doing').value.trim(), message: $('act-message').value.trim(), targets, images }) });
