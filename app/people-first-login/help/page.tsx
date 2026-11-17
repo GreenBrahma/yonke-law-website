@@ -15,15 +15,13 @@ import Image from "next/image";
    ────────────────────────────────────────────────────────────── */
 
 const HELP_VIDEOS = [
-  {
-    title: "People Portal",
-    description: "See how People First keeps you connected.",
-    src: "https://www.youtube.com/embed/sLcrjRp8qPc?rel=0",
-  },
+  // "People Portal" video removed Nov 2026: its YouTube video
+  // (sLcrjRp8qPc) no longer exists. Re-add when a replacement is uploaded.
   {
     title: "Deposition Prep",
     description: "What to expect and how to prepare.",
-    src: "https://www.youtube.com/embed/om6L1RHfKic?rel=0",
+    // om6L1RHfKic no longer exists on YouTube; this is the live deposition video.
+    src: "https://www.youtube.com/embed/q-_tGOFkYjs?rel=0",
   },
 ];
 

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import ValuesStatement from "@/components/ValuesStatement";
 
 /* ===========================================================
    /about — Michael T. Yonke
@@ -135,6 +136,17 @@ export default function AboutPage() {
             </p>
           </div>
         </div>
+      </section>
+
+      {/* I Stand For — Mike's "Relentless. Devoted. Unyielding." statement.
+          Folded in from the former /about/i-stand-for page (Nov 2026);
+          that address now redirects here. */}
+      <section
+        id="i-stand-for"
+        aria-label="I Stand For"
+        className="bg-obsidian-graphite scroll-mt-24"
+      >
+        <ValuesStatement />
       </section>
 
       {/* Practice focus + credentials */}

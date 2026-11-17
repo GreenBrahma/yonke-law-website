@@ -286,11 +286,8 @@ export const PULSE_STATES: PulseState[] = [
 // ── Help Library (curated) ───────────────────────────────────
 
 export const HELP_VIDEOS: VideoRef[] = [
-  {
-    title: "The People Portal — What to Expect",
-    src: "https://www.youtube.com/embed/sLcrjRp8qPc?rel=0",
-    description: "A walkthrough of how People First works and what you'll see.",
-  },
+  // "The People Portal — What to Expect" removed Nov 2026: its YouTube
+  // video (sLcrjRp8qPc) no longer exists. Re-add when replaced.
   {
     title: "Preparing for a Deposition",
     src: "/videos/yl-preparing-for-a-deposition.mp4",
