@@ -232,6 +232,41 @@
   .plan-jump .btn { border-width:1px; padding:4px 10px; }
   .plan-script { background:#fff; border-left:4px solid var(--gold); padding:10px 14px; margin:6px 0 12px; }
   .plan-script p { margin:0; }
+  /* ---- Content Review: every dated entry, edited and approved in one place ---- */
+  #view-review.active { display:block; overflow-y:auto; overflow-x:hidden; }
+  .rv { padding:10px 14px 40px; }
+  .rv-bar { display:flex; flex-wrap:wrap; align-items:center; gap:10px 16px; position:sticky; top:0; z-index:6; background:#fff; padding:8px 0 10px; border-bottom:2px solid var(--line); }
+  .rv-bar h1 { margin:0; font-size:1.5rem; }
+  .rv-bar label { display:inline-flex; align-items:center; gap:6px; font-size:1rem; font-weight:700; }
+  .rv-bar select { max-width:min(78vw, 520px); }
+  .rv-count { font-size:1rem; font-weight:700; border:2px solid var(--forest); color:var(--forest); padding:2px 10px; }
+  .rv-head { background:#F2F4F7; border:2px solid var(--line); border-radius:14px; padding:12px 16px; margin:12px 0; }
+  .rv-head h2 { margin:0 0 4px; font-size:1.375rem; }
+  .rv-head p { margin:0 0 4px; font-size:1.0625rem; }
+  .rv-list { display:grid; gap:12px; }
+  .rv-card { border:2px solid var(--line); border-left-width:10px; padding:10px 14px 12px; background:#fff; }
+  .rv-card[data-state="Approved"] { border-left-color:var(--forest); }
+  .rv-card[data-state="Needs change"] { border-left-color:var(--red); }
+  .rv-card[data-state="Skip"] { border-left-color:#C9CCD1; opacity:.75; }
+  .rv-meta { display:flex; flex-wrap:wrap; gap:6px 10px; align-items:center; font-size:1rem; margin-bottom:6px; }
+  .rv-date { font-weight:700; font-size:1.125rem; }
+  .rv-tag { border:1px solid var(--line); padding:0 8px; font-size:1rem; }
+  .rv-tag.launch { background:var(--gold); border-color:var(--gold); font-weight:700; }
+  .rv-tag.timely { background:#E5E7EB; }
+  .rv-state { margin-left:auto; font-weight:700; }
+  .rv-card[data-state="Approved"] .rv-state { color:var(--forest); }
+  .rv-card[data-state="Needs change"] .rv-state { color:var(--red); }
+  .rv-card label { display:block; font-size:1rem; font-weight:700; margin-top:8px; }
+  .rv-card textarea { display:block; width:100%; font:inherit; font-size:1.0625rem; font-weight:400; line-height:1.45; margin-top:2px; padding:6px 8px; border:1px solid var(--line); resize:vertical; }
+  .rv-card textarea.changed { border-left:4px solid var(--gold); }
+  .rv-facts { font-size:1rem; margin:8px 0 0; }
+  .rv-actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+  .rv-actions .btn[aria-pressed="true"] { background:var(--obsidian); color:#fff; }
+  .rv-actions .btn.ok[aria-pressed="true"] { background:var(--forest); border-color:var(--forest); }
+  .rv-actions .btn.fix[aria-pressed="true"] { background:var(--red); border-color:var(--red); }
+  .rv-who { font-size:1rem; margin:6px 0 0; }
+  .rv-empty { font-size:1.125rem; padding:20px 0; }
+
   @media (max-width:900px) {
     .plan-top { grid-template-columns:1fr; }
     #view-wall .plan-panel { padding:12px 14px 16px; border-radius:14px; }
@@ -244,6 +279,7 @@
     #view-wall.plan-open .wall-bar, #view-wall.plan-open .wall-scroll { display:none; }
     #view-wall #plan-full { display:none; }
     #view-wall .plan-bar .hint { display:none; }
+    .rv-bar { position:static; }
   }
 </style>
 </head>
@@ -265,6 +301,7 @@
   <div class="wrap" role="tablist">
     <button class="tab" role="tab" data-view="add" aria-selected="true">Add Activity</button>
     <button class="tab" role="tab" data-view="wall" aria-selected="false">Marketing Calendar</button>
+    <button class="tab" role="tab" data-view="review" aria-selected="false">Content Review</button>
     <button class="tab" role="tab" data-view="war" aria-selected="false">Marketing Performance</button>
     <button class="tab" role="tab" data-view="plan" aria-selected="false">Planning Approach</button>
     <button class="tab" role="tab" data-view="stack" aria-selected="false">Platform and Standards</button>
@@ -639,6 +676,29 @@
 </div>
 </div>
 
+<!-- =========================== CONTENT REVIEW =========================== -->
+<div class="view" id="view-review">
+<div class="rv">
+  <div class="rv-bar">
+    <h1>Content Review</h1>
+    <span class="rv-count" id="rv-count" role="status">Loading</span>
+    <label for="rv-story">Story <select id="rv-story"></select></label>
+    <label for="rv-show">Show <select id="rv-show">
+      <option value="all">Everything</option>
+      <option value="Not reviewed">Not reviewed</option>
+      <option value="Approved">Approved</option>
+      <option value="Needs change">Needs change</option>
+      <option value="Skip">Skipped</option>
+    </select></label>
+    <button type="button" class="btn" id="rv-approve-all">Approve all shown</button>
+    <button type="button" class="btn" id="rv-export">Download review record</button>
+    <span class="hint" id="rv-status" role="status"></span>
+  </div>
+  <div class="rv-head" id="rv-head" hidden></div>
+  <div class="rv-list" id="rv-list"></div>
+</div>
+</div>
+
 <!-- =========================== PLATFORMS AND STANDARDS =========================== -->
 <div class="view" id="view-stack">
 <div class="wrap">
@@ -809,7 +869,7 @@ Example:   YL_META_AUTO_KCMETRO_LEAD_RETARGET30_VIDEOMIKE_V2</pre>
   // ---------- Tabs ----------
   const tabs = document.querySelectorAll('.tab');
   function show(view) {
-    if (!['add', 'war', 'plan', 'wall', 'stack'].includes(view)) view = 'add';
+    if (!['add', 'war', 'plan', 'wall', 'review', 'stack'].includes(view)) view = 'add';
     tabs.forEach(t => t.setAttribute('aria-selected', String(t.dataset.view === view)));
     document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id === 'view-' + view));
   }
@@ -989,6 +1049,226 @@ Example:   YL_META_AUTO_KCMETRO_LEAD_RETARGET30_VIDEOMIKE_V2</pre>
   renderPhases();
   renderWall();
   pull();
+})();
+</script>
+
+<script>
+/* ---------- Content Review: go through every dated entry, change the wording, approve ---------- */
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const el = (tag, attrs, kids) => {
+    const n = document.createElement(tag);
+    Object.entries(attrs || {}).forEach(([k, v]) => { if (k === 'text') n.textContent = v; else n.setAttribute(k, v); });
+    (kids || []).forEach((k) => n.appendChild(k));
+    return n;
+  };
+  const MONTH = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const nice = (iso) => { const [y, m, d] = iso.split('-').map(Number); return MONTH[m - 1] + ' ' + d + ', ' + y; };
+  const short = (iso) => { const [, m, d] = iso.split('-').map(Number); return MONTH[m - 1] + ' ' + d; };
+  const when = (iso) => { try { return new Date(iso).toLocaleString([], { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }); } catch (e) { return iso; } };
+
+  let PLAN = null, STATE = {}, started = false;
+  const pending = new Map();
+  let timer = null;
+  const say = (t) => { $('rv-status').textContent = t; };
+
+  const st = (date) => STATE[date] || {};
+  const approval = (date) => st(date).approval || 'Not reviewed';
+  const topicOf = (e) => st(e.date).topic || e.topic;
+  const execOf = (e) => st(e.date).execution || e.execution;
+
+  function queue(date, fields) {
+    pending.set(date, Object.assign(pending.get(date) || { date }, fields));
+    say('Saving');
+    clearTimeout(timer);
+    timer = setTimeout(flush, 700);
+  }
+  async function flush() {
+    timer = null;
+    if (!pending.size) return;
+    const changes = Array.from(pending.values());
+    pending.clear();
+    try {
+      const res = await fetch('/command/api/content', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ changes }) });
+      const j = await res.json();
+      if (!j.ok) throw new Error(j.error || 'Save refused');
+      Object.assign(STATE, j.saved || {});
+      say('Saved');
+      counts();
+      changes.forEach((c) => paint(c.date));
+    } catch (e) {
+      changes.forEach((c) => pending.set(c.date, Object.assign(c, pending.get(c.date) || {})));
+      say('Could not save. Check the connection; your changes are still on this screen.');
+      clearTimeout(timer); timer = setTimeout(flush, 5000);
+    }
+  }
+  window.addEventListener('beforeunload', () => { if (pending.size) flush(); });
+
+  function shown() {
+    const story = $('rv-story').value, filter = $('rv-show').value;
+    return PLAN.entries.filter((e) => (story === 'all' || e.story === story) && (filter === 'all' || approval(e.date) === filter));
+  }
+
+  function counts() {
+    const total = PLAN.entries.length;
+    const ok = PLAN.entries.filter((e) => approval(e.date) === 'Approved').length;
+    const fix = PLAN.entries.filter((e) => approval(e.date) === 'Needs change').length;
+    $('rv-count').textContent = 'Approved ' + ok + ' of ' + total + (fix ? ' · ' + fix + ' need change' : '');
+    Array.from($('rv-story').options).forEach((o) => {
+      if (o.value === 'all') return;
+      const list = PLAN.entries.filter((e) => e.story === o.value);
+      const done = list.filter((e) => approval(e.date) === 'Approved').length;
+      o.textContent = o.dataset.label + ' (' + done + ' of ' + list.length + ' approved)';
+    });
+  }
+
+  function paint(date) {
+    const card = document.querySelector('.rv-card[data-date="' + date + '"]');
+    if (!card) return;
+    const a = approval(date), s = st(date);
+    card.dataset.state = a;
+    card.querySelector('.rv-state').textContent = a;
+    card.querySelectorAll('.rv-actions .btn').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.set === a)));
+    const who = card.querySelector('.rv-who');
+    const bits = [];
+    if (s.by && a !== 'Not reviewed') bits.push(a + ' by ' + s.by + ', ' + when(s.at));
+    if (s.editedBy) bits.push('Wording changed by ' + s.editedBy + ', ' + when(s.editedAt));
+    who.textContent = bits.join(' · ');
+    who.hidden = !bits.length;
+  }
+
+  function card(e) {
+    const story = PLAN.stories.find((x) => x.id === e.story) || {};
+    const meta = el('div', { class: 'rv-meta' }, [
+      el('span', { class: 'rv-date', text: e.day + ', ' + nice(e.date) }),
+      el('span', { class: 'rv-tag' + (e.stream === 'Timely' ? ' timely' : ''), text: e.stream === 'Timely' ? 'Timely slot' : 'Planned' })
+    ]);
+    if (story.launch === e.date) meta.appendChild(el('span', { class: 'rv-tag launch', text: 'Story launch' }));
+    if (e.spotlight) meta.appendChild(el('span', { class: 'rv-tag', text: 'Spotlight: ' + e.spotlight }));
+    meta.appendChild(el('span', { class: 'rv-state', text: '' }));
+
+    const field = (label, key, planned, rows) => {
+      const t = el('textarea', { rows: String(rows), 'aria-label': label + ' for ' + nice(e.date) });
+      t.value = key === 'topic' ? topicOf(e) : execOf(e);
+      const mark = () => t.classList.toggle('changed', t.value.trim() !== planned);
+      mark();
+      t.addEventListener('input', () => {
+        mark();
+        const v = t.value.trim();
+        const local = STATE[e.date] = Object.assign({}, st(e.date));
+        if (v && v !== planned) local[key] = v; else delete local[key];
+        if (local.approval === 'Approved') { local.approval = 'Not reviewed'; paint(e.date); counts(); }
+        queue(e.date, { [key]: v === planned ? '' : v });
+      });
+      return el('label', {}, [document.createTextNode(label), t]);
+    };
+
+    const note = el('textarea', { rows: '1', placeholder: 'Anything to change, check or remember', 'aria-label': 'Note for ' + nice(e.date) });
+    note.value = st(e.date).note || '';
+    note.addEventListener('input', () => { STATE[e.date] = Object.assign({}, st(e.date), { note: note.value.trim() }); queue(e.date, { note: note.value.trim() }); });
+
+    const facts = [
+      'Format: ' + (PLAN.formats[e.template] || e.template),
+      'Channels: ' + e.channels.split(';').map((c) => c.trim()).join(', '),
+      'Next step: ' + e.cta
+    ];
+    if (e.resource) facts.push('Resource: ' + (PLAN.resources[e.resource] || e.resource));
+    facts.push('Review due ' + short(e.due));
+
+    const actions = el('div', { class: 'rv-actions' }, [['Approved', 'Approve', 'ok'], ['Needs change', 'Needs change', 'fix'], ['Skip', 'Skip this day', ''], ['Not reviewed', 'Clear', '']].map(([set, label, cls]) => {
+      const b = el('button', { type: 'button', class: 'btn ' + cls, 'data-set': set, 'aria-pressed': 'false', text: label });
+      b.addEventListener('click', () => {
+        STATE[e.date] = Object.assign({}, st(e.date), { approval: set, by: 'you', at: new Date().toISOString() });
+        paint(e.date); counts();
+        queue(e.date, { approval: set });
+      });
+      return b;
+    }));
+
+    const c = el('article', { class: 'rv-card', 'data-date': e.date }, [
+      meta,
+      field('Topic', 'topic', e.topic, 2),
+      field('What we will make', 'execution', e.execution, 3),
+      el('p', { class: 'rv-facts', text: facts.join(' · ') }),
+      el('label', {}, [document.createTextNode('Note'), note]),
+      actions,
+      el('p', { class: 'rv-who', hidden: '' })
+    ]);
+    return c;
+  }
+
+  function render() {
+    const list = $('rv-list'), head = $('rv-head');
+    const story = PLAN.stories.find((x) => x.id === $('rv-story').value);
+    head.innerHTML = '';
+    head.hidden = !story;
+    if (story) {
+      head.appendChild(el('h2', { text: story.title }));
+      head.appendChild(el('p', { text: story.id + ' · ' + nice(story.launch) + ' to ' + nice(story.end) + ' · Approval due ' + nice(story.approvalDue) }));
+      if (story.focus) head.appendChild(el('p', { text: 'Focus: ' + story.focus + '. For: ' + story.audience + '.' }));
+      if (story.anchor) head.appendChild(el('p', { text: 'Anchor piece: ' + story.anchor }));
+      if (story.next) head.appendChild(el('p', { text: 'Reader next step: ' + story.next }));
+    }
+    list.innerHTML = '';
+    const items = shown();
+    if (!items.length) { list.appendChild(el('p', { class: 'rv-empty', text: 'Nothing to show here. Change Story or Show above.' })); return; }
+    items.forEach((e) => list.appendChild(card(e)));
+    items.forEach((e) => paint(e.date));
+    list.querySelectorAll('textarea').forEach((t) => { t.style.height = 'auto'; t.style.height = (t.scrollHeight + 4) + 'px'; });
+  }
+
+  function csv() {
+    const q = (v) => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
+    const head = ['date', 'day', 'stream', 'story', 'topic', 'execution', 'wording_changed', 'format', 'channels', 'next_step', 'review_due', 'status', 'status_by', 'status_at', 'note'];
+    const lines = [head.join(',')].concat(PLAN.entries.map((e) => {
+      const s = st(e.date);
+      return [e.date, e.day, e.stream, e.story, topicOf(e), execOf(e), (s.topic || s.execution) ? 'yes' : 'no', PLAN.formats[e.template] || e.template, e.channels, e.cta, e.due, approval(e.date), s.by || '', s.at || '', s.note || ''].map(q).join(',');
+    }));
+    const a = el('a', { href: URL.createObjectURL(new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv' })), download: PLAN.registerId + '_content_review_' + new Date().toISOString().slice(0, 10) + '.csv' });
+    document.body.appendChild(a); a.click(); a.remove();
+  }
+
+  async function start() {
+    if (started) return;
+    started = true;
+    try {
+      const [plan, state] = await Promise.all([
+        fetch('/command/content-plan.json').then((r) => r.json()),
+        fetch('/command/api/content').then((r) => r.json()).catch(() => ({ ok: false }))
+      ]);
+      PLAN = plan;
+      STATE = (state && state.ok && state.state) || {};
+      if (!state || !state.ok) say('Could not load saved reviews. Showing the plan as written.');
+      const sel = $('rv-story');
+      sel.appendChild(el('option', { value: 'all', text: 'All stories' }));
+      PLAN.stories.forEach((s) => { const o = el('option', { value: s.id }); o.dataset.label = short(s.launch) + ': ' + s.title; sel.appendChild(o); });
+      counts();
+      // Open on the first story that still has something to review
+      const next = PLAN.stories.find((s) => PLAN.entries.some((e) => e.story === s.id && approval(e.date) === 'Not reviewed'));
+      sel.value = next ? next.id : PLAN.stories[0].id;
+      sel.addEventListener('change', render);
+      $('rv-show').addEventListener('change', render);
+      $('rv-export').addEventListener('click', csv);
+      let armed = false, t;
+      const all = $('rv-approve-all');
+      all.addEventListener('click', () => {
+        const items = shown().filter((e) => approval(e.date) === 'Not reviewed'); // flagged and skipped days are left alone
+        if (!items.length) { say('Nothing shown is waiting for review.'); return; }
+        if (!armed) { armed = true; all.textContent = 'Approve ' + items.length + '? Tap again'; all.classList.add('danger-armed'); t = setTimeout(() => { armed = false; all.textContent = 'Approve all shown'; all.classList.remove('danger-armed'); }, 4000); return; }
+        clearTimeout(t); armed = false; all.textContent = 'Approve all shown'; all.classList.remove('danger-armed');
+        items.forEach((e) => { STATE[e.date] = Object.assign({}, st(e.date), { approval: 'Approved', by: 'you', at: new Date().toISOString() }); queue(e.date, { approval: 'Approved' }); paint(e.date); });
+        counts();
+      });
+      render();
+    } catch (e) {
+      started = false;
+      $('rv-count').textContent = 'Could not load the content plan';
+    }
+  }
+  const check = () => { if (location.hash.slice(1) === 'review') start(); };
+  document.querySelector('.tab[data-view="review"]').addEventListener('click', start);
+  window.addEventListener('hashchange', check);
+  check();
 })();
 </script>
 
