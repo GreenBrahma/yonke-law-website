@@ -35,8 +35,8 @@ function authDb() {
   const onWorkers =
     typeof navigator !== "undefined" && navigator.userAgent === "Cloudflare-Workers";
   if (!_authDb || onWorkers) {
-    const url = process.env.DATABASE_URL || process.env.NETLIFY_DB_URL;
-    if (!url) throw new Error("DATABASE_URL or NETLIFY_DB_URL is required for auth.");
+    const url = process.env.DATABASE_URL;
+    if (!url) throw new Error("DATABASE_URL is required for auth.");
     _authDb = drizzle(
       new Pool({ connectionString: url, max: 1, ssl: { rejectUnauthorized: false } })
     );

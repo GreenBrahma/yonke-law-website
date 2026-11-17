@@ -39,9 +39,6 @@ yarn-error.log*
 # vercel
 .vercel
 
-# netlify
-.netlify
-
 # claude code local config (dev-server launch config, etc.)
 /.claude/
 

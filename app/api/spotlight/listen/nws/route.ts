@@ -10,7 +10,9 @@
  * - 15-minute cadence (most frequent)
  * - Produces structured data that maps cleanly to the Signal schema
  *
- * Triggered by: Netlify Scheduled Function (15 min cadence)
+ * Schedule: PARKED. This ran every 15 minutes as a Netlify Scheduled
+ * Function. The site is on Cloudflare now and no Cron Trigger has been
+ * set up, on purpose, while Spotlight is being rethought (Nov 2026).
  * Can also be triggered manually via GET /api/spotlight/listen/nws
  */
 
