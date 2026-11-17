@@ -3,7 +3,7 @@
   "short_name": "YL Command",
   "start_url": "/command/",
   "scope": "/command/",
-  "display": "standalone",
+  "display": "browser",
   "background_color": "#FFFFFF",
   "theme_color": "#1C1C1E",
   "icons": [
