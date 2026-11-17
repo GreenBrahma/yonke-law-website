@@ -1,0 +1,31 @@
+{
+  // Yonke Law website on Cloudflare Workers (built with OpenNext)
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "yonke-law-website",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-11-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
+  // Add Activity posts (text, rendered images, chosen platforms, publish status)
+  "kv_namespaces": [{ "binding": "YL_ACTIVITY", "id": "c5d8a9b124a249b082ac0c08d83c5ea8" }],
+  "observability": { "enabled": true },
+  // Live on yonke.law; the workers.dev test address and preview links are off
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [
+    { "pattern": "yonke.law", "custom_domain": true },
+    { "pattern": "www.yonke.law", "custom_domain": true }
+  ],
+  "vars": {
+    "NEXT_PUBLIC_GA4_ID": "G-J7NVP49C9S",
+    "MS365_ATTORNEY_EMAIL": "mike@yonke.law",
+    "MS365_SENDER_EMAIL": "mike@yonke.law",
+    "AUTH_URL": "https://yonke.law",
+    "NEXTAUTH_URL": "https://yonke.law",
+    // Mike's Add Activity -> Metricool (brand "Yonke Law"). Token is a Worker secret: METRICOOL_TOKEN
+    "METRICOOL_USER_ID": "6111543",
+    "METRICOOL_BLOG_ID": "7809690",
+    "METRICOOL_NETWORKS": "gmb,tiktok",
+    "ACTIVITY_PUBLISH_MODE": "draft"
+  }
+}

@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Yonke Law Command</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Carlito:wght@400;700&family=Archivo+Black&display=swap" rel="stylesheet">
+<link rel="manifest" href="/command/manifest.webmanifest" crossorigin="use-credentials">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="apple-mobile-web-app-title" content="YL Command">
+<link rel="apple-touch-icon" href="/command/icon-180.png">
+<link rel="icon" href="/command/icon-192.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  /* 12pt = 16px. Nothing on this site renders below 16px. */
+  :root { --ink:#000; --line:#1C1C1E; --soft:#1C1C1E; --bg:#fff; --hover:#F2F4F7; --forest:#1F3D2B; --gold:#B89B5E; --red:#7A1C1C; --obsidian:#1C1C1E; --charcoal:#2E2F33; }
+  * { box-sizing:border-box; }
+  html { font-size:16px; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:Calibri, Carlito, "Segoe UI", Arial, sans-serif; font-size:1.125rem; line-height:1.6; }
+  .wrap { max-width:1080px; margin:0 auto; padding:0 12px; }
+  .wide { max-width:none; padding:0 28px; }
+
+  header { border-bottom:4px solid var(--gold); padding:6px 0; }
+  .brand { display:flex; align-items:center; gap:14px; }
+  .emblem { height:80px; width:auto; display:block; }
+  .monogram { width:60px; height:60px; border:2px solid var(--line); display:flex; align-items:center; justify-content:center; font-family:Calibri, Carlito, "Segoe UI", Arial, sans-serif; font-weight:700; font-size:1.375rem; }
+  .wordmark { font-family:Calibri, Carlito, "Segoe UI", Arial, sans-serif; font-size:1.875rem; font-weight:700; letter-spacing:3px; text-transform:uppercase; line-height:1.1; }
+  .tagline { font-size:1rem; letter-spacing:1px; margin-top:4px; }
+  .site-title { font-family:Calibri, Carlito, "Segoe UI", Arial, sans-serif; font-size:1.25rem; margin:0; line-height:1.2; }
+
+  .tabs { border-bottom:2px solid var(--line); background:#fff; position:sticky; top:0; z-index:20; }
+  .tabs .wrap { display:flex; flex-wrap:wrap; gap:4px; max-width:none; }
+  header .wrap { max-width:none; }
+  .tab { appearance:none; background:#fff; color:var(--ink); border:none; border-bottom:4px solid transparent; font:inherit; font-size:1.0625rem; font-weight:700; padding:8px 14px 6px; cursor:pointer; }
+  .tab[aria-selected="true"] { border-bottom-color:var(--gold); }
+  .tab:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible { outline:3px solid var(--ink); outline-offset:2px; }
+  .view { display:none; }
+  .view.active { display:block; }
+
+  section { padding:16px 0 8px; border-bottom:1px solid var(--soft); }
+  section:last-child { border-bottom:none; }
+  h1 { font-family:Calibri, Carlito, "Segoe UI", Arial, sans-serif; font-size:2rem; line-height:1.25; margin:10px 0 6px; }
+  h2 { font-family:Calibri, Carlito, "Segoe UI", Arial, sans-serif; font-size:1.5rem; margin:0 0 14px; }
+  h3 { font-size:1.25rem; font-weight:700; margin:24px 0 8px; }
+  p { margin:0 0 14px; }
+  .lead { font-size:1.25rem; }
+  a { color:var(--ink); }
+
+  .table-scroll { overflow-x:auto; margin:6px 0 18px; }
+  table { width:100%; border-collapse:collapse; font-size:1rem; }
+  th, td { border:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top; }
+  th { font-weight:700; background:#fff; }
+  td.num { text-align:center; width:48px; }
+  code { font-family:Consolas,Menlo,monospace; font-size:1rem; border:1px solid var(--soft); padding:1px 6px; word-break:break-word; }
+  pre { font-family:Consolas,Menlo,monospace; font-size:1rem; border:1px solid var(--line); padding:14px 16px; overflow-x:auto; white-space:pre-wrap; word-break:break-all; }
+
+  ul.check { list-style:none; padding-left:0; margin:0 0 14px; }
+  ul.check li { position:relative; padding-left:34px; margin-bottom:8px; }
+  ul.check li::before { content:""; position:absolute; left:0; top:5px; width:18px; height:18px; border:2px solid var(--line); }
+  ol, ul { margin:0 0 14px; padding-left:26px; }
+  li { margin-bottom:6px; }
+
+  /* Architecture */
+  .plan-band { border:2px solid var(--line); padding:14px 18px; text-align:center; font-weight:700; margin-top:10px; }
+  .down { padding-left:10%; font-size:1.5rem; line-height:1.4; }
+  .flow { display:grid; grid-template-columns:1fr auto 1fr auto 1fr auto 1fr; }
+  .stage { border:2px solid var(--line); padding:14px 16px; }
+  .stage.report { border-width:4px; }
+  .stage h4 { margin:0 0 8px; font-size:1.125rem; }
+  .stage ul { list-style:none; padding:0; margin:0; font-size:1rem; }
+  .arrow { display:flex; align-items:center; justify-content:center; font-size:1.75rem; padding:0 8px; }
+  .loop { border:1px dashed var(--line); margin-top:16px; padding:10px 16px; font-size:1rem; }
+
+  /* Phases with fill-in blanks */
+  .phase { border-left:4px solid var(--line); padding:2px 0 2px 18px; margin:26px 0; }
+  .phase h3 { margin-top:0; }
+  .blanks { display:grid; grid-template-columns:repeat(4, minmax(140px,1fr)); gap:10px 14px; margin:6px 0 14px; }
+  .blanks label { display:flex; flex-direction:column; font-size:1rem; font-weight:700; }
+  .blanks .full { grid-column:1 / -1; }
+  input[type=text], select, textarea { font:inherit; font-size:1rem; color:var(--ink); background:#fff; border:1px solid var(--line); border-radius:0; padding:6px 8px; }
+  .blanks input, .blanks select { font-weight:400; margin-top:4px; }
+
+  /* Planning wall */
+  .wall-bar { display:flex; flex-wrap:wrap; align-items:center; gap:12px 18px; margin:22px 0 14px; }
+  .wall-bar h1 { margin:0; font-size:1.75rem; }
+  .status { font-size:1rem; border:1px solid var(--line); padding:4px 10px; }
+  .btn { appearance:none; font:inherit; font-size:1rem; font-weight:600; color:var(--ink); background:#fff; border:2px solid var(--line); padding:6px 14px; cursor:pointer; }
+  .btn:hover { background:var(--hover); }
+  .btn.small { padding:2px 8px; font-size:1rem; border-width:1px; min-width:34px; }
+  .btn.danger-armed { background:#000; color:#fff; }
+  .connect { border:1px solid var(--line); padding:14px 16px; margin:0 0 16px; display:none; }
+  .connect.open { display:block; }
+  .connect input { width:100%; margin:6px 0 10px; }
+  .wall-scroll { overflow:auto; border:2px solid var(--line); max-height:78vh; }
+  table.wall { border-collapse:separate; border-spacing:0; width:max-content; min-width:100%; font-size:1rem; }
+  table.wall th, table.wall td { border:none; border-right:1px solid var(--line); border-bottom:1px solid var(--line); padding:0; }
+  table.wall thead th { position:sticky; top:0; z-index:5; background:#fff; padding:12px 10px; font-size:1.0625rem; text-align:center; border-bottom:2px solid var(--line); }
+  table.wall thead th.platform-head { left:0; z-index:7; text-align:left; }
+  table.wall td.platform, table.wall th.platform-head { position:sticky; left:0; background:#fff; width:300px; min-width:300px; z-index:4; border-right:2px solid var(--line); }
+  td.platform .pwrap { display:flex; align-items:center; gap:6px; padding:8px; }
+  td.platform input { flex:1; min-width:0; border:1px solid transparent; font-weight:600; }
+  td.platform input:hover, td.platform input:focus { border-color:var(--line); }
+  td.month { min-width:190px; width:190px; }
+  td.month textarea { display:block; width:100%; min-height:72px; border:none; resize:vertical; padding:8px 10px; line-height:1.45; }
+  td.month textarea:focus { outline:3px solid var(--ink); outline-offset:-3px; }
+  tr.cat td { position:sticky; left:0; background:#fff; padding:14px 10px 8px; border-top:2px solid var(--line); }
+  tr.cat .catwrap { display:flex; align-items:center; gap:14px; position:sticky; left:10px; width:max-content; }
+  tr.cat .catname { font-family:Calibri, Carlito, "Segoe UI", Arial, sans-serif; font-weight:700; font-size:1.1875rem; }
+  .hint { font-size:1rem; margin:10px 0 0; }
+
+  footer { border-top:2px solid var(--line); padding:22px 0 36px; font-size:1rem; margin-top:30px; }
+
+  @media (max-width:820px) {
+    .flow { grid-template-columns:1fr; }
+    .arrow { transform:rotate(90deg); padding:6px 0; }
+    .blanks { grid-template-columns:1fr 1fr; }
+    h1 { font-size:1.625rem; }
+    .wordmark { font-size:1.5rem; }
+    table.wall td.platform, table.wall th.platform-head { width:220px; min-width:220px; }
+  }
+  .sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+
+  /* ---- App shell: the page never scrolls. Header and tabs stay put; each
+     view is one content box with its own single scroll bar. ---- */
+  html, body { height:100%; }
+  body { height:100dvh; display:flex; flex-direction:column; overflow:hidden; }
+  header, nav.tabs { flex:none; }
+  nav.tabs { position:static; }
+  main { flex:1; min-height:0; position:relative; }
+  .view.active { display:flex; flex-direction:column; height:100%; min-height:0; }
+  #view-plan.active, #view-stack.active { display:block; overflow-y:auto; overflow-x:hidden; }
+  #view-war.active { overflow:hidden; }
+  #view-war iframe { flex:1; min-height:0; height:100% !important; width:100%; border:0; display:block; }
+  #view-wall.active { overflow:hidden; }
+  #view-wall .wide { display:flex; flex-direction:column; height:100%; min-height:0; padding:8px 12px 10px; }
+  #view-wall .wall-bar { flex:none; margin:0 0 8px; display:flex; align-items:baseline; gap:16px; flex-wrap:wrap; }
+  #view-wall .wall-bar h1 { margin:0; font-size:1.5rem; }
+  #view-wall .wall-bar .hint { margin:0; font-size:.95rem; }
+  #view-wall .wall-scroll { flex:1; min-height:0; max-height:none; overflow:auto; }
+  body > footer { display:none; }
+  /* Calendar fits the screen width on desktop; on phones it scrolls inside its one box */
+  table.wall { width:100%; }
+  table.wall td.platform, table.wall th.platform-head { width:250px; min-width:250px; }
+  td.month { min-width:140px; width:auto; }
+  @media (max-width:640px) {
+    .emblem { height:48px; }
+    .wordmark { font-size:1.15rem !important; }
+    .site-title { font-size:.95rem !important; }
+    .tab { padding:6px 10px 4px; font-size:.95rem; }
+    table.wall td.platform, table.wall th.platform-head { width:170px; min-width:170px; }
+    td.platform .pwrap { flex-wrap:wrap; }
+  }
+
+  /* ---- Add Activity ---- */
+  #view-add.active { display:block; overflow-y:auto; overflow-x:hidden; }
+  .act { max-width:none; margin:0; padding:14px 20px 28px; }
+  .act-form { display:grid; gap:6px; max-width:760px; }
+  .act .q { font-size:1.25rem; font-weight:700; margin-top:10px; }
+  .act textarea { width:100%; font:inherit; font-size:1.1rem; padding:10px 12px; border:2px solid #1C1C1E; resize:vertical; }
+  .act textarea:focus { outline:3px solid #B89B5E; outline-offset:1px; }
+  .drop { display:flex; align-items:center; justify-content:center; min-height:84px; border:2px dashed #1C1C1E; font-size:1.1rem; font-weight:700; cursor:pointer; background:#F2F4F7; }
+  .thumbs { display:flex; gap:8px; flex-wrap:wrap; }
+  .thumbs figure { margin:0; position:relative; }
+  .thumbs img { width:84px; height:84px; object-fit:cover; border:2px solid #1C1C1E; display:block; }
+  .thumbs button { position:absolute; top:-8px; right:-8px; width:26px; height:26px; border-radius:50%; border:2px solid #1C1C1E; background:#fff; font-weight:700; cursor:pointer; }
+  .big { margin-top:14px; font:inherit; font-size:1.2rem; font-weight:700; padding:12px 22px; background:#1C1C1E; color:#fff; border:none; cursor:pointer; justify-self:start; }
+  .big.go { background:#1F3D2B; }
+  .big:disabled { opacity:.5; cursor:not-allowed; }
+  .act-out { margin-top:22px; border-top:4px solid #B89B5E; padding-top:12px; }
+  .act-h { font-size:1.4rem; margin:0 0 6px; }
+  .all { display:inline-flex; align-items:center; gap:10px; font-size:1.15rem; font-weight:700; margin:4px 0 10px; }
+  .act input[type=checkbox] { width:24px; height:24px; accent-color:#1F3D2B; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fill, minmax(440px, 1fr)); gap:14px; align-items:start; }
+  @media (max-width:520px) { .cards { grid-template-columns:1fr; } }
+  .opts { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .opt { border:3px solid transparent; padding:3px; background:#fff; cursor:pointer; text-align:left; font:inherit; }
+  .opt img { width:100%; display:block; border:1px solid #E5E7EB; }
+  .opt span { display:block; font-size:.85rem; font-weight:700; margin-top:4px; }
+  .opt[aria-pressed="true"] { border-color:#1F3D2B; }
+  .opt[aria-pressed="true"] span::before { content:"\2713  "; color:#1F3D2B; }
+  .pcard { border:2px solid #1C1C1E; padding:10px; background:#fff; }
+  .pcard.off { opacity:.55; }
+  .pcard header { display:flex; align-items:center; gap:10px; border:none; padding:0 0 8px; }
+  .pcard header strong { font-size:1.1rem; }
+  .pcard header small { margin-left:auto; font-size:.85rem; }
+  .pcard .cap { font-size:.95rem; margin:8px 0 0; white-space:pre-wrap; }
+  .pcard .soon { font-size:.85rem; font-weight:700; color:#7A1C1C; }
+  .act-msg { font-size:1.1rem; font-weight:700; margin-top:10px; }
+  .ex { justify-self:start; font:inherit; font-size:1rem; font-weight:700; padding:6px 14px; background:#fff; color:#1C1C1E; border:2px solid #B89B5E; cursor:pointer; }
+  .pcard .dl { display:inline-block; margin-top:8px; font-weight:700; color:#1F3D2B; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="brand">
+      <img class="emblem" src="/command/emblem.png" alt="Yonke Law emblem">
+      <div>
+        <div class="wordmark">Yonke Law</div>
+        <div class="site-title">Marketing Command Center</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Views">
+  <div class="wrap" role="tablist">
+    <button class="tab" role="tab" data-view="add" aria-selected="true">Add Activity</button>
+    <button class="tab" role="tab" data-view="wall" aria-selected="false">Marketing Calendar</button>
+    <button class="tab" role="tab" data-view="war" aria-selected="false">Marketing Performance</button>
+    <button class="tab" role="tab" data-view="plan" aria-selected="false">Planning Approach</button>
+    <button class="tab" role="tab" data-view="stack" aria-selected="false">Platform and Standards</button>
+  </div>
+</nav>
+
+<!-- =========================== BUILD PLAN =========================== -->
+<main>
+<!-- =========================== ADD ACTIVITY =========================== -->
+<div class="view active" id="view-add">
+<div class="act">
+  <form id="act-form" class="act-form" autocomplete="off">
+    <button type="button" class="ex" id="act-example">Show me an example</button>
+    <label class="q" for="act-doing">What are you doing?</label>
+    <textarea id="act-doing" rows="2" maxlength="300" placeholder="Example: Speaking to the KC Bar Association about deposition prep"></textarea>
+
+    <label class="q" for="act-message">What do you want to say?</label>
+    <textarea id="act-message" rows="4" maxlength="2200" placeholder="This becomes the post's caption."></textarea>
+
+    <span class="q">Do you have any photos you'd like to add?</span>
+    <label class="drop" id="act-drop" for="act-photos">
+      <input type="file" id="act-photos" accept="image/*" multiple hidden>
+      <span id="act-drop-text">Tap to upload photos</span>
+    </label>
+    <div class="thumbs" id="act-thumbs"></div>
+
+    <button type="button" class="big" id="act-preview">Create my posts</button>
+  </form>
+
+  <section class="act-out" id="act-out" hidden>
+    <h2 class="act-h">Your posts</h2>
+    <label class="all"><input type="checkbox" id="act-all" checked> Send to all</label>
+    <div class="cards" id="act-cards"></div>
+    <button type="button" class="big go" id="act-submit">Save my posts</button>
+    <p class="act-msg" id="act-msg" role="status"></p>
+  </section>
+</div>
+</div>
+
+<div class="view" id="view-war">
+  <iframe src="/command/war-room.html" title="Yonke Law War Room"></iframe>
+</div>
+<div class="view" id="view-plan">
+<div class="wrap">
+
+<h1>Ad Serving, Monitoring and Reporting System</h1>
+<p class="lead">One system where every Yonke Law ad and promotional message is planned, approved, served, monitored and reported from a single place, and every dollar traces to a signed case.</p>
+
+<section>
+  <h2>How the system fits together</h2>
+  <div class="plan-band">Plan and approve: Planning Wall, attorney sign-off, Metricool schedule</div>
+  <div class="down" aria-hidden="true">&darr;</div>
+  <div class="flow">
+    <div class="stage"><h4>1. Serve</h4><ul><li>Yonke.Law and People Portal</li><li>Google Search and Business Profile</li><li>Facebook, Instagram, WhatsApp</li><li>YouTube, TikTok, LinkedIn</li><li>Reddit, Yelp, Substack</li><li>Best Lawyers, Super Lawyers</li></ul></div>
+    <div class="arrow" aria-hidden="true">&rarr;</div>
+    <div class="stage"><h4>2. Track</h4><ul><li>Tag Manager + GA4</li><li>Meta Pixel + Conversions API</li><li>Google Ads conversions</li><li>Call tracking</li><li>Lead Docket and Filevine</li></ul></div>
+    <div class="arrow" aria-hidden="true">&rarr;</div>
+    <div class="stage"><h4>3. Collect</h4><ul><li>Windsor.ai pulls every source daily</li><li>Into Google Sheets, later BigQuery</li></ul></div>
+    <div class="arrow" aria-hidden="true">&rarr;</div>
+    <div class="stage report"><h4>4. Report</h4><ul><li>Live dashboard</li><li>Weekly email report</li><li>Daily alerts</li><li>Monthly partner review</li></ul></div>
+  </div>
+  <div class="loop"><strong>Closing the loop:</strong> signed cases from Lead Docket and Filevine are sent back to Google and Meta as offline conversions, so the platforms optimize toward cases, not just clicks.</div>
+</section>
+
+<!-- Step-by-step build hidden for now; phase data still kept. Re-show by removing "hidden". -->
+<div id="phases" hidden></div>
+
+<section>
+  <h2>What we need</h2>
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th>#</th><th>Need</th><th>Why it matters</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td class="num">1</td><td>API or integration access to Lead Docket and Filevine</td><td>Only way to report cost per signed case and send cases back to the ad platforms</td><td>Open</td></tr>
+        <tr><td class="num">2</td><td>What Yonke.Law and the People Portal run on, and admin login</td><td>Needed to install Tag Manager, pixels, call tracking and on-site promotions</td><td>Open</td></tr>
+        <tr><td class="num">3</td><td>Yonke Law's Facebook Page, Instagram, WhatsApp number and ad account owned by Yonke Law, shared to our Meta Business Manager as a partner</td><td>Protects the firm's assets and keeps our access clean</td><td>Open</td></tr>
+        <tr><td class="num">4</td><td>Full list of digital properties</td><td>Defines the monitoring scope</td><td>Answered; add more on the Planning Wall</td></tr>
+        <tr><td class="num">5</td><td>Monthly ad budget, total and by channel</td><td>Sets pacing alerts and dashboard targets</td><td>Open</td></tr>
+        <tr><td class="num">6</td><td>Priority case types</td><td>Drives keywords, audiences and landing pages</td><td>Open</td></tr>
+        <tr><td class="num">7</td><td>Target geography: Kansas City metro, or all of Missouri and Kansas</td><td>Sets targeting and which state rules apply</td><td>Open</td></tr>
+        <tr><td class="num">8</td><td>The approving attorney and turnaround time for ad review</td><td>Nothing goes live without sign-off</td><td>Open</td></tr>
+        <tr><td class="num">9</td><td>Brand assets: logo files, approved photos and video, attorney headshots</td><td>Creative production</td><td>Open</td></tr>
+        <tr><td class="num">10</td><td>Who receives the weekly report and alerts</td><td>Report distribution</td><td>Open</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>Compliance guardrails</h2>
+  <p>Every ad and post passes attorney review before it serves. Missouri (Rules 4-7.1 to 4-7.5) and Kansas (KRPC 7.1 to 7.5) govern lawyer advertising; the approving attorney is the final authority, and the current rule text should be confirmed before launch.</p>
+  <ul class="check">
+    <li>No false or misleading claims, and no guarantee of outcome</li>
+    <li>Past results and settlement amounts carry the required disclaimer, or are left out</li>
+    <li>No "specialist" or "expert" language unless the attorney holds a recognized certification</li>
+    <li>Testimonials and endorsements are real, consented, and not typical-result claims</li>
+    <li>Firm name and a responsible attorney or office location appear where required</li>
+    <li>Any state-specific disclaimer language is present</li>
+    <li>No direct or targeted solicitation of specific accident victims, including by WhatsApp or direct message</li>
+    <li>Approved final version and approver saved to the Google Drive archive</li>
+  </ul>
+</section>
+
+<section>
+  <h2>KPIs and reporting cadence</h2>
+  <p>Cost per signed case is the number that matters most; everything else explains it.</p>
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th>KPI</th><th>Definition</th><th>Source</th><th>Reviewed</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Cost per signed case</strong></td><td>Ad spend / signed cases</td><td>Ad platforms + Lead Docket + Filevine</td><td>Monthly</td></tr>
+        <tr><td>Lead to signed rate</td><td>Signed cases / qualified leads</td><td>Lead Docket</td><td>Monthly</td></tr>
+        <tr><td>Cost per lead</td><td>Ad spend / form fills + qualified calls</td><td>Ad platforms + GA4 + call tracking</td><td>Weekly</td></tr>
+        <tr><td>Qualified call volume</td><td>Calls over 60 seconds from ads</td><td>Call tracking</td><td>Weekly</td></tr>
+        <tr><td>Conversion rate</td><td>Leads / sessions on landing pages</td><td>GA4</td><td>Weekly</td></tr>
+        <tr><td>Spend pacing</td><td>Month-to-date spend vs budget</td><td>Ad platforms</td><td>Daily</td></tr>
+        <tr><td>Organic reach and engagement</td><td>Reach, engagement, follower growth</td><td>Social platforms via Windsor.ai and Metricool</td><td>Weekly</td></tr>
+        <tr><td>Google Business Profile actions</td><td>Calls, direction requests, site clicks, new reviews</td><td>Google Business Profile</td><td>Weekly</td></tr>
+        <tr><td>Search and LLM visibility</td><td>Search clicks and position; how AI assistants answer Kansas City injury-lawyer questions</td><td>Search Console + scheduled AI answer checks</td><td>Monthly</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+</div>
+</div>
+
+<!-- =========================== PLANNING WALL =========================== -->
+<div class="view" id="view-wall">
+<div class="wide">
+  <div class="wall-bar">
+    <h1>Marketing Calendar</h1>
+    <p class="hint">Tap a cell to type. Arrows reorder rows. Changes save to the Google Sheet automatically.</p>
+    <span id="sync-status" role="status" class="sr-only"></span>
+  </div>
+  <div class="wall-scroll">
+    <table class="wall" id="wall"></table>
+  </div>
+</div>
+</div>
+
+<!-- =========================== PLATFORMS AND STANDARDS =========================== -->
+<div class="view" id="view-stack">
+<div class="wrap">
+
+<h1>Platforms and Standards</h1>
+<p class="lead">Claude drives the work; these platforms carry it. Every campaign follows the same naming and tracking standards so results roll up cleanly.</p>
+
+<section>
+  <h2>Management stack</h2>
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th>Platform</th><th>Role in the system</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Claude</strong></td><td>Drives all of it: plans, writes, launches after approval, monitors, and reports</td><td>Active</td></tr>
+        <tr><td>Lead Docket</td><td>Intake: every lead, its source, and whether it signed</td><td>Connection to set up</td></tr>
+        <tr><td>Filevine</td><td>Case management: signed cases and case status for cost per case</td><td>Connection to set up</td></tr>
+        <tr><td>Windsor.ai</td><td>Data hub: pulls every ad and social platform daily, and makes approved changes to ads and posts</td><td>Active</td></tr>
+        <tr><td>Google Ads</td><td>Search, YouTube video and Performance Max campaigns</td><td>Connected</td></tr>
+        <tr><td>GA4</td><td>Website behavior and key events: form fills, calls, chats</td><td>Connected</td></tr>
+        <tr><td>Google Tag Manager</td><td>Places every tracking tag on Yonke.Law without code changes</td><td>Access to confirm</td></tr>
+        <tr><td>Google Search Console</td><td>Organic search clicks, queries and position</td><td>To connect</td></tr>
+        <tr><td>Google Business Profile</td><td>Listing, posts, reviews and replies</td><td>To connect</td></tr>
+        <tr><td>Meta</td><td>Facebook, Instagram and WhatsApp ads and pages</td><td>Ads connected; pages to connect</td></tr>
+        <tr><td>Metricool</td><td>Schedules organic posts across every social network</td><td>Account ready; networks to connect</td></tr>
+        <tr><td>Google Workspace</td><td>Drive archive, Gmail alerts and reports, Calendar</td><td>Active</td></tr>
+        <tr><td>Google Sheets</td><td>Planning Wall data, campaign calendar, report tables</td><td>Active</td></tr>
+        <tr><td>BigQuery</td><td>Long-term data warehouse once volume grows</td><td>Later</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>How Claude runs each property</h2>
+  <p>Paid campaigns and posts launch only after attorney approval and Geoff's confirmation. Properties without a direct connection are run through Claude in Chrome, using the logged-in accounts.</p>
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th>Property</th><th>What Claude does</th><th>Route</th><th>Needed to switch on</th></tr></thead>
+      <tbody>
+        <tr><td>Yonke.Law website</td><td>Landing pages, on-site promotions, tracking</td><td>Site CMS, Tag Manager</td><td>CMS and Tag Manager admin</td></tr>
+        <tr><td>People Portal</td><td>Client-facing messages and promotions</td><td>To confirm once we know what it runs on</td><td>Platform name and admin access</td></tr>
+        <tr><td>Google Search</td><td>Search ads, keywords, negatives, budgets; organic visibility</td><td>Google Ads via Windsor.ai; Search Console</td><td>Search Console connected; billing confirmed on Google Ads</td></tr>
+        <tr><td>Google Business Profile</td><td>Weekly posts, review replies, listing updates</td><td>Windsor.ai and Metricool</td><td>Connect the profile in both</td></tr>
+        <tr><td>LLM Visibility</td><td>Checks how ChatGPT, Gemini, Claude and Perplexity answer Kansas City injury-lawyer questions, then fixes gaps on the site and directories</td><td>Scheduled Claude checks with web search</td><td>List of the questions clients ask</td></tr>
+        <tr><td>Yelp</td><td>Profile updates, review replies, Yelp Ads</td><td>Claude in Chrome</td><td>Yelp for Business login</td></tr>
+        <tr><td>Best Lawyers</td><td>Profile content and updates</td><td>Claude in Chrome</td><td>Profile login</td></tr>
+        <tr><td>Super Lawyers</td><td>Profile content and updates</td><td>Claude in Chrome</td><td>Profile login</td></tr>
+        <tr><td>Substack</td><td>Drafts and publishes articles</td><td>Claude in Chrome</td><td>Substack login</td></tr>
+        <tr><td>Facebook</td><td>Ads, page posts, comment monitoring</td><td>Windsor.ai (ads and posts), Metricool</td><td>Page connected in Windsor.ai and Metricool</td></tr>
+        <tr><td>Instagram</td><td>Ads, posts, Reels, stories, comments</td><td>Windsor.ai, Metricool</td><td>Business account linked to the Facebook Page</td></tr>
+        <tr><td>WhatsApp</td><td>Click-to-WhatsApp ads; replies through WhatsApp Business</td><td>Meta ads; WhatsApp Business</td><td>Firm WhatsApp Business number; no outbound solicitation</td></tr>
+        <tr><td>YouTube</td><td>Video ads, uploads and scheduling, analytics</td><td>Google Ads, Metricool, Windsor.ai</td><td>The firm's channel connected (current connection is the wrong channel)</td></tr>
+        <tr><td>TikTok</td><td>Ads and organic posts</td><td>Windsor.ai (ads), Metricool (posts)</td><td>TikTok Business and Ads Manager accounts</td></tr>
+        <tr><td>LinkedIn</td><td>Company page posts and ads</td><td>Windsor.ai, Metricool</td><td>Page admin and ad account</td></tr>
+        <tr><td>Reddit</td><td>Reddit Ads and reporting</td><td>Windsor.ai (reporting), Claude in Chrome (ads)</td><td>Reddit Ads account; most communities ban promotion</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>Naming conventions</h2>
+  <p>Every campaign, ad set and ad uses the same pattern, in capitals, joined by underscores. Launch timing lives on the Planning Wall, not in the name.</p>
+  <pre>Campaign:  YL_[CHANNEL]_[CASETYPE]_[GEO]_[OBJECTIVE]
+Ad set:    [Campaign]_[AUDIENCE]
+Ad:        [Ad set]_[CREATIVE]_V[#]
+
+Example:   YL_META_AUTO_KCMETRO_LEAD_RETARGET30_VIDEOMIKE_V2</pre>
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th>Field</th><th>Codes</th></tr></thead>
+      <tbody>
+        <tr><td>Channel</td><td>GADS (Google Search), GPMAX, GLSA (Local Services), YT, META (Facebook and Instagram), WA (WhatsApp), TT, LI, RDT, YELP, GBP, WEB, PORTAL, SUB (Substack), BL (Best Lawyers), SL (Super Lawyers)</td></tr>
+        <tr><td>Case type</td><td>AUTO, TRUCK, MOTO, PREM (premises), WD (wrongful death), WC (workers' comp), BRAND, GEN</td></tr>
+        <tr><td>Geo</td><td>KCMETRO, MO, KS, MOKS</td></tr>
+        <tr><td>Objective</td><td>LEAD, CALL, AWARE (awareness), RETARG (retargeting), REVIEW</td></tr>
+        <tr><td>Audience</td><td>Short descriptor: RETARGET30, LOOKALIKE, AGE25-54, KEYWORD</td></tr>
+        <tr><td>Creative</td><td>Short descriptor plus version: VIDEOMIKE_V1, STATIC-CRASH_V3</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Files in Google Drive follow the same codes: <code>YL_META_AUTO_VIDEOMIKE_V2_APPROVED.mp4</code>.</p>
+</section>
+
+<section>
+  <h2>UTM standards</h2>
+  <p>Every link to Yonke.Law from outside the site carries UTM tags, so GA4 can tie each visit to its campaign. All values lowercase, hyphens instead of spaces.</p>
+  <div class="table-scroll">
+    <table>
+      <thead><tr><th>Parameter</th><th>Rule</th><th>Values</th></tr></thead>
+      <tbody>
+        <tr><td><code>utm_source</code></td><td>The platform</td><td>google, facebook, instagram, whatsapp, youtube, tiktok, linkedin, reddit, yelp, gbp, substack, bestlawyers, superlawyers, chatgpt, perplexity</td></tr>
+        <tr><td><code>utm_medium</code></td><td>The kind of traffic</td><td>cpc, paid-social, paid-video, organic-social, listing, directory, email, referral</td></tr>
+        <tr><td><code>utm_campaign</code></td><td>The campaign name, lowercase</td><td>yl_meta_auto_kcmetro_lead</td></tr>
+        <tr><td><code>utm_content</code></td><td>The ad or creative</td><td>videomike_v2</td></tr>
+        <tr><td><code>utm_term</code></td><td>Search keyword (Google Ads fills it automatically)</td><td>{keyword}</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <pre>https://yonke.law/car-accident?utm_source=facebook&amp;utm_medium=paid-social&amp;utm_campaign=yl_meta_auto_kcmetro_lead&amp;utm_content=videomike_v2</pre>
+  <ul>
+    <li>Google Business Profile website link: <code>?utm_source=gbp&amp;utm_medium=listing&amp;utm_campaign=yl_gbp_brand</code></li>
+    <li>Directory profiles (Best Lawyers, Super Lawyers, Yelp): <code>utm_medium=directory</code></li>
+    <li>Never put UTM tags on links within Yonke.Law; it resets the visit's source</li>
+    <li>Google Ads uses auto-tagging; add UTMs through the account's tracking template only</li>
+  </ul>
+</section>
+
+</div>
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <strong>Yonke Law, LLC</strong> &middot; 700 West 47th Street, Suite 550, Kansas City, MO 64112 &middot; 816-221-6400 &middot; yonke.law<br>
+    We represent people hurt by someone else's negligence.
+  </div>
+</footer>
+
+<script>
+(function () {
+  // ---------- Config ----------
+  const SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxN73IbqHin6SlS6qeXue4uttqrnOaQcRNjyJhECkghVchhs-4fiZ96Nxj4iey37nww/exec'; // Apps Script web app URL; set after deployment
+  const KEY = 'yl-d5602fc5cebe';
+  const MONTHS = ['December', 'January', 'February', 'March', 'April', 'May', 'June']; // calendar starts Dec 1
+  const CATS = ['Business Platforms', 'Legal Platforms', 'Social Media'];
+  const PHASES = [
+    { name: 'Phase 0: Ownership and rules', items: ['Confirm Yonke Law owns every account (Meta assets, Google Ads, GA4, Tag Manager, Search Console, Business Profile, YouTube, LinkedIn, TikTok, WhatsApp Business)', 'Share Yonke Law assets to our Meta Business Manager as a partner', 'Grant manager access on every other property', 'Name the approving attorney for all ads', 'Adopt the naming and UTM standards (Platforms and Standards tab)'] },
+    { name: 'Phase 1: Tracking on yonke.law', items: ['Install Google Tag Manager on Yonke.Law and the People Portal', 'Define GA4 key events: form submit, click-to-call, chat started, case evaluation booked', 'Install Meta Pixel plus Conversions API', 'Set Google Ads conversions with enhanced conversions', 'Add call tracking with dynamic number insertion', 'Connect Lead Docket and Filevine so signed cases flow back to Google and Meta'] },
+    { name: 'Phase 2: Connect every source', items: ['Connect Facebook Page, Instagram, LinkedIn, TikTok, Reddit, Business Profile, Search Console and the firm YouTube channel in Windsor.ai', 'Connect the same networks to Metricool for scheduling', 'Send all data to Google Sheets, later BigQuery'] },
+    { name: 'Phase 3: Ad serving', items: ['Plan every message on the Planning Wall', 'Attorney approval before anything goes live; archive the approved version', 'Launch paid campaigns on Google, Meta, YouTube, TikTok and LinkedIn', 'Schedule organic posts in Metricool', 'Update directory profiles: Best Lawyers, Super Lawyers, Yelp', 'Publish on Substack and run on-site promotions on Yonke.Law'] },
+    { name: 'Phase 4: Monitoring', items: ['Daily check: spend pacing, spend with zero leads, disapproved ads, broken pages, new reviews', 'Alerts emailed when a threshold is crossed', 'Weekly wasted-spend and search-term review, changes only after approval'] },
+    { name: 'Phase 5: Reporting and dashboard', items: ['Live dashboard: spend, leads, cost per lead, signed cases, cost per case', 'Weekly email report', 'Monthly partner review'] },
+    { name: 'Phase 6: Optimize', items: ['Shift budget toward the lowest cost per signed case', 'Test one new message or creative per channel per month'] }
+  ];
+  const DEFAULT_ROWS = [
+    ['biz-website', 'Business Platforms', 'Yonke.Law website'],
+    ['biz-portal', 'Business Platforms', 'People Portal (inside Yonke.Law)'],
+    ['biz-gbp', 'Business Platforms', 'Google Business Profile'],
+    ['biz-gsearch', 'Business Platforms', 'Google Search'],
+    ['biz-llm', 'Business Platforms', 'LLM Visibility'],
+    ['biz-yelp', 'Business Platforms', 'Yelp'],
+    ['leg-bestlawyers', 'Legal Platforms', 'Best Lawyers'],
+    ['leg-superlawyers', 'Legal Platforms', 'Super Lawyers'],
+    ['leg-substack', 'Legal Platforms', 'Substack (certified lawyer)'],
+    ['soc-facebook', 'Social Media', 'Facebook (3B users)'],
+    ['soc-whatsapp', 'Social Media', 'WhatsApp (2.7B users)'],
+    ['soc-instagram', 'Social Media', 'Instagram (2.5B users)'],
+    ['soc-youtube', 'Social Media', 'YouTube (2.4B users)'],
+    ['soc-tiktok', 'Social Media', 'TikTok (1.5B users)'],
+    ['soc-linkedin', 'Social Media', 'LinkedIn'],
+    ['soc-reddit', 'Social Media', 'Reddit']
+  ].map(([id, cat, name]) => ({ id, cat, name, notes: {} }));
+
+  // ---------- Storage helpers ----------
+  const LS = {
+    get(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } },
+    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  };
+  const endpoint = () => SHEET_ENDPOINT || LS.get('yl-endpoint') || '';
+
+  let rows = LS.get('yl-wall') || DEFAULT_ROWS.map(r => ({ ...r, notes: {} }));
+  let phases = LS.get('yl-phases') || PHASES.map(p => ({ phase: p.name, start: '', target: '', owner: '', status: '', notes: '' }));
+
+  const statusEl = document.getElementById('sync-status');
+  const setStatus = t => { statusEl.textContent = t; };
+
+  // ---------- Tabs ----------
+  const tabs = document.querySelectorAll('.tab');
+  function show(view) {
+    if (!['add', 'war', 'plan', 'wall', 'stack'].includes(view)) view = 'add';
+    tabs.forEach(t => t.setAttribute('aria-selected', String(t.dataset.view === view)));
+    document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id === 'view-' + view));
+  }
+  tabs.forEach(t => t.addEventListener('click', () => { show(t.dataset.view); try { history.replaceState(null, '', '#' + t.dataset.view); } catch (e) { location.hash = t.dataset.view; } }));
+  window.addEventListener('hashchange', () => show(location.hash.slice(1)));
+  show(location.hash.slice(1));
+
+  // ---------- Phases ----------
+  function el(tag, attrs, children) {
+    const n = document.createElement(tag);
+    Object.entries(attrs || {}).forEach(([k, v]) => { if (k === 'text') n.textContent = v; else n.setAttribute(k, v); });
+    (children || []).forEach(c => n.appendChild(c));
+    return n;
+  }
+  function renderPhases() {
+    const host = document.getElementById('phases');
+    host.innerHTML = '';
+    PHASES.forEach((p, i) => {
+      const data = phases.find(x => x.phase === p.name) || (phases[i] = { phase: p.name, start: '', target: '', owner: '', status: '', notes: '' });
+      const field = (label, key, cls) => {
+        const input = el('input', { type: 'text', 'aria-label': p.name + ' ' + label });
+        input.value = data[key] || '';
+        input.addEventListener('input', () => { data[key] = input.value; save(); });
+        return el('label', cls ? { class: cls } : {}, [document.createTextNode(label), input]);
+      };
+      const sel = el('select', { 'aria-label': p.name + ' status' });
+      ['', 'Not started', 'In progress', 'Waiting', 'Done'].forEach(o => { const opt = el('option', { value: o, text: o || '—' }); sel.appendChild(opt); });
+      sel.value = data.status || '';
+      sel.addEventListener('change', () => { data.status = sel.value; save(); });
+      const blanks = el('div', { class: 'blanks' }, [
+        field('Start', 'start'), field('Target', 'target'), field('Owner', 'owner'),
+        el('label', {}, [document.createTextNode('Status'), sel]),
+        field('Notes', 'notes', 'full')
+      ]);
+      const list = el('ul', { class: 'check' }, p.items.map(t => el('li', { text: t })));
+      host.appendChild(el('div', { class: 'phase' }, [el('h3', { text: p.name }), blanks, list]));
+    });
+  }
+
+  // ---------- Wall ----------
+  const sortRows = () => { rows = rows.map((r, i) => [r, i]).sort((a, b) => (CATS.indexOf(a[0].cat) - CATS.indexOf(b[0].cat)) || (a[1] - b[1])).map(x => x[0]); };
+  function move(id, dir) {
+    const i = rows.findIndex(r => r.id === id); if (i < 0) return;
+    const r = rows[i], ci = CATS.indexOf(r.cat);
+    const j = i + dir, nb = rows[j];
+    if (nb && nb.cat === r.cat) { rows[i] = nb; rows[j] = r; }
+    else if (ci + dir >= 0 && ci + dir < CATS.length) { r.cat = CATS[ci + dir]; sortRows(); }
+    else return;
+    renderWall(id, dir < 0 ? 'up' : 'down'); save();
+  }
+  function addRow(cat) {
+    const r = { id: 'row-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), cat, name: 'New platform', notes: {} };
+    let last = -1; rows.forEach((x, i) => { if (x.cat === cat) last = i; });
+    if (last < 0) { rows.push(r); sortRows(); } else rows.splice(last + 1, 0, r);
+    renderWall(); save();
+    const inp = document.querySelector('input[data-id="' + r.id + '"]'); if (inp) { inp.focus(); inp.select(); }
+  }
+  function removeRow(id) { rows = rows.filter(r => r.id !== id); renderWall(); save(); }
+  function autosize(t) { t.style.height = 'auto'; t.style.height = Math.max(72, t.scrollHeight + 2) + 'px'; }
+
+  function renderWall(focusId, focusBtn) {
+    const table = document.getElementById('wall');
+    table.innerHTML = '';
+    const head = el('tr', {}, [el('th', { class: 'platform-head', scope: 'col', text: 'Platform' })].concat(MONTHS.map(m => el('th', { scope: 'col', text: m }))));
+    table.appendChild(el('thead', {}, [head]));
+    const body = el('tbody');
+    CATS.forEach(cat => {
+      const addBtn = el('button', { class: 'btn small', type: 'button', text: '+ Add row' });
+      addBtn.addEventListener('click', () => addRow(cat));
+      const td = el('td', { colspan: String(MONTHS.length + 1) }, [el('div', { class: 'catwrap' }, [el('span', { class: 'catname', text: cat }), addBtn])]);
+      body.appendChild(el('tr', { class: 'cat' }, [td]));
+      rows.filter(r => r.cat === cat).forEach(r => {
+        const name = el('input', { type: 'text', 'data-id': r.id, 'aria-label': 'Platform name' });
+        name.value = r.name;
+        name.addEventListener('input', () => { r.name = name.value; save(); });
+        const up = el('button', { class: 'btn small', type: 'button', title: 'Move up', 'aria-label': 'Move ' + r.name + ' up', 'data-btn': 'up', text: '▲' });
+        const down = el('button', { class: 'btn small', type: 'button', title: 'Move down', 'aria-label': 'Move ' + r.name + ' down', 'data-btn': 'down', text: '▼' });
+        const del = el('button', { class: 'btn small', type: 'button', title: 'Remove row', 'aria-label': 'Remove ' + r.name, text: '✕' });
+        up.addEventListener('click', () => move(r.id, -1));
+        down.addEventListener('click', () => move(r.id, 1));
+        let armed = false, timer;
+        del.addEventListener('click', () => {
+          if (armed) { removeRow(r.id); return; }
+          armed = true; del.textContent = 'Remove?'; del.classList.add('danger-armed');
+          timer = setTimeout(() => { armed = false; del.textContent = '✕'; del.classList.remove('danger-armed'); }, 3000);
+        });
+        const cells = [el('td', { class: 'platform' }, [el('div', { class: 'pwrap' }, [name, up, down, del])])];
+        MONTHS.forEach(m => {
+          const t = el('textarea', { 'aria-label': r.name + ' ' + m });
+          t.value = (r.notes && r.notes[m]) || '';
+          t.addEventListener('input', () => { r.notes = r.notes || {}; r.notes[m] = t.value; autosize(t); save(); });
+          cells.push(el('td', { class: 'month' }, [t]));
+        });
+        body.appendChild(el('tr', { 'data-row': r.id }, cells));
+      });
+    });
+    table.appendChild(body);
+    table.querySelectorAll('textarea').forEach(autosize);
+    if (focusId) { const b = table.querySelector('tr[data-row="' + focusId + '"] [data-btn="' + focusBtn + '"]'); if (b) b.focus(); }
+  }
+
+  // ---------- Sync ----------
+  let saveTimer = null;
+  function save() {
+    LS.set('yl-wall', rows); LS.set('yl-phases', phases);
+    if (!endpoint()) { setStatus('Saved in this browser only (sheet not connected)'); return; }
+    setStatus('Saving');
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => { saveTimer = null; push(); }, 1200);
+  }
+  let pushing = false;
+  async function push() {
+    pushing = true;
+    try {
+      const res = await fetch(endpoint(), { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ key: KEY, wall: rows, phases }) });
+      const j = await res.json();
+      setStatus(j.ok ? 'Saved to Google Sheet' : 'Sheet refused the save: ' + (j.error || 'unknown'));
+    } catch (e) { setStatus('Could not reach the sheet; saved in this browser'); }
+    finally { pushing = false; }
+  }
+  async function pull() {
+    if (!endpoint()) { setStatus('Saved in this browser only (sheet not connected)'); return; }
+    setStatus('Loading from Google Sheet');
+    try {
+      const res = await fetch(endpoint() + '?key=' + encodeURIComponent(KEY));
+      const j = await res.json();
+      if (!j.ok) { setStatus('Sheet refused: ' + (j.error || 'unknown')); return; }
+      if (Array.isArray(j.wall) && j.wall.length) { rows = j.wall.map(r => ({ id: r.id, cat: CATS.includes(r.cat) ? r.cat : CATS[0], name: r.name, notes: r.notes || {} })); sortRows(); }
+      if (Array.isArray(j.phases) && j.phases.length) phases = j.phases;
+      LS.set('yl-wall', rows); LS.set('yl-phases', phases);
+      renderWall(); renderPhases();
+      setStatus('Loaded from Google Sheet');
+    } catch (e) { setStatus('Could not reach the sheet; showing this browser’s copy'); }
+  }
+
+  // Background sync: pull from the sheet every 30 seconds and whenever the app
+  // comes back to the foreground. Never overwrite while someone is typing or a
+  // save is still on its way.
+  const editing = () => { const a = document.activeElement; return a && /^(TEXTAREA|INPUT|SELECT)$/.test(a.tagName); };
+  function quietPull() { if (document.hidden || editing() || saveTimer || pushing) return; pull(); }
+  setInterval(quietPull, 30000);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) quietPull(); });
+  window.addEventListener('focus', quietPull);
+
+  renderPhases();
+  renderWall();
+  pull();
+})();
+</script>
+
+<script>
+/* ---------- Add Activity: write once, render into each platform's frame, pick where it goes ---------- */
+(function () {
+  const $ = (id) => document.getElementById(id);
+  // Frame geometry measured from the Yonke Law templates (pixels in each template image)
+  const FRAMES = {
+    facebook:        { name: 'Facebook',                size: 'Landscape 1.91:1', src: '/command/frames/landscape191.jpg',  w: 1731, h: 909,  x0: 16, y0: 16, x1: 1718, logoTop: 737 },
+    instagram:       { name: 'Instagram',               size: 'Portrait 4:5',     src: '/command/frames/portrait4x5.jpg',   w: 1122, h: 1402, x0: 13, y0: 13, x1: 1109, logoTop: 1236 },
+    google_business: { name: 'Google Business Profile', size: 'Landscape 16:9',   src: '/command/frames/landscape16x9.jpg', w: 1672, h: 941,  x0: 15, y0: 14, x1: 1659, logoTop: 753 },
+    threads:         { name: 'Threads',                 size: 'Portrait 4:5',     src: '/command/frames/portrait4x5.jpg',   w: 1122, h: 1402, x0: 13, y0: 13, x1: 1109, logoTop: 1236 },
+    tiktok:          { name: 'TikTok',                  size: 'Vertical 9:16',    from: 'instagram', w: 1080, h: 1920 },
+    linkedin:        { name: 'LinkedIn',                size: 'Square 1:1',       src: '/command/frames/square.jpg',        w: 1254, h: 1254, x0: 19, y0: 18, x1: 1236, logoTop: 1086 }
+  };
+  // Which platforms are connected for publishing (from the server); the rest show "Not connected yet"
+  let CONNECTED = [], MODE = 'draft';
+  fetch('/command/api/activity').then((r) => r.json()).then((j) => { CONNECTED = j.connected || []; MODE = j.mode || 'draft';
+    Object.keys(FRAMES).forEach((k) => (FRAMES[k].soon = !CONNECTED.includes(k)));
+    $('act-submit').textContent = MODE === 'draft' ? 'Send for approval' : 'Post now'; }).catch(() => {});
+  Object.keys(FRAMES).forEach((k) => (FRAMES[k].soon = true));
+  const FONT = 'Calibri, Carlito, "Segoe UI", Arial, sans-serif';
+  let photos = [];            // [{ file, url, img }]
+  let rendered = {};          // platform -> { classic: dataURL, bubble: dataURL }
+  let choice = {};            // platform -> 'classic' | 'bubble'
+  // Two wrappers Mike can choose from for every platform
+  const STYLES = { classic: 'Yonke Law border', bubble: 'Wait… can they do that?' };
+  const BUBBLE = { blue: '#0450C3', navy: '#051634', gold: '#F8B533', font: '"Archivo Black", "Arial Black", Arial, sans-serif' };
+
+  const load = (src) => new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = no; i.src = src; });
+
+  // ---- Photos ----
+  $('act-photos').addEventListener('change', async (e) => {
+    for (const f of [...e.target.files].slice(0, 6 - photos.length)) {
+      const url = URL.createObjectURL(f);
+      photos.push({ file: f, url, img: await load(url) });
+    }
+    e.target.value = '';
+    drawThumbs();
+  });
+  function drawThumbs() {
+    $('act-thumbs').innerHTML = '';
+    photos.forEach((p, i) => {
+      const fig = document.createElement('figure');
+      fig.innerHTML = '<img alt="Photo ' + (i + 1) + '"><button type="button" aria-label="Remove photo ' + (i + 1) + '">×</button>';
+      fig.querySelector('img').src = p.url;
+      fig.querySelector('button').onclick = () => { if (p.file) URL.revokeObjectURL(p.url); photos.splice(i, 1); drawThumbs(); };
+      $('act-thumbs').appendChild(fig);
+    });
+    $('act-drop-text').textContent = photos.length ? 'Add more photos (' + photos.length + ' added; the first one goes in the post)' : 'Tap to upload photos';
+  }
+
+  // ---- Example: fills the form with a sample so Mike can see the whole flow ----
+  $('act-example').addEventListener('click', async () => {
+    $('act-doing').value = 'Speaking to the KC Bar Association about deposition prep';
+    $('act-message').value = 'Tonight I walked through the four steps that keep a deposition from going sideways. Thank you to everyone who came out.';
+    if (!photos.length) {
+      try { const url = '/images/Mike%20Yonke%20-%20Standing%20in%20Park.png'; photos.push({ file: null, url, img: await load(url) }); drawThumbs(); } catch (e) {}
+    }
+    $('act-preview').click();
+  });
+
+  // ---- Text helpers ----
+  function wrap(ctx, text, maxW) {
+    const words = String(text).split(/\s+/).filter(Boolean), lines = []; let line = '';
+    words.forEach((w) => { const t = line ? line + ' ' + w : w; if (ctx.measureText(t).width > maxW && line) { lines.push(line); line = w; } else line = t; });
+    if (line) lines.push(line); return lines;
+  }
+  function fitText(ctx, text, maxW, maxH, start, minSize, weight, maxLines) {
+    for (let size = start; size >= minSize; size -= 2) {
+      ctx.font = weight + ' ' + size + 'px ' + FONT;
+      const lines = wrap(ctx, text, maxW);
+      if (lines.length <= maxLines && lines.length * size * 1.18 <= maxH) return { size, lines };
+    }
+    ctx.font = weight + ' ' + minSize + 'px ' + FONT;
+    const lines = wrap(ctx, text, maxW).slice(0, maxLines);
+    if (lines.length === maxLines) lines[maxLines - 1] = lines[maxLines - 1].replace(/\s*\S*$/, '') + '…';
+    return { size: minSize, lines };
+  }
+  // Fill the box with the photo. When the photo has to be trimmed top/bottom, keep the
+  // top of the picture (faces and heads sit there in portraits) instead of the middle.
+  function cover(ctx, img, x, y, w, h) {
+    const r = Math.max(w / img.width, h / img.height), sw = w / r, sh = h / r;
+    const sy = (img.height - sh) * 0.12;
+    ctx.drawImage(img, (img.width - sw) / 2, sy, sw, sh, x, y, w, h);
+  }
+
+  // ---- "Wait... can they do that?" wrapper: white card, speech-bubble lockup, bold navy headline ----
+  function fitBubble(ctx, text, maxW, maxH, start, minSize, maxLines) {
+    for (let size = start; size >= minSize; size -= 2) {
+      ctx.font = size + 'px ' + BUBBLE.font;
+      const lines = wrap(ctx, text, maxW);
+      if (lines.length <= maxLines && lines.length * size * 1.12 <= maxH) return { size, lines };
+    }
+    ctx.font = minSize + 'px ' + BUBBLE.font;
+    const lines = wrap(ctx, text, maxW).slice(0, maxLines);
+    return { size: minSize, lines };
+  }
+  async function renderBubble(key, doing, message) {
+    const F = FRAMES[key];
+    const w = F.from ? F.w : F.w, h = F.h;
+    const lock = await load('/command/frames/wait-bubbles.png');
+    const c = document.createElement('canvas'); c.width = w; c.height = h;
+    const ctx = c.getContext('2d');
+    ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0, 0, w, h);
+    // Blue frame line, echoing the classic border
+    const m = Math.round(Math.min(w, h) * 0.022);
+    ctx.strokeStyle = BUBBLE.blue; ctx.lineWidth = Math.max(4, Math.round(m * 0.35)); ctx.strokeRect(m, m, w - 2 * m, h - 2 * m);
+    const pad = Math.round(Math.min(w, h) * 0.06);
+    const L = pad, R = w - pad, T = pad, B = h - pad, W = R - L, H = B - T;
+    const head = doing || message;
+    const photo = photos[0] && photos[0].img;
+    ctx.textBaseline = 'top'; ctx.fillStyle = BUBBLE.navy;
+    const drawLines = (t, x, y) => t.lines.forEach((ln, i) => ctx.fillText(ln, x, y + i * t.size * 1.12));
+    if (w / h > 1.4) {
+      // Wide: photo left, lockup + headline right
+      const pw = photo ? Math.round(W * 0.52) : 0, gap = photo ? pad * 0.8 : 0, tx = L + pw + gap, tw = R - tx;
+      if (photo) { cover(ctx, photo, L, T, pw, H); ctx.strokeStyle = BUBBLE.navy; ctx.lineWidth = 3; ctx.strokeRect(L, T, pw, H); }
+      const lh = Math.round(tw * lock.height / lock.width);
+      ctx.drawImage(lock, tx, T, tw, lh);
+      ctx.fillStyle = BUBBLE.gold; ctx.fillRect(tx, T + lh + pad * 0.5, tw * 0.22, Math.max(6, h * 0.008)); ctx.fillStyle = BUBBLE.navy;
+      const ty = T + lh + pad * 0.5 + pad * 0.6;
+      const t = fitBubble(ctx, head, tw, B - ty, Math.round(h * 0.085), Math.round(h * 0.035), 5);
+      drawLines(t, tx, ty);
+    } else {
+      // Tall or square: lockup on top, headline, then the photo
+      const lw = Math.round(W * (h / w > 1.5 ? 1 : 0.86)), lh = Math.round(lw * lock.height / lock.width);
+      ctx.drawImage(lock, L + (W - lw) / 2, T, lw, lh);
+      let y = T + lh + pad * 0.55;
+      const t = fitBubble(ctx, head, W, photo ? H * 0.22 : B - y, Math.round(w * 0.075), Math.round(w * 0.04), photo ? 3 : 6);
+      drawLines(t, L, y);
+      y += t.lines.length * t.size * 1.12 + pad * 0.45;
+      if (photo) { cover(ctx, photo, L, y, W, B - y); ctx.strokeStyle = BUBBLE.navy; ctx.lineWidth = 3; ctx.strokeRect(L, y, W, B - y); }
+    }
+    return c.toDataURL('image/jpeg', 0.88);
+  }
+
+  // ---- Render one platform image ----
+  async function render(key, doing, message) {
+    const F = FRAMES[key];
+    if (F.from) {
+      // Vertical frame: the 4:5 Yonke Law post centered on a full-height brand background
+      const base = await load(await render(F.from, doing, message));
+      const c = document.createElement('canvas'); c.width = F.w; c.height = F.h;
+      const ctx = c.getContext('2d');
+      ctx.fillStyle = '#1C1C1E'; ctx.fillRect(0, 0, F.w, F.h);
+      const bw = F.w, bh = Math.round(base.height * (F.w / base.width)), by = Math.round((F.h - bh) / 2);
+      ctx.drawImage(base, 0, by, bw, bh);
+      ctx.fillStyle = '#B89B5E'; ctx.fillRect(F.w * 0.4, by + bh + 60, F.w * 0.2, 6);
+      ctx.fillStyle = '#F2F4F7'; ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+      ctx.font = '700 64px ' + FONT; ctx.fillText('yonke.law', F.w / 2, by + bh + 100);
+      ctx.font = '400 40px ' + FONT; ctx.fillText('816-221-6400', F.w / 2, by + bh + 180);
+      return c.toDataURL('image/jpeg', 0.88);
+    }
+    const tpl = await load(F.src);
+    const c = document.createElement('canvas'); c.width = F.w; c.height = F.h;
+    const ctx = c.getContext('2d');
+    ctx.drawImage(tpl, 0, 0);
+    const pad = Math.round(F.w * 0.035);
+    const L = F.x0 + pad, R = F.x1 - pad, T = F.y0 + pad, B = F.logoTop - pad * 0.6;
+    const W = R - L, H = B - T;
+    ctx.fillStyle = '#000'; ctx.textBaseline = 'top';
+    const head = doing || message;
+    const photo = photos[0] && photos[0].img;
+    if (photo && W / H > 1.4) {
+      // Wide frames: photo on the left, headline on the right
+      const pw = Math.round(W * 0.56), gap = pad * 0.8, tx = L + pw + gap, tw = R - tx;
+      cover(ctx, photo, L, T, pw, H);
+      ctx.strokeStyle = '#1C1C1E'; ctx.lineWidth = 2; ctx.strokeRect(L, T, pw, H);
+      const t = fitText(ctx, head, tw, H * 0.8, Math.round(H * 0.16), Math.round(F.w * 0.02), '700', 5);
+      const blockH = t.lines.length * t.size * 1.18;
+      ctx.fillStyle = '#B89B5E'; ctx.fillRect(tx, T + (H - blockH) / 2 - pad * 0.7, tw * 0.22, Math.max(4, F.w * 0.004)); ctx.fillStyle = '#000';
+      t.lines.forEach((ln, i) => ctx.fillText(ln, tx, T + (H - blockH) / 2 + i * t.size * 1.18));
+    } else if (photo) {
+      const hh = Math.round(H * 0.24);
+      const t = fitText(ctx, head, W, hh, Math.round(hh * 0.55), Math.round(F.w * 0.022), '700', 2);
+      const blockH = t.lines.length * t.size * 1.18;
+      t.lines.forEach((ln, i) => ctx.fillText(ln, L, T + (hh - blockH) / 2 + i * t.size * 1.18));
+      const py = T + hh + pad * 0.4;
+      cover(ctx, photo, L, py, W, B - py);
+      ctx.strokeStyle = '#1C1C1E'; ctx.lineWidth = 2; ctx.strokeRect(L, py, W, B - py);
+    } else {
+      const t = fitText(ctx, head, W, H * 0.55, Math.round(H * 0.16), Math.round(F.w * 0.028), '700', 4);
+      let y = T + H * 0.12;
+      t.lines.forEach((ln) => { ctx.fillText(ln, L, y); y += t.size * 1.18; });
+      if (doing && message) {
+        ctx.fillStyle = '#B89B5E'; ctx.fillRect(L, y + pad * 0.3, W * 0.12, Math.max(4, F.w * 0.004)); ctx.fillStyle = '#000';
+        const m = fitText(ctx, message, W, B - (y + pad), Math.round(t.size * 0.5), Math.round(F.w * 0.018), '400', 5);
+        let my = y + pad; m.lines.forEach((ln) => { ctx.fillText(ln, L, my); my += m.size * 1.25; });
+      }
+    }
+    return c.toDataURL('image/jpeg', 0.88);
+  }
+
+  // ---- Create posts ----
+  $('act-preview').addEventListener('click', async () => {
+    const doing = $('act-doing').value.trim(), message = $('act-message').value.trim();
+    if (!doing && !message) { $('act-doing').focus(); return; }
+    const btn = $('act-preview'); btn.disabled = true; btn.textContent = 'Creating…';
+    try { await document.fonts.load('700 40px Carlito'); await document.fonts.load('400 40px Carlito'); await document.fonts.load('40px "Archivo Black"'); } catch (e) {}
+    rendered = {};
+    const cards = $('act-cards'); cards.innerHTML = '';
+    for (const [key, F] of Object.entries(FRAMES)) {
+      rendered[key] = { classic: await render(key, doing, message), bubble: await renderBubble(key, doing, message) };
+      choice[key] = choice[key] || 'classic';
+      const card = document.createElement('div'); card.className = 'pcard' + (F.soon ? ' off' : ''); card.dataset.key = key;
+      card.innerHTML = '<header><input type="checkbox" class="pick" aria-label="Post to ' + F.name + '"' + (F.soon ? ' disabled' : ' checked') + '>' +
+        '<strong>' + F.name + '</strong><small>' + F.size + '</small></header><div class="opts">' +
+        Object.entries(STYLES).map(([s, label]) => '<button type="button" class="opt" data-style="' + s + '" aria-pressed="' + (choice[key] === s) + '"><img alt="' + F.name + ', ' + label + '"><span>' + label + '</span></button>').join('') +
+        '</div>' + (F.soon ? '<p class="soon">Not connected yet</p>' : '') + '<p class="cap"></p><a class="dl">Download chosen image</a>';
+      card.querySelectorAll('.opt').forEach((b) => (b.querySelector('img').src = rendered[key][b.dataset.style]));
+      const dl = card.querySelector('.dl'); dl.href = rendered[key][choice[key]]; dl.download = 'yonke-law-' + key.replace('_', '-') + '.jpg';
+      card.querySelector('.cap').textContent = message || doing;
+      cards.appendChild(card);
+    }
+    $('act-all').checked = true;
+    $('act-out').hidden = false; $('act-msg').textContent = '';
+    btn.disabled = false; btn.textContent = 'Update my posts';
+    $('act-out').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  // ---- Send to all / individual picks ----
+  const picks = () => [...document.querySelectorAll('#act-cards .pick:not(:disabled)')];
+  $('act-all').addEventListener('change', (e) => picks().forEach((p) => (p.checked = e.target.checked)));
+  $('act-cards').addEventListener('click', (e) => {
+    const b = e.target.closest('.opt'); if (!b) return;
+    const card = b.closest('.pcard'), key = card.dataset.key;
+    choice[key] = b.dataset.style;
+    card.querySelectorAll('.opt').forEach((o) => o.setAttribute('aria-pressed', String(o === b)));
+    card.querySelector('.dl').href = rendered[key][choice[key]];
+  });
+  $('act-cards').addEventListener('change', (e) => {
+    if (!e.target.classList.contains('pick')) return;
+    $('act-all').checked = picks().every((p) => p.checked);
+  });
+
+  // ---- Submit ----
+  $('act-submit').addEventListener('click', async () => {
+    const targets = picks().filter((p) => p.checked).map((p) => p.closest('.pcard').dataset.key);
+    const msg = $('act-msg');
+    if (!targets.length) { msg.textContent = 'Pick at least one place to post.'; return; }
+    const btn = $('act-submit'); btn.disabled = true; btn.textContent = 'Saving…'; msg.textContent = '';
+    const images = {}; targets.forEach((t) => (images[t] = rendered[t][choice[t]]));
+    try {
+      const res = await fetch('/command/api/activity', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ doing: $('act-doing').value.trim(), message: $('act-message').value.trim(), targets, images }) });
+      const j = await res.json();
+      if (!j.ok) throw new Error(j.error || 'Something went wrong');
+      const names = targets.map((t) => FRAMES[t].name).join(', ');
+      const st = j.status || {};
+      const by = (v) => targets.filter((t) => st[t] === v).map((t) => FRAMES[t].name);
+      const parts = [];
+      if (by('sent for approval').length) parts.push('Sent for approval: ' + by('sent for approval').join(', ') + '. Geoff reviews it before it goes live.');
+      if (by('scheduled').length) parts.push('Posting in a few minutes: ' + by('scheduled').join(', ') + '.');
+      if (by('failed').length) parts.push('Could not send to ' + by('failed').join(', ') + '. Try again, or download the image above.');
+      if (by('awaiting connection').length) parts.push('Saved only (not connected yet): ' + by('awaiting connection').join(', ') + '.');
+      msg.textContent = parts.join(' ') || 'Saved for ' + names + '.';
+      if (!by('failed').length && !by('awaiting connection').length) { $('act-form').reset(); photos = []; drawThumbs(); }
+    } catch (e) {
+      msg.textContent = 'Could not send: ' + e.message + '. Your posts are still here; try again.';
+    } finally { btn.disabled = false; btn.textContent = MODE === 'draft' ? 'Send for approval' : 'Post now'; }
+  });
+})();
+</script>
+</body>
+</html>

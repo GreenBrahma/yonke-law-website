@@ -5,6 +5,7 @@ import { SmsConsent } from "@/components/SmsConsent";
 import { CaseTypeSelect } from "@/components/CaseTypeSelect";
 import { TalkToUsForm } from "@/components/TalkToUsForm";
 import { sendToLeadDocket } from "@/lib/lead-docket";
+import { trackLead } from "@/components/Analytics";
 
 type FormState = "idle" | "sending" | "sent" | "error";
 type ActiveForm = "none" | "contact" | "schedule";
@@ -112,6 +113,7 @@ export function PeopleFirstActions() {
       });
 
       setScheduleState("sent");
+      trackLead("People First: schedule consultation");
       form.reset();
     } catch (err) {
       setScheduleState("error");

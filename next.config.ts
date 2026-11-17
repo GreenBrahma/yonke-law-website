@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { LEGACY_REDIRECTS } from "./lib/legacy-redirects";
 
 const nextConfig: NextConfig = {
   async headers() {
@@ -17,7 +18,7 @@ const nextConfig: NextConfig = {
     ];
   },
   async redirects() {
-    return [
+    const existing = [
       // Legacy flat practice-area URLs → /what-we-handle/*
       { source: "/car-accidents", destination: "/what-we-handle/car-accidents", permanent: true },
       { source: "/truck-accidents", destination: "/what-we-handle/truck-accidents", permanent: true },
@@ -31,10 +32,22 @@ const nextConfig: NextConfig = {
       { source: "/pedestrian-bicycle", destination: "/what-we-handle/pedestrian-bicycle", permanent: true },
       // Legacy bio URL
       { source: "/michael-t-yonke", destination: "/about", permanent: true },
+      // Moved from netlify.toml when the site left Netlify
+      { source: "/how-it-works", destination: "/people-first", permanent: true },
+      { source: "/how-it-works/:path*", destination: "/people-first/:path*", permanent: true },
+      { source: "/people-first/people-portal", destination: "/people-first", permanent: true },
       // "I Stand For" now lives on the Meet Mike page
       { source: "/about/i-stand-for", destination: "/about#i-stand-for", permanent: true },
       // Legacy testimonials shortcut
       { source: "/testimonials", destination: "/about/testimonials", permanent: true },
+    ];
+
+    // Preserve existing shortcuts while restoring both generations of the
+    // spreadsheet's migration paths. Next.js permanent redirects use HTTP 308.
+    const existingSources = new Set(existing.map(({ source }) => source));
+    return [
+      ...existing,
+      ...LEGACY_REDIRECTS.filter(({ source }) => !existingSources.has(source)),
     ];
   },
 };

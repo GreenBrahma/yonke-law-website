@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { SmsConsent } from "@/components/SmsConsent";
+import { TalkToUsForm } from "@/components/TalkToUsForm";
 
 /* -------------------------------------------------------
    ConciergeHero — Section 2 of homepage-spec.md
@@ -220,9 +220,6 @@ export function ConciergeHero() {
   // Contact form state
   const [showContactForm, setShowContactForm] = useState(false);
   const [contactSent, setContactSent] = useState(false);
-  const [contactSending, setContactSending] = useState(false);
-  const [contactForm, setContactForm] = useState({ name: "", phone: "", email: "", description: "" });
-  const [smsConsent, setSmsConsent] = useState(false);
 
   // Detected topic from the conversation
   const [detectedTopic, setDetectedTopic] = useState<TopicId | null>(null);
@@ -301,72 +298,29 @@ export function ConciergeHero() {
     setTypedText("");
     setShowContactForm(false);
     setContactSent(false);
-    setContactSending(false);
-    setContactForm({ name: "", phone: "", email: "", description: "" });
-    setSmsConsent(false);
     setDetectedTopic(null);
     setResourceCardsShown(false);
   }
 
-  const handleContactSubmit = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setContactSending(true);
-
+  const conciergeContext = (() => {
     const topicLabel = detectedTopic ? TOPIC_LABELS[detectedTopic] : "General";
-    const chatHistoryHtml = messages
-      .map((m) => `<p><strong>${m.role === "user" ? "Visitor" : "Assistant"}:</strong> ${m.text}</p>`)
-      .join("");
+    const chat = messages
+      .map((m) => `${m.role === "user" ? "Visitor" : "Assistant"}: ${m.text}`)
+      .join("\n");
+    return `Concierge chat (detected topic: ${topicLabel})\n${chat}`;
+  })();
 
-    const bodyHtml = `
-      <h2>Concierge Inquiry</h2>
-      <table style="border-collapse:collapse;width:100%;max-width:600px;">
-        <tr><td style="padding:8px;border:1px solid #ccc;font-weight:bold;">Name</td><td style="padding:8px;border:1px solid #ccc;">${contactForm.name}</td></tr>
-        <tr><td style="padding:8px;border:1px solid #ccc;font-weight:bold;">Phone</td><td style="padding:8px;border:1px solid #ccc;">${contactForm.phone}</td></tr>
-        <tr><td style="padding:8px;border:1px solid #ccc;font-weight:bold;">Email</td><td style="padding:8px;border:1px solid #ccc;">${contactForm.email}</td></tr>
-        <tr><td style="padding:8px;border:1px solid #ccc;font-weight:bold;">SMS consent</td><td style="padding:8px;border:1px solid #ccc;">${smsConsent ? "Yes, opted in to customer care texts" : "No"}</td></tr>
-        <tr><td style="padding:8px;border:1px solid #ccc;font-weight:bold;">Description</td><td style="padding:8px;border:1px solid #ccc;">${contactForm.description}</td></tr>
-        <tr><td style="padding:8px;border:1px solid #ccc;font-weight:bold;">Detected Topic</td><td style="padding:8px;border:1px solid #ccc;">${topicLabel}</td></tr>
-      </table>
-      <h3 style="margin-top:20px;">Chat History</h3>
-      <div style="background:#f5f5f5;padding:16px;border-radius:8px;">${chatHistoryHtml}</div>
-    `;
-
-    try {
-      const res = await fetch("/api/send-mail", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          to: ["mike@yonke.law", "jyonke@yonke.law", "michelle@yonke.law"],
-          subject: `Concierge Inquiry: ${contactForm.name} — ${topicLabel}`,
-          body: bodyHtml,
-        }),
-      });
-
-      if (res.ok) {
-        setContactSent(true);
-        setShowContactForm(false);
-        setMessages((prev) => [
-          ...prev,
-          {
-            role: "assistant",
-            text: "Your information has been sent to Mike and Janell. They'll review it — usually the same business day. If it's urgent, call 816-221-6400.",
-          },
-        ]);
-      } else {
-        setMessages((prev) => [
-          ...prev,
-          { role: "assistant", text: "There was a problem sending your information. Please try again or call 816-221-6400." },
-        ]);
-      }
-    } catch {
-      setMessages((prev) => [
-        ...prev,
-        { role: "assistant", text: "Something went wrong sending your info. Please call 816-221-6400." },
-      ]);
-    } finally {
-      setContactSending(false);
-    }
-  }, [contactForm, detectedTopic, messages, smsConsent]);
+  const handleContactSent = useCallback(() => {
+    setContactSent(true);
+    setShowContactForm(false);
+    setMessages((prev) => [
+      ...prev,
+      {
+        role: "assistant",
+        text: "Your information has been sent to Mike and Janell. They'll review it — usually the same business day. If it's urgent, call 816-221-6400.",
+      },
+    ]);
+  }, []);
 
   function renderMarkdown(text: string): string {
     return text
@@ -626,59 +580,19 @@ export function ConciergeHero() {
               {showContactForm && !contactSent && (
                 <div className="bg-obsidian-graphite border border-steel-silver/10 rounded-xl px-5 py-5 shadow-sm ml-10">
                   <div className="text-xs uppercase tracking-wider text-muted-gold mb-3">Share Your Information</div>
-                  <form onSubmit={handleContactSubmit} className="space-y-3">
-                    <div className="grid gap-3 sm:grid-cols-2">
-                      <input
-                        type="text"
-                        required
-                        placeholder="Your name"
-                        value={contactForm.name}
-                        onChange={(e) => setContactForm((f) => ({ ...f, name: e.target.value }))}
-                        className="bg-charcoal-slate border border-steel-silver/20 rounded-lg px-4 py-2.5 text-sm text-chrome-highlight placeholder:text-steel-silver/50 focus:outline-none focus:border-muted-gold transition-colors"
-                      />
-                      <input
-                        type="tel"
-                        required
-                        placeholder="Phone number"
-                        value={contactForm.phone}
-                        onChange={(e) => setContactForm((f) => ({ ...f, phone: e.target.value }))}
-                        className="bg-charcoal-slate border border-steel-silver/20 rounded-lg px-4 py-2.5 text-sm text-chrome-highlight placeholder:text-steel-silver/50 focus:outline-none focus:border-muted-gold transition-colors"
-                      />
-                    </div>
-                    <input
-                      type="email"
-                      required
-                      placeholder="Email address"
-                      value={contactForm.email}
-                      onChange={(e) => setContactForm((f) => ({ ...f, email: e.target.value }))}
-                      className="w-full bg-charcoal-slate border border-steel-silver/20 rounded-lg px-4 py-2.5 text-sm text-chrome-highlight placeholder:text-steel-silver/50 focus:outline-none focus:border-muted-gold transition-colors"
-                    />
-                    <SmsConsent id="concierge_sms_consent" checked={smsConsent} onChange={setSmsConsent} compact />
-                    <textarea
-                      required
-                      rows={2}
-                      placeholder="Brief description of what happened"
-                      value={contactForm.description}
-                      onChange={(e) => setContactForm((f) => ({ ...f, description: e.target.value }))}
-                      className="w-full bg-charcoal-slate border border-steel-silver/20 rounded-lg px-4 py-2.5 text-sm text-chrome-highlight placeholder:text-steel-silver/50 focus:outline-none focus:border-muted-gold transition-colors resize-none"
-                    />
-                    <div className="flex items-center gap-3">
-                      <button
-                        type="submit"
-                        disabled={contactSending}
-                        className="bg-muted-gold text-obsidian-graphite font-semibold px-5 py-2.5 rounded-lg hover:bg-muted-gold/90 transition-colors text-sm disabled:opacity-50 disabled:cursor-not-allowed"
-                      >
-                        {contactSending ? "Sending…" : "Send to Mike & Janell"}
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setShowContactForm(false)}
-                        className="text-steel-silver hover:text-chrome-highlight text-sm underline underline-offset-2 transition-colors"
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  </form>
+                  <TalkToUsForm
+                    source="Homepage concierge"
+                    compact
+                    context={conciergeContext}
+                    onSent={handleContactSent}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowContactForm(false)}
+                    className="mt-3 text-steel-silver hover:text-chrome-highlight text-sm underline underline-offset-2 transition-colors"
+                  >
+                    Cancel
+                  </button>
                 </div>
               )}
 

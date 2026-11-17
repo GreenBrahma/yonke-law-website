@@ -2,13 +2,10 @@ import type { Metadata } from "next";
 import { Libre_Baskerville, Inter } from "next/font/google";
 import { TopNav } from "@/components/TopNav";
 import { Footer } from "@/components/Footer";
-import { ChatBot } from "@/components/chatbot/ChatBot";
 import { CacheBuster } from "@/components/CacheBuster";
+import { Analytics } from "@/components/Analytics";
 import Breadcrumb from "@/components/Breadcrumb";
 import "./globals.css";
-
-// Help bot visibility switch. false = keep the code, show nothing.
-const SHOW_CHATBOT: boolean = false;
 
 /* -------------------------------------------------------
    Typography (doctrine §15)
@@ -83,11 +80,8 @@ export default function RootLayout({
         </main>
 
         <Footer />
-        {/* Help bot is intentionally hidden for now (Geoff, Nov 2026).
-            The component and its API stay in the codebase; set
-            SHOW_CHATBOT to true to bring it back. */}
-        {SHOW_CHATBOT && <ChatBot />}
         <CacheBuster />
+        <Analytics />
       </body>
     </html>
   );

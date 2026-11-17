@@ -22,26 +22,35 @@ const schema = { ...spotlightSchema, ...pfSchema };
 let _db: NodePgDatabase<typeof schema> | null = null;
 let _pool: Pool | null = null;
 
+/**
+ * On Cloudflare Workers a database socket belongs to the request that opened
+ * it; reusing it in a later request hangs. So on Workers every call gets a
+ * fresh pool, and the runtime closes it when the request ends.
+ */
+export const isWorkers =
+  typeof navigator !== "undefined" && navigator.userAgent === "Cloudflare-Workers";
+
 function getPool(): Pool {
-  if (_pool) return _pool;
+  if (_pool && !isWorkers) return _pool;
 
   const url = process.env.DATABASE_URL;
   if (!url) {
     throw new Error(
-      "DATABASE_URL is not set. Configure it in .env.local for development or in Netlify environment variables for production."
+      "DATABASE_URL is not set. Configure it in .env.local for development or in the Cloudflare Worker settings for production."
     );
   }
 
-  _pool = new Pool({
+  const pool = new Pool({
     connectionString: url,
     max: 1,
     ssl: { rejectUnauthorized: false },
   });
-
-  return _pool;
+  if (!isWorkers) _pool = pool;
+  return pool;
 }
 
 function getDb(): NodePgDatabase<typeof schema> {
+  if (isWorkers) return drizzle(getPool(), { schema });
   if (_db) return _db;
   _db = drizzle(getPool(), { schema });
   return _db;
