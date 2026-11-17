@@ -94,7 +94,14 @@ test.describe("pin: universal navigation", () => {
     await page.setViewportSize({ width: 390, height: 800 });
     await open(page, "/");
     await expect(page.locator(`header a[href="${PHONE_TEL}"]`).first()).toBeVisible();
-    await page.getByRole("button", { name: "Open menu" }).click();
+    // The button only works once the page has hydrated, so retry the tap
+    // until the menu is actually open.
+    await expect(async () => {
+      if (!(await page.locator("#mobile-nav").isVisible())) {
+        await page.getByRole("button", { name: /Open menu|Close menu/ }).click();
+      }
+      await expect(page.locator("#mobile-nav")).toBeVisible({ timeout: 1500 });
+    }).toPass({ timeout: 30_000 });
     for (const [label] of NAV) {
       await expect(page.locator("#mobile-nav").getByText(label, { exact: true })).toBeVisible();
     }
@@ -311,4 +318,29 @@ test.describe("pin: no sideways scrolling on phones", () => {
       expect(overflow, `${path} horizontal overflow in px`).toBeLessThanOrEqual(0);
     });
   }
+});
+
+test.describe("pin: Resources page video", () => {
+  test("Universal Playbook video and poster exist", async ({ page, request }) => {
+    await open(page, "/resources");
+    const video = page.locator("video").first();
+    const src = await video.locator("source").getAttribute("src");
+    const poster = await video.getAttribute("poster");
+    expect(src).toBe("/media/resources/universal-playbook.mp4");
+    for (const url of [src!, poster!]) {
+      const res = await request.fetch(url, { method: "HEAD" });
+      expect(res.status(), url).toBe(200);
+    }
+  });
+
+  test("no page points at the git-ignored public/videos folder", async ({ request }) => {
+    for (const path of ["/", "/resources", "/people-first", "/how-to-prepare-for-a-deposition", "/promotion"]) {
+      const html = await (await request.get(path)).text();
+      const refs = Array.from(html.matchAll(/(?:src|poster)="(\/videos\/[^"]+)"/g)).map((m) => m[1]);
+      for (const ref of new Set(refs)) {
+        const res = await request.fetch(ref, { method: "HEAD" });
+        expect(res.status(), `${path} -> ${ref}`).toBe(200);
+      }
+    }
+  });
 });

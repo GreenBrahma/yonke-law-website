@@ -37,12 +37,16 @@ export default function ResourcesPage() {
               <div className="aspect-video md:aspect-auto md:min-h-[340px]">
                 <video
                   controls
-                  preload="metadata"
+                  preload="none"
+                  playsInline
                   className="w-full h-full object-cover"
-                  poster=""
+                  poster="/media/resources/universal-playbook-poster.jpg"
                 >
+                  {/* Lives in public/media (public/videos is git-ignored and
+                      never deployed). Compressed to stay under Cloudflare's
+                      25 MB static-asset limit. */}
                   <source
-                    src="/videos/The_Universal_Playbook__Rules_of_Survival.mp4"
+                    src="/media/resources/universal-playbook.mp4"
                     type="video/mp4"
                   />
                   Your browser does not support the video tag.
