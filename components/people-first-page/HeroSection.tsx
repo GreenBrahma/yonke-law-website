@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { PageHero } from "@/components/PageHero";
 
 export function HeroSection() {
@@ -15,6 +16,24 @@ export function HeroSection() {
         ]}
       />
 
+      {/* Portal sign-in doorway. The separate "People First Login" nav item
+          was removed in the Nov 2026 nav redesign; this page is now the one
+          place people reach the portal from. Interim strip until the
+          People First page redesign places the sign-in panel beside the
+          explanation. */}
+      <section className="bg-obsidian-graphite border-b border-steel-silver/10 py-5 px-4 lg:px-8">
+        <div className="mx-auto flex max-w-4xl flex-col items-center justify-center gap-3 text-center sm:flex-row sm:gap-5">
+          <p className="text-sm text-steel-silver">
+            Already working with Yonke Law?
+          </p>
+          <Link
+            href="/people-first-login"
+            className="rounded border border-muted-gold px-4 py-1.5 text-sm font-semibold text-muted-gold hover:bg-muted-gold hover:text-obsidian-graphite transition-colors duration-200"
+          >
+            Sign in to People First
+          </Link>
+        </div>
+      </section>
 
       {/* People First video */}
       <section className="bg-charcoal-slate py-16 px-4 lg:px-8">

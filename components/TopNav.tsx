@@ -9,22 +9,59 @@ import { usePathname } from "next/navigation";
    TopNav — Sticky top navigation
    Per homepage-spec.md Section 1 and AGENTS.md
    
-   Layout: Full-width, fixed top, dark background
-   Left: YL monogram logo → home
-   Center/right: 5 nav links
-   Far right: Phone (tel: link) + Talk to Us CTA
-   Mobile: Hamburger; phone + CTA stay visible
+   Universal navigation (Nov 2026 redesign, decided by Geoff):
+   Left: YL monogram logo → home (the logo IS the Home link)
+   Center: 6 nav links, each with a small plain-language sublabel
+           on desktop (sublabels are dropped in the mobile menu)
+   Far right: phone number, click to call. No other header CTAs.
+   Mobile: hamburger; click-to-call number stays visible
+
+   Not in the nav on purpose: /promotion and /spotlight-corner
+   (stale content, pages left live but unlinked) and
+   /people-first-login (reached from the People First page).
    ------------------------------------------------------- */
 
-const NAV_ITEMS = [
-  { label: "Just Happened?", href: "/just-happened" },
-  { label: "People First", href: "/people-first" },
-  { label: "Promotion", href: "/promotion" },
-  { label: "Spotlight Corner", href: "/spotlight-corner" },
-  { label: "What We Handle", href: "/what-we-handle" },
-  { label: "Talk to Us", href: "/talk-to-us" },
-  { label: "People First Login", href: "/people-first-login" },
-] as const;
+const NAV_ITEMS: ReadonlyArray<{
+  label: string;
+  sublabel?: string;
+  href: string;
+  ariaLabel: string;
+}> = [
+  {
+    label: "Just Happened To Me",
+    sublabel: "What Happened",
+    href: "/just-happened",
+    ariaLabel: "Just Happened To Me: find your situation",
+  },
+  {
+    label: "What We Handle",
+    sublabel: "Practice Areas",
+    href: "/what-we-handle",
+    ariaLabel: "What We Handle: practice areas",
+  },
+  {
+    label: "Resources",
+    sublabel: "Checklists/Forms",
+    href: "/resources",
+    ariaLabel: "Resources: checklists, forms and video",
+  },
+  {
+    label: "Contact Us",
+    href: "/talk-to-us",
+    ariaLabel: "Contact Us",
+  },
+  {
+    label: "People First",
+    sublabel: "A Portal for You",
+    href: "/people-first",
+    ariaLabel: "People First: a portal for you",
+  },
+  {
+    label: "Meet Mike",
+    href: "/about",
+    ariaLabel: "Meet Mike: about Michael T. Yonke",
+  },
+];
 
 const PHONE_NUMBER = "816-221-6400";
 const PHONE_TEL = "tel:+18162216400";
@@ -42,7 +79,7 @@ export function TopNav() {
         {/* ---- Logo ---- */}
         <Link
           href="/"
-          aria-label="Yonke Law — Home"
+          aria-label="Yonke, pronounced YONK-ee, Law. Home"
           className="flex items-center shrink-0"
         >
           <Image
@@ -57,56 +94,50 @@ export function TopNav() {
         </Link>
 
         {/* ---- Desktop nav links ---- */}
-        <ul className="hidden lg:flex items-center gap-6">
+        <ul className="hidden lg:flex items-start gap-3 xl:gap-7">
           {NAV_ITEMS.map((item) => {
             const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
             return (
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className={`text-sm transition-colors duration-200 ${
-                    isActive
-                      ? "text-white font-semibold"
-                      : "text-steel-silver hover:text-white font-medium"
-                  }`}
+                  aria-label={item.ariaLabel}
+                  aria-current={isActive ? "page" : undefined}
+                  className="group flex flex-col items-center text-center whitespace-nowrap"
                 >
-                  {item.label}
+                  <span
+                    className={`text-[13px] xl:text-sm transition-colors duration-200 ${
+                      isActive
+                        ? "text-white font-semibold"
+                        : "text-steel-silver group-hover:text-white font-medium"
+                    }`}
+                  >
+                    {item.label}
+                  </span>
+                  {item.sublabel && (
+                    <span className="mt-0.5 text-[11px] leading-tight text-muted-gold">
+                      {item.sublabel}
+                    </span>
+                  )}
                 </Link>
               </li>
             );
           })}
         </ul>
 
-        {/* ---- Right side: phone + stacked CTAs ---- */}
-        <div className="flex items-center gap-4">
+        {/* ---- Right side: click-to-call phone (the only header CTA) ---- */}
+        <div className="flex items-center gap-3">
           <a
             href={PHONE_TEL}
-            className="hidden sm:inline-flex text-sm text-steel-silver hover:text-chrome-highlight font-medium transition-colors duration-200"
+            aria-label={`Call Yonke Law at ${PHONE_NUMBER}`}
+            className="group flex flex-col items-center text-center whitespace-nowrap"
           >
-            {PHONE_NUMBER}
-          </a>
-
-          <div className="hidden sm:flex flex-col gap-1">
-            <Link
-              href="/talk-to-us"
-              className="rounded border border-steel-silver/30 px-3 py-1 text-xs font-semibold text-chrome-highlight hover:border-muted-gold hover:text-muted-gold transition-colors duration-200 text-center whitespace-nowrap"
-            >
-              Send Us a Message
-            </Link>
-            <a
-              href={PHONE_TEL}
-              className="rounded bg-muted-gold px-3 py-1 text-xs font-semibold text-obsidian-graphite hover:bg-muted-gold/90 transition-colors duration-200 text-center whitespace-nowrap"
-            >
-              Talk to Us
-            </a>
-          </div>
-
-          {/* Mobile: single gold button */}
-          <a
-            href={PHONE_TEL}
-            className="sm:hidden rounded bg-muted-gold px-3 py-1.5 text-xs font-semibold text-obsidian-graphite hover:bg-muted-gold/90 transition-colors duration-200"
-          >
-            Talk to Us
+            <span className="text-sm xl:text-base font-semibold text-chrome-highlight group-hover:text-muted-gold transition-colors duration-200">
+              {PHONE_NUMBER}
+            </span>
+            <span className="mt-0.5 text-[11px] leading-tight text-muted-gold">
+              Click to Call
+            </span>
           </a>
 
           {/* ---- Mobile hamburger ---- */}
@@ -153,6 +184,8 @@ export function TopNav() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
+                    aria-label={item.ariaLabel}
+                    aria-current={isActive ? "page" : undefined}
                     className={`block rounded px-3 py-2 text-sm transition-colors duration-200 ${
                       isActive
                         ? "text-white font-semibold bg-charcoal-slate"
@@ -165,14 +198,6 @@ export function TopNav() {
                 </li>
               );
             })}
-            <li className="pt-2 border-t border-steel-silver/20">
-              <a
-                href={PHONE_TEL}
-                className="block px-3 py-2 text-sm text-steel-silver hover:text-chrome-highlight"
-              >
-                Call {PHONE_NUMBER}
-              </a>
-            </li>
           </ul>
         </div>
       )}
