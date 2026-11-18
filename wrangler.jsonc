@@ -25,7 +25,7 @@
     // Mike's Add Activity -> Metricool (brand "Yonke Law"). Token is a Worker secret: METRICOOL_TOKEN
     "METRICOOL_USER_ID": "6111543",
     "METRICOOL_BLOG_ID": "7809690",
-    "METRICOOL_NETWORKS": "gmb,tiktok",
+    "METRICOOL_NETWORKS": "gmb,tiktok,facebook",
     "ACTIVITY_PUBLISH_MODE": "draft"
   }
 }
