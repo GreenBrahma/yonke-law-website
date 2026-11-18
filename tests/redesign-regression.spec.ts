@@ -344,3 +344,20 @@ test.describe("pin: Resources page video", () => {
     }
   });
 });
+
+test.describe("pin: Resources video is never cropped", () => {
+  for (const width of [1280, 820, 390]) {
+    test(`16:9 and uncropped at ${width}px`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 900 });
+      await open(page, "/resources");
+      const video = page.locator("video").first();
+      await video.scrollIntoViewIfNeeded();
+      const { ratio, fit } = await video.evaluate((el) => {
+        const r = el.getBoundingClientRect();
+        return { ratio: r.width / r.height, fit: getComputedStyle(el).objectFit };
+      });
+      expect(fit).toBe("contain");
+      expect(Math.abs(ratio - 16 / 9)).toBeLessThan(0.02);
+    });
+  }
+});

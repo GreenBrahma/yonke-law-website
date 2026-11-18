@@ -30,16 +30,19 @@ export default function ResourcesPage() {
 
       {/* Universal Playbook video */}
       <section className="bg-charcoal-slate py-16 px-4 lg:px-8">
-        <div className="mx-auto max-w-5xl">
+        <div className="mx-auto max-w-4xl">
           <div className="bg-obsidian-graphite border border-muted-gold/30 rounded-xl overflow-hidden">
-            <div className="grid md:grid-cols-2 gap-0">
-              {/* Video */}
-              <div className="aspect-video md:aspect-auto md:min-h-[340px]">
+            <div>
+              {/* Video. Full width of the card, always at its true 16:9
+                  shape and never cropped. The old side-by-side layout
+                  stretched the box to the height of the text beside it and
+                  cut off the sides of the picture. */}
+              <div className="bg-black">
                 <video
                   controls
                   preload="none"
                   playsInline
-                  className="w-full h-full object-cover"
+                  className="block w-full aspect-video object-contain"
                   poster="/media/resources/universal-playbook-poster.jpg"
                 >
                   {/* Lives in public/media (public/videos is git-ignored and
@@ -53,7 +56,7 @@ export default function ResourcesPage() {
                 </video>
               </div>
               {/* Context */}
-              <div className="p-8 md:p-10 flex flex-col justify-center">
+              <div className="p-8 md:p-10">
                 <p className="text-xs uppercase tracking-widest text-muted-gold mb-3">
                   Watch First
                 </p>
