@@ -179,11 +179,12 @@
   .cards { display:grid; grid-template-columns:repeat(auto-fill, minmax(440px, 1fr)); gap:14px; align-items:start; }
   @media (max-width:520px) { .cards { grid-template-columns:1fr; } }
   .opts { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-  .opt { border:3px solid transparent; padding:3px; background:#fff; cursor:pointer; text-align:left; font:inherit; }
-  .opt img { width:100%; display:block; border:1px solid #E5E7EB; }
-  .opt span { display:block; font-size:.85rem; font-weight:700; margin-top:4px; }
-  .opt[aria-pressed="true"] { border-color:#1F3D2B; }
-  .opt[aria-pressed="true"] span::before { content:"\2713  "; color:#1F3D2B; }
+  .opt { border:3px solid #E5E7EB; padding:6px; background:#fff; display:flex; flex-direction:column; gap:6px; }
+  .opt.on { border-color:#1F3D2B; }
+  .opt label { display:flex; align-items:center; gap:8px; font-size:.9rem; font-weight:700; cursor:pointer; }
+  .opt label input { width:20px; height:20px; accent-color:#1F3D2B; }
+  .opt img { width:100%; display:block; border:1px solid #E5E7EB; cursor:pointer; }
+  .opt .dl { font-size:.85rem; }
   .pcard { border:2px solid #1C1C1E; padding:10px; background:#fff; }
   .pcard.off { opacity:.55; }
   .pcard header { display:flex; align-items:center; gap:10px; border:none; padding:0 0 8px; }
@@ -1474,18 +1475,22 @@ Example:   YL_META_AUTO_KCMETRO_LEAD_RETARGET30_VIDEOMIKE_V2</pre>
     const cards = $('act-cards'); cards.innerHTML = '';
     for (const [key, F] of Object.entries(FRAMES)) {
       rendered[key] = { classic: await render(key, doing, message), bubble: await renderBubble(key, doing, message) };
-      choice[key] = choice[key] || 'classic';
+      // Every platform + border combination is its own option with its own checkbox.
+      // Border is checked by default on connected platforms; the second look is opt-in.
       const card = document.createElement('div'); card.className = 'pcard' + (F.soon ? ' off' : ''); card.dataset.key = key;
-      card.innerHTML = '<header><input type="checkbox" class="pick" aria-label="Post to ' + F.name + '"' + (F.soon ? ' disabled' : ' checked') + '>' +
-        '<strong>' + F.name + '</strong><small>' + F.size + '</small></header><div class="opts">' +
-        Object.entries(STYLES).map(([s, label]) => '<button type="button" class="opt" data-style="' + s + '" aria-pressed="' + (choice[key] === s) + '"><img alt="' + F.name + ', ' + label + '"><span>' + label + '</span></button>').join('') +
-        '</div>' + (F.soon ? '<p class="soon">Not connected yet</p>' : '') + '<p class="cap"></p><a class="dl">Download chosen image</a>';
-      card.querySelectorAll('.opt').forEach((b) => (b.querySelector('img').src = rendered[key][b.dataset.style]));
-      const dl = card.querySelector('.dl'); dl.href = rendered[key][choice[key]]; dl.download = 'yonke-law-' + key.replace('_', '-') + '.jpg';
+      card.innerHTML = '<header><strong>' + F.name + '</strong><small>' + F.size + '</small></header><div class="opts">' +
+        Object.entries(STYLES).map(([st, label]) => {
+          const on = !F.soon && st === 'classic';
+          return '<div class="opt' + (on ? ' on' : '') + '" data-style="' + st + '"><label><input type="checkbox" class="pick" data-key="' + key + '__' + st + '"' +
+            (F.soon ? ' disabled' : '') + (on ? ' checked' : '') + '> ' + label + '</label><img alt="' + F.name + ', ' + label + '">' +
+            '<a class="dl" download="yonke-law-' + key.replace('_', '-') + '-' + st + '.jpg">Download</a></div>';
+        }).join('') +
+        '</div>' + (F.soon ? '<p class="soon">Not connected yet</p>' : '') + '<p class="cap"></p>';
+      card.querySelectorAll('.opt').forEach((o) => { o.querySelector('img').src = rendered[key][o.dataset.style]; o.querySelector('.dl').href = rendered[key][o.dataset.style]; });
       card.querySelector('.cap').textContent = message || doing;
       cards.appendChild(card);
     }
-    $('act-all').checked = true;
+    $('act-all').checked = picks().every((p) => p.checked);
     $('act-out').hidden = false; $('act-msg').textContent = '';
     btn.disabled = false; btn.textContent = 'Update my posts';
     $('act-out').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1493,34 +1498,32 @@ Example:   YL_META_AUTO_KCMETRO_LEAD_RETARGET30_VIDEOMIKE_V2</pre>
 
   // ---- Send to all / individual picks ----
   const picks = () => [...document.querySelectorAll('#act-cards .pick:not(:disabled)')];
-  $('act-all').addEventListener('change', (e) => picks().forEach((p) => (p.checked = e.target.checked)));
+  const sync = () => { picks().forEach((p) => p.closest('.opt').classList.toggle('on', p.checked)); $('act-all').checked = picks().length > 0 && picks().every((p) => p.checked); };
+  $('act-all').addEventListener('change', (e) => { picks().forEach((p) => (p.checked = e.target.checked)); sync(); });
+  // Tapping a preview image toggles that option too
   $('act-cards').addEventListener('click', (e) => {
-    const b = e.target.closest('.opt'); if (!b) return;
-    const card = b.closest('.pcard'), key = card.dataset.key;
-    choice[key] = b.dataset.style;
-    card.querySelectorAll('.opt').forEach((o) => o.setAttribute('aria-pressed', String(o === b)));
-    card.querySelector('.dl').href = rendered[key][choice[key]];
+    const img = e.target.closest('.opt img'); if (!img) return;
+    const p = img.closest('.opt').querySelector('.pick'); if (p.disabled) return;
+    p.checked = !p.checked; sync();
   });
-  $('act-cards').addEventListener('change', (e) => {
-    if (!e.target.classList.contains('pick')) return;
-    $('act-all').checked = picks().every((p) => p.checked);
-  });
+  $('act-cards').addEventListener('change', (e) => { if (e.target.classList.contains('pick')) sync(); });
 
   // ---- Submit ----
   $('act-submit').addEventListener('click', async () => {
-    const targets = picks().filter((p) => p.checked).map((p) => p.closest('.pcard').dataset.key);
+    const targets = picks().filter((p) => p.checked).map((p) => p.dataset.key); // e.g. "facebook__bubble"
+    const nameOf = (t) => { const [k, st] = t.split('__'); return FRAMES[k].name + ' (' + STYLES[st] + ')'; };
     const msg = $('act-msg');
     if (!targets.length) { msg.textContent = 'Pick at least one place to post.'; return; }
     const btn = $('act-submit'); btn.disabled = true; btn.textContent = 'Saving…'; msg.textContent = '';
-    const images = {}; targets.forEach((t) => (images[t] = rendered[t][choice[t]]));
+    const images = {}; targets.forEach((t) => { const [k, st] = t.split('__'); images[t] = rendered[k][st]; });
     try {
       const res = await fetch('/command/api/activity', { method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ doing: $('act-doing').value.trim(), message: $('act-message').value.trim(), targets, images }) });
       const j = await res.json();
       if (!j.ok) throw new Error(j.error || 'Something went wrong');
-      const names = targets.map((t) => FRAMES[t].name).join(', ');
+      const names = targets.map(nameOf).join(', ');
       const st = j.status || {};
-      const by = (v) => targets.filter((t) => st[t] === v).map((t) => FRAMES[t].name);
+      const by = (v) => targets.filter((t) => st[t] === v).map(nameOf);
       const parts = [];
       if (by('sent for approval').length) parts.push('Sent for approval: ' + by('sent for approval').join(', ') + '. Geoff reviews it before it goes live.');
       if (by('scheduled').length) parts.push('Posting in a few minutes: ' + by('scheduled').join(', ') + '.');

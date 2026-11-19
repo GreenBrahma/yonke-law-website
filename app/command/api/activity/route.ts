@@ -9,7 +9,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
-import { publish, PLATFORMS, connectedPlatforms, publishMode, type Platform } from "@/lib/activity/publish";
+import { publish, PLATFORMS, STYLES, connectedPlatforms, publishMode } from "@/lib/activity/publish";
 
 export const dynamic = "force-dynamic";
 
@@ -37,8 +37,13 @@ export async function POST(req: NextRequest) {
 
   const doing = clean(body.doing, 300);
   const message = clean(body.message, 2200);
-  const targets = (Array.isArray(body.targets) ? body.targets : [])
-    .filter((t): t is Platform => typeof t === "string" && (PLATFORMS as readonly string[]).includes(t));
+  // A target is a platform, optionally with the chosen look: "facebook" or "facebook__bubble".
+  // Each target is its own post, so one platform can get both looks.
+  const targets = [...new Set((Array.isArray(body.targets) ? body.targets : []).filter((t): t is string => {
+    if (typeof t !== "string") return false;
+    const [platform, style, extra] = t.split("__");
+    return !extra && (PLATFORMS as readonly string[]).includes(platform) && (!style || STYLES.includes(style));
+  }))].slice(0, 20);
   const images = (body.images ?? {}) as Record<string, unknown>;
 
   if (!doing && !message) return NextResponse.json({ ok: false, error: "Add what you're doing or what you want to say." }, { status: 400 });

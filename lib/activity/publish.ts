@@ -20,6 +20,8 @@ import { getCloudflareContext } from "@opennextjs/cloudflare";
 
 export const PLATFORMS = ["facebook", "instagram", "threads", "google_business", "tiktok", "linkedin"] as const;
 export type Platform = (typeof PLATFORMS)[number];
+/** Looks Mike can pick for each platform (see /command Add Activity). */
+export const STYLES = ["classic", "bubble"];
 
 /** Our platform key -> Metricool network name */
 const NETWORK: Record<Platform, string> = {
@@ -31,7 +33,8 @@ const NETWORK: Record<Platform, string> = {
   linkedin: "linkedin",
 };
 
-type Post = { id: string; created: string; by: string; doing: string; message: string; targets: Platform[] };
+/** targets: "platform" or "platform__style"; each one is a separate post with its own image. */
+type Post = { id: string; created: string; by: string; doing: string; message: string; targets: string[] };
 
 const API = "https://app.metricool.com/api";
 
@@ -114,11 +117,12 @@ export async function publish(post: Post): Promise<Record<string, string>> {
 
   // One Metricool post per platform, each with its own framed image
   for (const t of post.targets) {
-    if (!live.includes(t)) {
+    const platform = t.split("__")[0] as Platform;
+    if (!live.includes(platform)) {
       status[t] = "awaiting connection";
       continue;
     }
-    const net = NETWORK[t];
+    const net = NETWORK[platform];
     try {
       const media = await normalize(`https://yonke.law/activity-image/${post.id}/${t}.jpg`, q, token);
       const res = await fetch(`${API}/v2/scheduler/posts?${q}`, {
