@@ -249,9 +249,62 @@
   .rv-bar label { display:inline-flex; align-items:center; gap:6px; font-size:1rem; font-weight:700; }
   .rv-bar select { max-width:min(78vw, 520px); }
   .rv-count { font-size:1rem; font-weight:700; border:2px solid var(--forest); color:var(--forest); padding:2px 10px; }
-  .rv-head { background:#F2F4F7; border:2px solid var(--line); border-radius:14px; padding:12px 16px; margin:12px 0; }
-  .rv-head h2 { margin:0 0 4px; font-size:1.375rem; }
-  .rv-head p { margin:0 0 4px; font-size:1.0625rem; }
+  .rv-how { list-style:none; margin:12px 0 4px; padding:0; display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  .rv-how li { display:flex; gap:10px; align-items:flex-start; background:#F7F5F2; border:1px solid #E2DDD5; border-radius:12px; padding:10px 12px; font-size:1rem; line-height:1.35; }
+  .rv-how li span { flex:none; width:30px; height:30px; border-radius:50%; background:var(--gold); color:#fff; font-weight:700; display:flex; align-items:center; justify-content:center; }
+  .cp { display:grid; grid-template-columns:200px 1fr; gap:20px; border:2px solid var(--line); border-top:6px solid var(--gold); border-radius:14px; padding:16px; margin:14px 0 12px; background:#fff; }
+  .cp-img { width:200px; height:150px; border-radius:10px; overflow:hidden; background:#F2F4F7; display:flex; align-items:center; justify-content:center; text-align:center; font-size:.95rem; color:#555; padding:8px; border:1px dashed #B9BCC2; }
+  .cp-img img { width:100%; height:100%; object-fit:cover; display:block; }
+  .cp-img.has { padding:0; border:none; }
+  .cp-label { margin:0; font-size:.95rem; font-weight:700; letter-spacing:2px; text-decoration:underline; text-decoration-thickness:2px; text-underline-offset:4px; }
+  .cp h2 { margin:6px 0 10px; font-size:1.9rem; line-height:1.15; }
+  .cp-facts { display:grid; grid-template-columns:max-content 1fr; gap:4px 14px; margin:0; font-size:1.0625rem; }
+  .cp-facts dt { font-weight:700; }
+  .cp-facts dd { margin:0; }
+  .cp-draft { font-size:.9rem; color:#7A5B00; margin-left:6px; }
+  .cp-need { border:3px solid var(--gold); background:#FBF7EE; border-radius:14px; padding:14px 16px; margin:0 0 16px; }
+  .cp-need h3 { margin:0 0 8px; font-size:1.3rem; }
+  .cp-todo { list-style:none; margin:0 0 10px; padding:0; display:grid; gap:6px; }
+  .cp-todo li { display:flex; gap:10px; align-items:flex-start; font-size:1.0625rem; }
+  .cp-todo li::before { content:""; flex:none; width:20px; height:20px; margin-top:3px; border:2px solid var(--line); border-radius:4px; background:#fff; }
+  .cp-todo li.done::before { background:var(--forest); border-color:var(--forest); box-shadow:inset 0 0 0 3px #fff; }
+  .cp-todo li.done { color:#555; }
+  .cp-up { border-top:1px solid #E2D6B8; padding-top:10px; }
+  .cp-up h4 { margin:0 0 6px; font-size:1.0625rem; }
+  .cp-up-btn { display:inline-flex; align-items:center; gap:8px; background:var(--obsidian); color:#fff; font-weight:700; padding:10px 18px; border-radius:8px; cursor:pointer; }
+  .cp-up-btn input { position:absolute; width:1px; height:1px; opacity:0; }
+  .cp-up-btn:focus-within { outline:3px solid var(--ink); outline-offset:2px; }
+  .cp-up-msg { margin-left:10px; font-size:1rem; }
+  .cp-media { display:flex; flex-wrap:wrap; gap:10px; margin-top:10px; }
+  .cp-media figure { margin:0; width:150px; }
+  .cp-media img, .cp-media video { width:150px; height:112px; object-fit:cover; border-radius:8px; background:#000; display:block; }
+  .cp-media figcaption { font-size:.85rem; display:flex; justify-content:space-between; gap:4px; margin-top:2px; }
+  .cp-media figcaption span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .cp-media button { appearance:none; border:none; background:none; color:var(--red); font:inherit; font-size:.85rem; cursor:pointer; padding:0; text-decoration:underline; }
+  .rv-bulk { margin-top:12px; }
+  .rv-section { font-size:1.2rem; margin:4px 0 8px; }
+  .rv-num { background:var(--obsidian); color:#fff; font-weight:700; font-size:.85rem; letter-spacing:1px; padding:2px 8px; border-radius:4px; }
+  .rv-topic { font-size:1.25rem; font-weight:700; margin:6px 0 2px; line-height:1.3; }
+  .rv-make { margin:0 0 6px; font-size:1.0625rem; line-height:1.45; }
+  .rv-make strong { font-weight:700; }
+  .rv-edit { display:none; }
+  .rv-card.editing .rv-edit { display:block; }
+  .rv-card.editing .rv-topic, .rv-card.editing .rv-make { display:none; }
+  .rv-link { appearance:none; border:none; background:none; padding:0; font:inherit; font-size:1rem; text-decoration:underline; cursor:pointer; color:var(--ink); }
+  .rv-chips { display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin:8px 0 2px; font-size:1rem; }
+  .rv-chip { border:1px solid var(--line); border-radius:999px; padding:1px 10px; font-size:.95rem; background:#fff; }
+  .rv-actions .btn.ok { background:var(--forest); border-color:var(--forest); color:#fff; font-size:1.125rem; padding:8px 26px; }
+  .rv-actions .btn.ok[aria-pressed="true"] { background:var(--forest); border-color:var(--forest); color:#fff; box-shadow:0 0 0 3px #fff, 0 0 0 5px var(--forest); }
+  .rv-actions .btn.ok[aria-pressed="true"]::before { content:"\2713  "; }
+  .rv-actions .rv-link { margin-left:auto; align-self:center; }
+  @media (max-width:720px) {
+    .rv-how { grid-template-columns:1fr; }
+    .cp { grid-template-columns:1fr; }
+    .cp-img { width:100%; height:180px; }
+    .cp h2 { font-size:1.5rem; }
+    .cp-facts { grid-template-columns:1fr; gap:0 0; }
+    .cp-facts dd { margin-bottom:6px; }
+  }
   .rv-list { display:grid; gap:12px; }
   .rv-card { border:2px solid var(--line); border-left-width:10px; padding:10px 14px 12px; background:#fff; }
   .rv-card[data-state="Approved"] { border-left-color:var(--forest); }
@@ -271,7 +324,6 @@
   .rv-facts { font-size:1rem; margin:8px 0 0; }
   .rv-actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
   .rv-actions .btn[aria-pressed="true"] { background:var(--obsidian); color:#fff; }
-  .rv-actions .btn.ok[aria-pressed="true"] { background:var(--forest); border-color:var(--forest); }
   .rv-actions .btn.fix[aria-pressed="true"] { background:var(--red); border-color:var(--red); }
   .rv-who { font-size:1rem; margin:6px 0 0; }
   .rv-empty { font-size:1.125rem; padding:20px 0; }
@@ -694,22 +746,26 @@
 <!-- =========================== CONTENT REVIEW =========================== -->
 <div class="view" id="view-review">
 <div class="rv">
+  <ol class="rv-how" aria-label="How this page works">
+    <li><span>1</span><div><strong>Read the campaign</strong> at the top: what it is and why we're doing it.</div></li>
+    <li><span>2</span><div><strong>Do your to-dos</strong> in the gold box, including any photos or video.</div></li>
+    <li><span>3</span><div><strong>Approve each post idea</strong> below. Geoff makes the finished posts, and nothing goes public until he checks it.</div></li>
+  </ol>
   <div class="rv-bar">
     <h1>Content Approval</h1>
     <span class="rv-count" id="rv-count" role="status">Loading</span>
-    <label for="rv-story">Story <select id="rv-story"></select></label>
+    <label for="rv-story">Campaign <select id="rv-story"></select></label>
     <label for="rv-show">Show <select id="rv-show">
-      <option value="all">Everything</option>
-      <option value="Not reviewed">Not reviewed</option>
+      <option value="all">All posts</option>
+      <option value="Not reviewed">Waiting for you</option>
       <option value="Approved">Approved</option>
       <option value="Needs change">Needs change</option>
       <option value="Skip">Skipped</option>
     </select></label>
-    <button type="button" class="btn" id="rv-approve-all">Approve all shown</button>
-    <button type="button" class="btn" id="rv-export">Download review record</button>
+    <button type="button" class="btn small" id="rv-export">Download record</button>
     <span class="hint" id="rv-status" role="status"></span>
   </div>
-  <div class="rv-head" id="rv-head" hidden></div>
+  <div id="rv-head"></div>
   <div class="rv-list" id="rv-list"></div>
 </div>
 </div>
@@ -1142,8 +1198,9 @@ Example:   YL_META_AUTO_KCMETRO_LEAD_RETARGET30_VIDEOMIKE_V2</pre>
     if (!card) return;
     const a = approval(date), s = st(date);
     card.dataset.state = a;
-    card.querySelector('.rv-state').textContent = a;
+    card.querySelector('.rv-state').textContent = a === 'Not reviewed' ? 'Waiting for you' : a === 'Skip' ? 'Skipped' : a;
     card.querySelectorAll('.rv-actions .btn').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.set === a)));
+    const undo = card.querySelector('.rv-actions .rv-link'); if (undo) undo.hidden = a === 'Not reviewed';
     const who = card.querySelector('.rv-who');
     const bits = [];
     if (s.by && a !== 'Not reviewed') bits.push(a + ' by ' + s.by + ', ' + when(s.at));
@@ -1152,15 +1209,26 @@ Example:   YL_META_AUTO_KCMETRO_LEAD_RETARGET30_VIDEOMIKE_V2</pre>
     who.hidden = !bits.length;
   }
 
+  const SMALL = new Set(['a', 'an', 'and', 'as', 'at', 'but', 'by', 'for', 'in', 'of', 'on', 'or', 'the', 'to', 'up']);
+  const titleCase = (t) => t.split(' ').map((w, i) => (i && SMALL.has(w.toLowerCase())) ? w.toLowerCase() : w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+  const weekday = (iso) => { const [y, m, d] = iso.split('-').map(Number); return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][new Date(y, m - 1, d).getDay()]; };
+  const postsOf = (id) => PLAN.entries.filter((e) => e.story === id);
+  const MEDIA = {};
+
   function card(e) {
     const story = PLAN.stories.find((x) => x.id === e.story) || {};
+    const list = postsOf(e.story);
     const meta = el('div', { class: 'rv-meta' }, [
+      el('span', { class: 'rv-num', text: 'POST ' + (list.indexOf(e) + 1) + ' OF ' + list.length }),
       el('span', { class: 'rv-date', text: e.day + ', ' + nice(e.date) }),
-      el('span', { class: 'rv-tag' + (e.stream === 'Timely' ? ' timely' : ''), text: e.stream === 'Timely' ? 'Timely slot' : 'Planned' })
+      el('span', { class: 'rv-tag' + (e.stream === 'Timely' ? ' timely' : ''), text: e.stream === 'Timely' ? 'Open slot: news if it comes up, backup ready' : 'Planned post' })
     ]);
-    if (story.launch === e.date) meta.appendChild(el('span', { class: 'rv-tag launch', text: 'Story launch' }));
+    if (story.launch === e.date) meta.appendChild(el('span', { class: 'rv-tag launch', text: 'Campaign starts' }));
     if (e.spotlight) meta.appendChild(el('span', { class: 'rv-tag', text: 'Spotlight: ' + e.spotlight }));
     meta.appendChild(el('span', { class: 'rv-state', text: '' }));
+
+    const topicView = el('p', { class: 'rv-topic', text: topicOf(e) });
+    const makeView = el('p', { class: 'rv-make' }, [el('strong', { text: "What we'll make: " }), document.createTextNode(execOf(e))]);
 
     const field = (label, key, planned, rows) => {
       const t = el('textarea', { rows: String(rows), 'aria-label': label + ' for ' + nice(e.date) });
@@ -1173,63 +1241,176 @@ Example:   YL_META_AUTO_KCMETRO_LEAD_RETARGET30_VIDEOMIKE_V2</pre>
         const local = STATE[e.date] = Object.assign({}, st(e.date));
         if (v && v !== planned) local[key] = v; else delete local[key];
         if (local.approval === 'Approved') { local.approval = 'Not reviewed'; paint(e.date); counts(); }
+        if (key === 'topic') topicView.textContent = v || planned;
+        else makeView.lastChild.textContent = v || planned;
         queue(e.date, { [key]: v === planned ? '' : v });
       });
       return el('label', {}, [document.createTextNode(label), t]);
     };
+    const edit = el('div', { class: 'rv-edit' }, [field('Post idea', 'topic', e.topic, 2), field("What we'll make", 'execution', e.execution, 3)]);
+    const editBtn = el('button', { type: 'button', class: 'rv-link', text: 'Edit wording' });
 
-    const note = el('textarea', { rows: '1', placeholder: 'Anything to change, check or remember', 'aria-label': 'Note for ' + nice(e.date) });
+    const chips = el('div', { class: 'rv-chips' }, [el('strong', { text: 'Goes to:' })].concat(
+      e.channels.split(';').map((c) => el('span', { class: 'rv-chip', text: c.trim().replace('YouTube or Shorts', 'YouTube') }))));
+    const facts = ['Style: ' + (PLAN.formats[e.template] || e.template), "Reader's next step: " + e.cta];
+    if (e.resource) facts.push('Uses: ' + (PLAN.resources[e.resource] || e.resource));
+
+    const note = el('textarea', { rows: '1', placeholder: 'Optional: anything to change, check or remember', 'aria-label': 'Note for ' + nice(e.date) });
     note.value = st(e.date).note || '';
     note.addEventListener('input', () => { STATE[e.date] = Object.assign({}, st(e.date), { note: note.value.trim() }); queue(e.date, { note: note.value.trim() }); });
 
-    const facts = [
-      'Format: ' + (PLAN.formats[e.template] || e.template),
-      'Channels: ' + e.channels.split(';').map((c) => c.trim()).join(', '),
-      'Next step: ' + e.cta
-    ];
-    if (e.resource) facts.push('Resource: ' + (PLAN.resources[e.resource] || e.resource));
-    facts.push('Review due ' + short(e.due));
-
-    const actions = el('div', { class: 'rv-actions' }, [['Approved', 'Approve', 'ok'], ['Needs change', 'Needs change', 'fix'], ['Skip', 'Skip this day', ''], ['Not reviewed', 'Clear', '']].map(([set, label, cls]) => {
-      const b = el('button', { type: 'button', class: 'btn ' + cls, 'data-set': set, 'aria-pressed': 'false', text: label });
-      b.addEventListener('click', () => {
-        STATE[e.date] = Object.assign({}, st(e.date), { approval: set, by: 'you', at: new Date().toISOString() });
-        paint(e.date); counts();
-        queue(e.date, { approval: set });
-      });
-      return b;
-    }));
+    const set = (value) => {
+      STATE[e.date] = Object.assign({}, st(e.date), { approval: value, by: 'you', at: new Date().toISOString() });
+      paint(e.date); counts(); renderTodo();
+      queue(e.date, { approval: value });
+    };
+    const btn = (value, label, cls) => { const b = el('button', { type: 'button', class: 'btn ' + cls, 'data-set': value, 'aria-pressed': 'false', text: label }); b.addEventListener('click', () => set(value)); return b; };
+    const clear = el('button', { type: 'button', class: 'rv-link', 'data-set': 'Not reviewed', text: 'Undo my choice' });
+    clear.addEventListener('click', () => set('Not reviewed'));
+    const actions = el('div', { class: 'rv-actions' }, [btn('Approved', 'Approve', 'ok'), btn('Needs change', 'Needs change', 'fix'), btn('Skip', 'Skip this day', ''), clear]);
 
     const c = el('article', { class: 'rv-card', 'data-date': e.date }, [
-      meta,
-      field('Topic', 'topic', e.topic, 2),
-      field('What we will make', 'execution', e.execution, 3),
+      meta, topicView, makeView, edit, editBtn, chips,
       el('p', { class: 'rv-facts', text: facts.join(' · ') }),
       el('label', {}, [document.createTextNode('Note'), note]),
       actions,
       el('p', { class: 'rv-who', hidden: '' })
     ]);
+    editBtn.addEventListener('click', () => { const on = c.classList.toggle('editing'); editBtn.textContent = on ? 'Done editing' : 'Edit wording'; });
     return c;
+  }
+
+  // ---- Campaign header: what it is, why, and what Mike needs to do ----
+  function renderTodo() {
+    const ul = document.getElementById('cp-todo');
+    if (!ul) return;
+    const story = PLAN.stories.find((x) => x.id === ul.dataset.story);
+    const list = postsOf(story.id);
+    const done = list.filter((e) => approval(e.date) !== 'Not reviewed').length;
+    const media = MEDIA[story.id] || [];
+    ul.innerHTML = '';
+    const item = (text, ok) => ul.appendChild(el('li', { class: ok ? 'done' : '', text }));
+    item('Approve the ' + list.length + ' post ideas below by ' + weekday(story.approvalDue) + ', ' + nice(story.approvalDue) + '.  (' + done + ' of ' + list.length + ' done)', done === list.length);
+    (story.todo || ['Make the main piece: ' + story.anchor]).forEach((t) => {
+      const wantsVideo = /record|video/i.test(t), wantsPhoto = /photo/i.test(t);
+      const ok = (wantsVideo && media.some((m) => m.type.startsWith('video/'))) || (!wantsVideo && wantsPhoto && media.some((m) => m.type.startsWith('image/')));
+      item(t, ok);
+    });
+  }
+
+  function paintMedia(id) {
+    const box = document.getElementById('cp-media'), img = document.getElementById('cp-img');
+    if (!box) return;
+    const media = MEDIA[id] || [];
+    box.innerHTML = '';
+    media.forEach((m) => {
+      const src = '/command/api/media/file?id=' + m.id;
+      const view = m.type.startsWith('video/') ? el('video', { src, controls: '', preload: 'metadata', playsinline: '' }) : el('img', { src, alt: m.name, loading: 'lazy' });
+      const del = el('button', { type: 'button', text: 'Remove' });
+      del.addEventListener('click', async () => {
+        if (!confirm('Remove ' + m.name + '?')) return;
+        await fetch('/command/api/media?campaign=' + id + '&id=' + m.id, { method: 'DELETE' });
+        MEDIA[id] = (MEDIA[id] || []).filter((x) => x.id !== m.id);
+        paintMedia(id); renderTodo();
+      });
+      box.appendChild(el('figure', {}, [view, el('figcaption', {}, [el('span', { text: m.type.startsWith('video/') ? 'Video' : 'Photo' }), del])]));
+    });
+    const photo = media.find((m) => m.type.startsWith('image/'));
+    img.innerHTML = '';
+    img.classList.toggle('has', !!photo);
+    if (photo) img.appendChild(el('img', { src: '/command/api/media/file?id=' + photo.id, alt: 'Campaign photo' }));
+    else img.textContent = 'Your first photo for this campaign shows here.';
+  }
+
+  async function loadMedia(id) {
+    try {
+      const j = await fetch('/command/api/media?campaign=' + id).then((r) => r.json());
+      if (j.ok) MEDIA[id] = j.media;
+    } catch (e) { /* show the header without media */ }
+    paintMedia(id); renderTodo();
+  }
+
+  async function upload(id, files, msg) {
+    const CH = 8 * 1024 * 1024;
+    for (const f of files) {
+      if (!/^(image|video)\//.test(f.type)) { msg.textContent = f.name + ' is not a photo or video.'; continue; }
+      if (f.size > 250 * 1024 * 1024) { msg.textContent = f.name + ' is over 250 MB.'; continue; }
+      const uid = crypto.randomUUID(), n = Math.ceil(f.size / CH);
+      try {
+        for (let i = 0; i < n; i++) {
+          msg.textContent = 'Uploading ' + (f.type.startsWith('video/') ? 'video' : 'photo') + '… ' + Math.round((i / n) * 100) + '%';
+          const r = await fetch('/command/api/media/chunk?id=' + uid + '&n=' + i, { method: 'POST', headers: { 'Content-Type': 'application/octet-stream' }, body: f.slice(i * CH, (i + 1) * CH) });
+          if (!r.ok) throw new Error('piece');
+        }
+        const j = await fetch('/command/api/media', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: uid, campaign: id, name: f.name, type: f.type, size: f.size, chunks: n }) }).then((r) => r.json());
+        if (!j.ok) throw new Error(j.error);
+        (MEDIA[id] = MEDIA[id] || []).push(j.media);
+        msg.textContent = 'Uploaded. Thank you.';
+        paintMedia(id); renderTodo();
+      } catch (e) {
+        msg.textContent = 'That upload did not finish. Check your connection and try again.';
+      }
+    }
+  }
+
+  function header(story) {
+    const list = postsOf(story.id);
+    const facts = el('dl', { class: 'cp-facts' });
+    const row = (k, v, draft) => { facts.appendChild(el('dt', { text: k })); const d = el('dd', { text: v }); if (draft) d.appendChild(el('span', { class: 'cp-draft', text: '(draft wording)' })); facts.appendChild(d); };
+    row('Why', story.why || story.focus + '.', !story.why);
+    row("Who it's for", story.audience);
+    row('Runs', nice(story.launch) + ' to ' + nice(story.end) + ' · ' + list.length + ' posts');
+    row('Main piece', story.anchor);
+    row("Reader's next step", story.next);
+    const top = el('section', { class: 'cp', 'aria-label': 'Campaign' }, [
+      el('div', { class: 'cp-img', id: 'cp-img', text: 'Your first photo for this campaign shows here.' }),
+      el('div', {}, [el('p', { class: 'cp-label', text: 'CAMPAIGN' }), el('h2', { text: titleCase(story.title) }), facts])
+    ]);
+    const input = el('input', { type: 'file', accept: 'image/*,video/*', multiple: '' });
+    const msg = el('span', { class: 'cp-up-msg', role: 'status' });
+    input.addEventListener('change', () => { const files = Array.from(input.files || []); input.value = ''; upload(story.id, files, msg); });
+    const bulk = el('button', { type: 'button', class: 'btn', id: 'rv-approve-all', text: 'Approve all ' + list.length + ' posts in this campaign' });
+    let armed = false, t;
+    bulk.addEventListener('click', () => {
+      const items = list.filter((e) => approval(e.date) === 'Not reviewed');
+      if (!items.length) { say('Every post in this campaign already has a decision.'); return; }
+      if (!armed) { armed = true; bulk.textContent = 'Approve ' + items.length + ' posts you have not looked at? Tap again'; bulk.classList.add('danger-armed'); t = setTimeout(() => { armed = false; bulk.textContent = 'Approve all ' + list.length + ' posts in this campaign'; bulk.classList.remove('danger-armed'); }, 5000); return; }
+      clearTimeout(t); armed = false; bulk.textContent = 'Approve all ' + list.length + ' posts in this campaign'; bulk.classList.remove('danger-armed');
+      items.forEach((e) => { STATE[e.date] = Object.assign({}, st(e.date), { approval: 'Approved', by: 'you', at: new Date().toISOString() }); queue(e.date, { approval: 'Approved' }); paint(e.date); });
+      counts(); renderTodo();
+    });
+    const need = el('section', { class: 'cp-need', 'aria-label': 'What we need from you' }, [
+      el('h3', { text: 'What we need from you' }),
+      el('ul', { class: 'cp-todo', id: 'cp-todo', 'data-story': story.id }),
+      el('div', { class: 'cp-up' }, [
+        el('h4', { text: 'Your photos and video for this campaign' }),
+        el('label', { class: 'cp-up-btn' }, [document.createTextNode('Upload photos or video'), input]),
+        msg,
+        el('div', { class: 'cp-media', id: 'cp-media' })
+      ]),
+      el('div', { class: 'rv-bulk' }, [bulk])
+    ]);
+    return [top, need, el('h2', { class: 'rv-section', text: 'The ' + list.length + ' post ideas in this campaign' })];
   }
 
   function render() {
     const list = $('rv-list'), head = $('rv-head');
     const story = PLAN.stories.find((x) => x.id === $('rv-story').value);
     head.innerHTML = '';
-    head.hidden = !story;
-    if (story) {
-      head.appendChild(el('h2', { text: story.title }));
-      head.appendChild(el('p', { text: story.id + ' · ' + nice(story.launch) + ' to ' + nice(story.end) + ' · Approval due ' + nice(story.approvalDue) }));
-      if (story.focus) head.appendChild(el('p', { text: 'Focus: ' + story.focus + '. For: ' + story.audience + '.' }));
-      if (story.anchor) head.appendChild(el('p', { text: 'Anchor piece: ' + story.anchor }));
-      if (story.next) head.appendChild(el('p', { text: 'Reader next step: ' + story.next }));
-    }
+    if (story) { header(story).forEach((n) => head.appendChild(n)); renderTodo(); loadMedia(story.id); }
     list.innerHTML = '';
     const items = shown();
-    if (!items.length) { list.appendChild(el('p', { class: 'rv-empty', text: 'Nothing to show here. Change Story or Show above.' })); return; }
-    items.forEach((e) => list.appendChild(card(e)));
+    if (!items.length) { list.appendChild(el('p', { class: 'rv-empty', text: 'Nothing to show here. Change Campaign or Show above.' })); return; }
+    let last = null;
+    items.forEach((e) => {
+      if (!story && e.story !== last) {
+        const s = PLAN.stories.find((x) => x.id === e.story) || { title: e.story };
+        list.appendChild(el('h2', { class: 'rv-section', text: 'CAMPAIGN: ' + titleCase(s.title) }));
+        last = e.story;
+      }
+      list.appendChild(card(e));
+    });
     items.forEach((e) => paint(e.date));
-    list.querySelectorAll('textarea').forEach((t) => { t.style.height = 'auto'; t.style.height = (t.scrollHeight + 4) + 'px'; });
   }
 
   function csv() {
@@ -1255,8 +1436,8 @@ Example:   YL_META_AUTO_KCMETRO_LEAD_RETARGET30_VIDEOMIKE_V2</pre>
       STATE = (state && state.ok && state.state) || {};
       if (!state || !state.ok) say('Could not load saved reviews. Showing the plan as written.');
       const sel = $('rv-story');
-      sel.appendChild(el('option', { value: 'all', text: 'All stories' }));
-      PLAN.stories.forEach((s) => { const o = el('option', { value: s.id }); o.dataset.label = short(s.launch) + ': ' + s.title; sel.appendChild(o); });
+      sel.appendChild(el('option', { value: 'all', text: 'All campaigns' }));
+      PLAN.stories.forEach((s) => { const o = el('option', { value: s.id }); o.dataset.label = short(s.launch) + ': ' + titleCase(s.title); sel.appendChild(o); });
       counts();
       // Open on the first story that still has something to review
       const next = PLAN.stories.find((s) => PLAN.entries.some((e) => e.story === s.id && approval(e.date) === 'Not reviewed'));
@@ -1264,16 +1445,6 @@ Example:   YL_META_AUTO_KCMETRO_LEAD_RETARGET30_VIDEOMIKE_V2</pre>
       sel.addEventListener('change', render);
       $('rv-show').addEventListener('change', render);
       $('rv-export').addEventListener('click', csv);
-      let armed = false, t;
-      const all = $('rv-approve-all');
-      all.addEventListener('click', () => {
-        const items = shown().filter((e) => approval(e.date) === 'Not reviewed'); // flagged and skipped days are left alone
-        if (!items.length) { say('Nothing shown is waiting for review.'); return; }
-        if (!armed) { armed = true; all.textContent = 'Approve ' + items.length + '? Tap again'; all.classList.add('danger-armed'); t = setTimeout(() => { armed = false; all.textContent = 'Approve all shown'; all.classList.remove('danger-armed'); }, 4000); return; }
-        clearTimeout(t); armed = false; all.textContent = 'Approve all shown'; all.classList.remove('danger-armed');
-        items.forEach((e) => { STATE[e.date] = Object.assign({}, st(e.date), { approval: 'Approved', by: 'you', at: new Date().toISOString() }); queue(e.date, { approval: 'Approved' }); paint(e.date); });
-        counts();
-      });
       render();
     } catch (e) {
       started = false;
