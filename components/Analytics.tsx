@@ -1,7 +1,7 @@
 "use client";
 
 /* -------------------------------------------------------
-   Site analytics: Google Analytics 4 + Meta Pixel.
+   Site analytics: Google Analytics 4 + Meta Pixel + Metricool.
 
    Both are off unless their IDs are set as build variables:
      NEXT_PUBLIC_GA4_ID          e.g. G-XXXXXXXXXX
@@ -21,6 +21,8 @@ import { useEffect } from "react";
 
 const GA4_ID = process.env.NEXT_PUBLIC_GA4_ID;
 const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID;
+/** Metricool web tracker (public site hash from Metricool > Web connection). */
+const METRICOOL_HASH = "e29b258b36e7095fa93b01e4c2c6310f";
 
 /** No tracking of any kind on these paths. */
 const NO_TRACKING = ["/just-happened", "/client-login", "/people-first-login"];
@@ -49,6 +51,23 @@ export function Analytics() {
     }
     if (PIXEL_ID && w.fbq && !matches(pathname, NO_PIXEL) && pathname !== "/") {
       w.fbq("track", "PageView");
+    }
+    // Metricool: loaded only once a trackable page is reached, then one
+    // page view per page (the site changes pages without full reloads).
+    if (!blocked && METRICOOL_HASH) {
+      const track = () => {
+        const bt = (w as unknown as { beTracker?: { t: (o: { hash: string }) => void } }).beTracker;
+        if (bt) bt.t({ hash: METRICOOL_HASH });
+      };
+      if ((w as unknown as { beTracker?: unknown }).beTracker) track();
+      else if (!document.getElementById("metricool-tracker")) {
+        const sc = document.createElement("script");
+        sc.id = "metricool-tracker";
+        sc.async = true;
+        sc.src = "https://tracker.metricool.com/resources/be.js";
+        sc.onload = track;
+        document.head.appendChild(sc);
+      }
     }
   }, [pathname, blocked]);
 
