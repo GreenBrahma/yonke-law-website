@@ -10,11 +10,20 @@ This is the **Yonke Law Website** — a marketing/client-acquisition site for Yo
 
 This workspace builds the public-facing website only. It is **not**:
 
-- The People Portal (lives in The Nucleus Factory)
 - The Legal Pulse content engine (lives in Legal Pulse workspace)
 - The Nucleus Concierge backend (lives in The Nucleus Factory)
 
 If a task involves any of those, **stop and clarify with the user before proceeding**.
+
+**The People First portal lives in this repo (Geoff's decision, 20 Nov 2026).** It was rebuilt from scratch in November 2026 as a simplified portal behind `/people-first-login`:
+
+- Screens: `app/people-first-login/` (sign-in, link confirmation, and the signed-in screens under `(portal)/`).
+- Server routes: `app/api/portal/`. Shared code: `lib/portal/`. Components: `components/portal/`.
+- Sign-in is a one-time emailed link for invited emails only (`PORTAL_INVITE_EMAILS`). No passwords, no self sign-up, no database. Do not add either back.
+- Case facts come from one place, `lib/portal/source.ts`. Today it returns a labelled sample case; Filevine plugs in there.
+- A person's own files and answers live in the private R2 bucket under `portal/<person id>/`. Never serve them from a public path.
+- Tests: `npm run test:portal` (access rules) and `npx playwright test tests/portal.spec.ts` (every screen).
+- The older Postgres portal tables in `db/schema/people-first.ts` are no longer used by the portal.
 
 ---
 

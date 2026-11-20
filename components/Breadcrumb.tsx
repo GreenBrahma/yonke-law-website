@@ -49,6 +49,8 @@ export default function Breadcrumb() {
 
   // Hide on home page
   if (pathname === "/") return null;
+  // The People First portal has its own header and way home.
+  if (pathname.startsWith("/people-first-login")) return null;
 
   // Build crumbs from URL segments
   const segments = pathname.split("/").filter(Boolean);

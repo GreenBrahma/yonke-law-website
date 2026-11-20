@@ -36,6 +36,12 @@ const nextConfig: NextConfig = {
       { source: "/how-it-works", destination: "/people-first", permanent: true },
       { source: "/how-it-works/:path*", destination: "/people-first/:path*", permanent: true },
       { source: "/people-first/people-portal", destination: "/people-first", permanent: true },
+      // People First portal rebuilt Nov 2026: old screens point at the new home
+      { source: "/people-first-login/dashboard", destination: "/people-first-login/home", permanent: false },
+      { source: "/people-first-login/calendar", destination: "/people-first-login/whats-next", permanent: false },
+      { source: "/people-first-login/where-you-are", destination: "/people-first-login/whats-next", permanent: false },
+      { source: "/people-first-login/needed", destination: "/people-first-login/whats-next", permanent: false },
+      { source: "/people-first-login/help", destination: "/people-first-login/videos", permanent: false },
       // "I Stand For" now lives on the Meet Mike page
       { source: "/about/i-stand-for", destination: "/about#i-stand-for", permanent: true },
       // Legacy testimonials shortcut

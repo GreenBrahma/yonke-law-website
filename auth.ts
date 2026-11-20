@@ -1,147 +1,61 @@
 /**
- * People First — Auth.js v5 Configuration
+ * People First — sign-in (Auth.js v5)
  *
- * Real authentication: Apple, Google, Email (credentials).
- * JWT-only session strategy — no DB adapter required at init time.
- * User records managed directly via Drizzle in callbacks/events.
+ * One way in: a one-time link emailed to a person the firm has invited.
+ * There are no passwords and no self sign-up. The link proves the person
+ * controls the email address; the invited list proves the firm wants them in.
  *
- * Required env vars:
- *   AUTH_SECRET             — random secret for JWT/session encryption
- *   AUTH_GOOGLE_ID          — Google OAuth client ID
- *   AUTH_GOOGLE_SECRET      — Google OAuth client secret
- *   AUTH_APPLE_ID           — Apple OAuth service ID
- *   AUTH_APPLE_SECRET       — Apple OAuth key (PEM)
+ * Flow:
+ *   1. /people-first-login           person types their email
+ *   2. /api/portal/request-link      if invited, we email a link (15 minutes, one use)
+ *   3. /people-first-login/verify    person presses Continue; the token is checked here
+ *
+ * Sessions are signed cookies (JWT). No database is involved.
+ *
+ * Required settings:
+ *   AUTH_SECRET            signs sessions and sign-in links
+ *   PORTAL_INVITE_EMAILS   comma-separated invited addresses (until Filevine is connected)
  */
 
 import NextAuth from "next-auth";
-import Google from "next-auth/providers/google";
-import Apple from "next-auth/providers/apple";
 import Credentials from "next-auth/providers/credentials";
-import { Pool } from "pg";
-import { drizzle } from "drizzle-orm/node-postgres";
-import {
-  pfUsers,
-  pfCases,
-} from "@/db/schema/people-first";
-import { eq } from "drizzle-orm";
-
-/* ──────────────────────────────────────────────────────────────
-   Lazy DB for auth operations (not an adapter — direct queries).
-   ────────────────────────────────────────────────────────────── */
-
-let _authDb: ReturnType<typeof drizzle> | null = null;
-function authDb() {
-  // On Cloudflare Workers, sockets can't be shared across requests (see db/client.ts)
-  const onWorkers =
-    typeof navigator !== "undefined" && navigator.userAgent === "Cloudflare-Workers";
-  if (!_authDb || onWorkers) {
-    const url = process.env.DATABASE_URL;
-    if (!url) throw new Error("DATABASE_URL is required for auth.");
-    _authDb = drizzle(
-      new Pool({ connectionString: url, max: 1, ssl: { rejectUnauthorized: false } })
-    );
-  }
-  return _authDb;
-}
+import { isInvited, userIdFor } from "@/lib/portal/invite";
+import { verifyLinkToken } from "@/lib/portal/link-token";
+import { consumeLinkId } from "@/lib/portal/store";
+import { getCaseFor } from "@/lib/portal/source";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  // No adapter — JWT strategy handles session entirely in the token.
-  // User records managed via direct DB queries in callbacks.
   trustHost: true,
-  session: { strategy: "jwt" },
+  session: { strategy: "jwt", maxAge: 12 * 60 * 60 },
   providers: [
-    Google({
-      clientId: process.env.AUTH_GOOGLE_ID,
-      clientSecret: process.env.AUTH_GOOGLE_SECRET,
-    }),
-    Apple({
-      clientId: process.env.AUTH_APPLE_ID,
-      clientSecret: process.env.AUTH_APPLE_SECRET,
-    }),
     Credentials({
-      name: "Email",
-      credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" },
-      },
+      name: "One-time link",
+      credentials: { token: { label: "Token", type: "text" } },
       async authorize(credentials) {
-        if (!credentials?.email) return null;
-        const email = credentials.email as string;
-        const db = authDb();
+        const token = typeof credentials?.token === "string" ? credentials.token : "";
+        if (!token) return null;
 
-        // Look up existing user
-        const [user] = await db
-          .select()
-          .from(pfUsers)
-          .where(eq(pfUsers.email, email))
-          .limit(1);
+        const link = await verifyLinkToken(token);
+        if (!link) return null;
+        if (!isInvited(link.email)) return null;
+        if (!(await consumeLinkId(link.linkId))) return null;
 
-        if (user) {
-          return { id: user.id, email: user.email, name: user.name };
-        }
-
-        // Auto-create user + case on first sign-in
-        const newId = crypto.randomUUID();
-        await db.insert(pfUsers).values({
-          id: newId,
-          email,
-          name: email.split("@")[0],
-        });
-        await db.insert(pfCases).values({
-          userId: newId,
-          currentStep: "intake",
-          actionNeeded: false,
-        });
-
-        return { id: newId, email, name: email.split("@")[0] };
+        const portalCase = await getCaseFor(link.email);
+        return {
+          id: await userIdFor(link.email),
+          email: link.email,
+          name: portalCase.person.preferredName,
+        };
       },
     }),
   ],
   callbacks: {
-    async signIn({ user, account }) {
-      // For OAuth providers (Google/Apple), ensure user exists in our DB
-      if (account?.provider !== "credentials" && user.email) {
-        try {
-          const db = authDb();
-          const [existing] = await db
-            .select()
-            .from(pfUsers)
-            .where(eq(pfUsers.email, user.email))
-            .limit(1);
-
-          if (!existing) {
-            const newId = user.id || crypto.randomUUID();
-            await db.insert(pfUsers).values({
-              id: newId,
-              email: user.email,
-              name: user.name || user.email.split("@")[0],
-              image: user.image,
-            });
-            await db.insert(pfCases).values({
-              userId: newId,
-              currentStep: "intake",
-              actionNeeded: false,
-            });
-            user.id = newId;
-          } else {
-            user.id = existing.id;
-          }
-        } catch (err) {
-          console.error("Auth signIn callback DB error:", err);
-        }
-      }
-      return true;
-    },
     async jwt({ token, user }) {
-      if (user) {
-        token.userId = user.id;
-      }
+      if (user) token.userId = user.id;
       return token;
     },
     async session({ session, token }) {
-      if (token.userId && session.user) {
-        session.user.id = token.userId as string;
-      }
+      if (token.userId && session.user) session.user.id = token.userId as string;
       return session;
     },
   },
