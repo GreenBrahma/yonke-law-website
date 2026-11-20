@@ -19,7 +19,7 @@ If a task involves any of those, **stop and clarify with the user before proceed
 
 - Screens: `app/people-first-login/` (sign-in, link confirmation, and the signed-in screens under `(portal)/`).
 - Server routes: `app/api/portal/`. Shared code: `lib/portal/`. Components: `components/portal/`.
-- Sign-in is a one-time emailed link for invited emails only (`PORTAL_INVITE_EMAILS`). No passwords, no self sign-up, no database. Do not add either back.
+- Sign-in is a one-time emailed link for invited emails only. The list is the Worker secret `PORTAL_INVITE_EMAILS` (comma-separated); it is deliberately not in `wrangler.jsonc`. No passwords, no self sign-up, no database. Do not add either back.
 - Case facts come from one place, `lib/portal/source.ts`. Today it returns a labelled sample case; Filevine plugs in there.
 - A person's own files and answers live in the private R2 bucket under `portal/<person id>/`. Never serve them from a public path.
 - Tests: `npm run test:portal` (access rules) and `npx playwright test tests/portal.spec.ts` (every screen).

@@ -18,14 +18,14 @@
     { "pattern": "yonke.law", "custom_domain": true },
     { "pattern": "www.yonke.law", "custom_domain": true }
   ],
+  // People First portal: the invited-emails list is a Worker secret (PORTAL_INVITE_EMAILS),
+  // kept out of this public file on purpose. Do not add it to "vars".
   "vars": {
     "NEXT_PUBLIC_GA4_ID": "G-J7NVP49C9S",
     "MS365_ATTORNEY_EMAIL": "mike@yonke.law",
     "MS365_SENDER_EMAIL": "mike@yonke.law",
     "AUTH_URL": "https://yonke.law",
     "NEXTAUTH_URL": "https://yonke.law",
-    // People First portal: who may sign in until Filevine is connected (comma-separated emails)
-    "PORTAL_INVITE_EMAILS": "mike@yonke.law",
     // Mike's Add Activity -> Metricool (brand "Yonke Law"). Token is a Worker secret: METRICOOL_TOKEN
     "METRICOOL_USER_ID": "6111543",
     "METRICOOL_BLOG_ID": "7809690",
