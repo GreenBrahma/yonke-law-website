@@ -1331,18 +1331,23 @@ Example:   YL_META_AUTO_KCMETRO_LEAD_RETARGET30_VIDEOMIKE_V2</pre>
   }
 
   async function upload(id, files, msg) {
-    const CH = 8 * 1024 * 1024;
+    const PART = 8 * 1024 * 1024;
+    const post = (url, body, json) => fetch(url, { method: 'POST', headers: { 'Content-Type': json ? 'application/json' : 'application/octet-stream' }, body: json ? JSON.stringify(body) : body }).then((r) => r.json());
     for (const f of files) {
       if (!/^(image|video)\//.test(f.type)) { msg.textContent = f.name + ' is not a photo or video.'; continue; }
-      if (f.size > 250 * 1024 * 1024) { msg.textContent = f.name + ' is over 250 MB.'; continue; }
-      const uid = crypto.randomUUID(), n = Math.ceil(f.size / CH);
+      if (f.size > 500 * 1024 * 1024) { msg.textContent = f.name + ' is over 500 MB.'; continue; }
+      const kind = f.type.startsWith('video/') ? 'video' : 'photo';
       try {
+        const s = await post('/command/api/media/start', { campaign: id, type: f.type, size: f.size }, true);
+        if (!s.ok) throw new Error(s.error);
+        const n = Math.ceil(f.size / PART), parts = [];
         for (let i = 0; i < n; i++) {
-          msg.textContent = 'Uploading ' + (f.type.startsWith('video/') ? 'video' : 'photo') + '… ' + Math.round((i / n) * 100) + '%';
-          const r = await fetch('/command/api/media/chunk?id=' + uid + '&n=' + i, { method: 'POST', headers: { 'Content-Type': 'application/octet-stream' }, body: f.slice(i * CH, (i + 1) * CH) });
-          if (!r.ok) throw new Error('piece');
+          msg.textContent = 'Uploading ' + kind + '… ' + Math.round((i / n) * 100) + '%';
+          const r = await post('/command/api/media/chunk?campaign=' + id + '&id=' + s.id + '&uploadId=' + encodeURIComponent(s.uploadId) + '&n=' + (i + 1), f.slice(i * PART, (i + 1) * PART));
+          if (!r.ok) throw new Error(r.error);
+          parts.push({ partNumber: r.partNumber, etag: r.etag });
         }
-        const j = await fetch('/command/api/media', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: uid, campaign: id, name: f.name, type: f.type, size: f.size, chunks: n }) }).then((r) => r.json());
+        const j = await post('/command/api/media', { id: s.id, uploadId: s.uploadId, parts, campaign: id, name: f.name, type: f.type, size: f.size }, true);
         if (!j.ok) throw new Error(j.error);
         (MEDIA[id] = MEDIA[id] || []).push(j.media);
         msg.textContent = 'Uploaded. Thank you.';
