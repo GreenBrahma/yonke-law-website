@@ -8,6 +8,8 @@
   "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
   // Add Activity posts (text, rendered images, chosen platforms, publish status)
   "kv_namespaces": [{ "binding": "YL_ACTIVITY", "id": "c5d8a9b124a249b082ac0c08d83c5ea8" }],
+  // Campaign photos and videos Mike uploads in Content Approval (private bucket)
+  "r2_buckets": [{ "binding": "YL_MEDIA", "bucket_name": "yonke-law-media" }],
   "observability": { "enabled": true },
   // Live on yonke.law; the workers.dev test address and preview links are off
   "workers_dev": false,
