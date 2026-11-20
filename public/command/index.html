@@ -35,7 +35,11 @@
   .site-title { font-family:Calibri, Carlito, "Segoe UI", Arial, sans-serif; font-size:1.25rem; margin:0; line-height:1.2; }
 
   .tabs { border-bottom:2px solid var(--line); background:#fff; position:sticky; top:0; z-index:20; }
-  .tabs .wrap { display:flex; flex-wrap:wrap; gap:4px; max-width:none; }
+  .tabs .wrap { display:flex; flex-wrap:wrap; gap:4px 8px; max-width:none; align-items:flex-end; }
+  .tab-group { display:flex; flex-direction:column; align-items:stretch; }
+  .tab-group-label { position:relative; display:block; text-align:center; font-size:.95rem; font-weight:400; color:var(--ink); padding:2px 0 8px; }
+  .tab-group-label::after { content:""; position:absolute; left:18%; right:18%; bottom:2px; height:8px; border:1.5px solid var(--ink); border-bottom:none; }
+  .tab-group-row { display:flex; flex-wrap:wrap; gap:4px; }
   header .wrap { max-width:none; }
   .tab { appearance:none; background:#fff; color:var(--ink); border:none; border-bottom:4px solid transparent; font:inherit; font-size:1.0625rem; font-weight:700; padding:8px 14px 6px; cursor:pointer; }
   .tab[aria-selected="true"] { border-bottom-color:var(--gold); }
@@ -153,6 +157,9 @@
     .wordmark { font-size:1.15rem !important; }
     .site-title { font-size:.95rem !important; }
     .tab { padding:6px 10px 4px; font-size:.95rem; }
+    .tab-group { border-left:3px solid var(--gold); padding-left:2px; }
+    .tab-group-label { text-align:left; padding:2px 10px 0; font-size:.8rem; letter-spacing:1px; text-transform:uppercase; }
+    .tab-group-label::after { display:none; }
     table.wall td.platform, table.wall th.platform-head { width:170px; min-width:170px; }
     td.platform .pwrap { flex-wrap:wrap; }
   }
@@ -220,7 +227,8 @@
   .plan-panel .table-scroll { margin:6px 0 14px; }
   .plan-top { display:grid; grid-template-columns:minmax(0,1fr) minmax(300px,44%); gap:22px; align-items:start; }
   .plan-panel .plan-kicker { font-size:1rem; font-weight:700; letter-spacing:1px; text-transform:uppercase; margin:0 0 4px; }
-  .plan-panel .plan-title { font-size:1.75rem; font-weight:700; line-height:1.2; margin:0 0 4px; }
+  .plan-panel .plan-theme { font-size:2.75rem; font-weight:700; line-height:1.1; margin:0 0 10px; padding-bottom:10px; border-bottom:4px solid var(--gold); }
+  .plan-panel .plan-title { font-size:1.375rem; font-weight:700; line-height:1.2; margin:0 0 4px; }
   .plan-panel .plan-state { display:inline-block; font-size:1rem; font-weight:700; border:2px solid var(--gold); background:#fff; padding:2px 10px; margin:6px 0 12px; }
   .plan-fig { margin:0; }
   .plan-fig a { display:block; border:2px solid var(--line); border-radius:12px; overflow:hidden; background:#fff; }
@@ -271,7 +279,8 @@
   @media (max-width:900px) {
     .plan-top { grid-template-columns:1fr; }
     #view-wall .plan-panel { padding:12px 14px 16px; border-radius:14px; }
-    .plan-panel .plan-title { font-size:1.375rem; }
+    .plan-panel .plan-theme { font-size:2rem; }
+    .plan-panel .plan-title { font-size:1.2rem; }
   }
   /* Phones and very short windows: there is no room for both, so an open plan
      takes the whole view and the arrow brings the calendar back. */
@@ -300,12 +309,17 @@
 
 <nav class="tabs" aria-label="Views">
   <div class="wrap" role="tablist">
-    <button class="tab" role="tab" data-view="add" aria-selected="true">Add Activity</button>
-    <button class="tab" role="tab" data-view="wall" aria-selected="false">Marketing Calendar</button>
-    <button class="tab" role="tab" data-view="review" aria-selected="false">Content Review</button>
-    <button class="tab" role="tab" data-view="war" aria-selected="false">Marketing Performance</button>
-    <button class="tab" role="tab" data-view="plan" aria-selected="false">Planning Approach</button>
-    <button class="tab" role="tab" data-view="stack" aria-selected="false">Platform and Standards</button>
+    <button class="tab" role="tab" data-view="add" aria-selected="true">My Updates</button>
+    <div class="tab-group" role="group" aria-labelledby="tg-marketing">
+      <span class="tab-group-label" id="tg-marketing">Marketing</span>
+      <div class="tab-group-row">
+        <button class="tab" role="tab" data-view="review" aria-selected="false">Content Approval</button>
+        <button class="tab" role="tab" data-view="wall" aria-selected="false">Calendar</button>
+        <button class="tab" role="tab" data-view="war" aria-selected="false">Campaign Performance</button>
+      </div>
+    </div>
+    <button class="tab" role="tab" data-view="plan" aria-selected="false">Approach</button>
+    <button class="tab" role="tab" data-view="stack" aria-selected="false">Platform/Standards</button>
   </div>
 </nav>
 
@@ -439,19 +453,19 @@
     <button type="button" class="plan-toggle" id="plan-toggle" aria-expanded="true" aria-controls="plan-panel" aria-label="Hide the marketing plan" title="Show or hide the marketing plan">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18L12 20z" fill="#2E2F33" stroke="#1C1C1E" stroke-width="1.5" stroke-linejoin="round"/></svg>
     </button>
-    <p class="hint" id="plan-hint">Thanksgiving 2026 through December 2027</p>
+    <p class="hint" id="plan-hint">When life gets interrupted. Thanksgiving 2026 through December 2027</p>
     <button type="button" class="btn" id="plan-full" aria-pressed="false">Read full screen</button>
   </div>
   <div class="plan-panel" id="plan-panel" role="region" aria-labelledby="plan-heading" tabindex="0">
 
     <div class="plan-top">
       <div class="plan-intro">
-        <p class="plan-kicker">People First</p>
+        <p class="plan-kicker">The story for the year</p>
+        <p class="plan-theme">When life gets interrupted.</p>
         <p class="plan-title">Yonke Law Content and Publishing Plan</p>
         <p class="plan-state">Draft for Mike's review. Nothing here is approved or scheduled yet.</p>
         <p class="lead">We will combine a planned editorial calendar with daily observations about how Mike helps people. The planned stories give the year direction. Mike's real questions, work and perspective keep it current and personal.</p>
         <p><strong>What it should accomplish.</strong> Help people recognize situations in which they may want information, understand what working with Yonke Law involves, and feel more comfortable starting an appropriate conversation. Strengthen professional referrals by showing how Mike thinks and approaches a matter.</p>
-        <p><strong>The story theme for the year:</strong> When life gets interrupted.</p>
         <ul class="plan-glance" aria-label="The plan at a glance">
           <li><strong>401</strong> dated opportunities, one a day</li>
           <li><strong>236</strong> planned entries</li>
@@ -667,7 +681,7 @@
   </div>
 
   <div class="wall-bar">
-    <h1>Marketing Calendar</h1>
+    <h1>Calendar</h1>
     <p class="hint">Tap a cell to type. Arrows reorder rows. Changes save to the Google Sheet automatically.</p>
     <span id="sync-status" role="status" class="sr-only"></span>
   </div>
@@ -681,7 +695,7 @@
 <div class="view" id="view-review">
 <div class="rv">
   <div class="rv-bar">
-    <h1>Content Review</h1>
+    <h1>Content Approval</h1>
     <span class="rv-count" id="rv-count" role="status">Loading</span>
     <label for="rv-story">Story <select id="rv-story"></select></label>
     <label for="rv-show">Show <select id="rv-show">
