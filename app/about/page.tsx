@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import ValuesStatement from "@/components/ValuesStatement";
+import FromMike from "@/components/FromMike";
 
 /* ===========================================================
    /about — Michael T. Yonke
@@ -263,6 +264,9 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+
+      {/* From Mike: his approved posts (hidden until there is one) */}
+      <FromMike />
 
       {/* CTA */}
       <section className="bg-obsidian-graphite py-20 px-4 lg:px-8">

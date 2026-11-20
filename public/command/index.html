@@ -192,6 +192,17 @@
   .opt label input { width:20px; height:20px; accent-color:#1F3D2B; }
   .opt img { width:100%; display:block; border:1px solid #E5E7EB; cursor:pointer; }
   .opt .dl { font-size:.85rem; }
+  .web-posts { margin-top:28px; border-top:3px solid var(--gold); padding-top:12px; }
+  .web-posts h3 { font-size:1.125rem; margin:14px 0 6px; }
+  .web-note { margin:0 0 6px; }
+  .web-list { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:12px; }
+  .web-item { border:2px solid var(--line); padding:8px; background:#fff; display:flex; flex-direction:column; gap:6px; }
+  .web-item img { width:100%; aspect-ratio:4/5; object-fit:cover; display:block; }
+  .web-item p { margin:0; font-size:1rem; line-height:1.4; }
+  .web-item .when { font-size:.9rem; color:#555; }
+  .web-item .row { display:flex; gap:8px; flex-wrap:wrap; }
+  .web-item .btn.ok { background:var(--forest); border-color:var(--forest); color:#fff; }
+  .web-empty { color:#555; margin:0; }
   .pcard { border:2px solid #1C1C1E; padding:10px; background:#fff; }
   .pcard.off { opacity:.55; }
   .pcard header { display:flex; align-items:center; gap:10px; border:none; padding:0 0 8px; }
@@ -404,6 +415,15 @@
     <div class="cards" id="act-cards"></div>
     <button type="button" class="big go" id="act-submit">Save my posts</button>
     <p class="act-msg" id="act-msg" role="status"></p>
+  </section>
+
+  <section class="web-posts" id="web-posts" hidden aria-labelledby="web-h">
+    <h2 class="act-h" id="web-h">Meet Mike page posts</h2>
+    <p class="web-note" id="web-note"></p>
+    <h3>Waiting for approval</h3>
+    <div class="web-list" id="web-waiting"></div>
+    <h3>On the website now</h3>
+    <div class="web-list" id="web-live"></div>
   </section>
 </div>
 </div>
@@ -1474,14 +1494,15 @@ Example:   YL_META_AUTO_KCMETRO_LEAD_RETARGET30_VIDEOMIKE_V2</pre>
     google_business: { name: 'Google Business Profile', size: 'Landscape 16:9',   src: '/command/frames/landscape16x9.jpg', w: 1672, h: 941,  x0: 15, y0: 14, x1: 1659, logoTop: 753 },
     threads:         { name: 'Threads',                 size: 'Portrait 4:5',     src: '/command/frames/portrait4x5.jpg',   w: 1122, h: 1402, x0: 13, y0: 13, x1: 1109, logoTop: 1236 },
     tiktok:          { name: 'TikTok',                  size: 'Vertical 9:16',    from: 'instagram', w: 1080, h: 1920 },
-    linkedin:        { name: 'LinkedIn',                size: 'Square 1:1',       src: '/command/frames/square.jpg',        w: 1254, h: 1254, x0: 19, y0: 18, x1: 1236, logoTop: 1086 }
+    linkedin:        { name: 'LinkedIn',                size: 'Square 1:1',       src: '/command/frames/square.jpg',        w: 1254, h: 1254, x0: 19, y0: 18, x1: 1236, logoTop: 1086 },
+    website:         { name: 'Yonke.law, Meet Mike page', size: 'Portrait 4:5 · Geoff approves before it shows', src: '/command/frames/portrait4x5.jpg', w: 1122, h: 1402, x0: 13, y0: 13, x1: 1109, logoTop: 1236 }
   };
   // Which platforms are connected for publishing (from the server); the rest show "Not connected yet"
   let CONNECTED = [], MODE = 'draft';
   fetch('/command/api/activity').then((r) => r.json()).then((j) => { CONNECTED = j.connected || []; MODE = j.mode || 'draft';
-    Object.keys(FRAMES).forEach((k) => (FRAMES[k].soon = !CONNECTED.includes(k)));
+    Object.keys(FRAMES).forEach((k) => (FRAMES[k].soon = k !== 'website' && !CONNECTED.includes(k)));
     $('act-submit').textContent = MODE === 'draft' ? 'Send for approval' : 'Post now'; }).catch(() => {});
-  Object.keys(FRAMES).forEach((k) => (FRAMES[k].soon = true));
+  Object.keys(FRAMES).forEach((k) => (FRAMES[k].soon = k !== 'website'));
   const FONT = 'Calibri, Carlito, "Segoe UI", Arial, sans-serif';
   let photos = [];            // [{ file, url, img }]
   let rendered = {};          // platform -> { classic: dataURL, bubble: dataURL }
@@ -1670,7 +1691,7 @@ Example:   YL_META_AUTO_KCMETRO_LEAD_RETARGET30_VIDEOMIKE_V2</pre>
       const card = document.createElement('div'); card.className = 'pcard' + (F.soon ? ' off' : ''); card.dataset.key = key;
       card.innerHTML = '<header><strong>' + F.name + '</strong><small>' + F.size + '</small></header><div class="opts">' +
         Object.entries(STYLES).map(([st, label]) => {
-          const on = !F.soon && st === 'classic';
+          const on = !F.soon && st === 'classic' && key !== 'website'; // the website is opt-in
           return '<div class="opt' + (on ? ' on' : '') + '" data-style="' + st + '"><label><input type="checkbox" class="pick" data-key="' + key + '__' + st + '"' +
             (F.soon ? ' disabled' : '') + (on ? ' checked' : '') + '> ' + label + '</label><img alt="' + F.name + ', ' + label + '">' +
             '<a class="dl" download="yonke-law-' + key.replace('_', '-') + '-' + st + '.jpg">Download</a></div>';
@@ -1716,15 +1737,65 @@ Example:   YL_META_AUTO_KCMETRO_LEAD_RETARGET30_VIDEOMIKE_V2</pre>
       const by = (v) => targets.filter((t) => st[t] === v).map(nameOf);
       const parts = [];
       if (by('sent for approval').length) parts.push('Sent for approval: ' + by('sent for approval').join(', ') + '. Geoff reviews it before it goes live.');
+      if (by('awaiting website approval').length) parts.push('Website: waiting for Geoff\'s OK before it shows on the Meet Mike page.');
       if (by('scheduled').length) parts.push('Posting in a few minutes: ' + by('scheduled').join(', ') + '.');
       if (by('failed').length) parts.push('Could not send to ' + by('failed').join(', ') + '. Try again, or download the image above.');
       if (by('awaiting connection').length) parts.push('Saved only (not connected yet): ' + by('awaiting connection').join(', ') + '.');
       msg.textContent = parts.join(' ') || 'Saved for ' + names + '.';
       if (!by('failed').length && !by('awaiting connection').length) { $('act-form').reset(); photos = []; drawThumbs(); }
+      if (window.ylWebsite) window.ylWebsite();
     } catch (e) {
       msg.textContent = 'Could not send: ' + e.message + '. Your posts are still here; try again.';
     } finally { btn.disabled = false; btn.textContent = MODE === 'draft' ? 'Send for approval' : 'Post now'; }
   });
+})();
+</script>
+<script>
+/* ---------- Meet Mike page posts: Geoff approves what shows on yonke.law/about ---------- */
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const when = (iso) => { try { return new Date(iso).toLocaleString([], { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }); } catch (e) { return iso; } };
+  function item(p, can, actions) {
+    const d = document.createElement('div'); d.className = 'web-item';
+    const img = document.createElement('img'); img.src = '/activity-image/' + p.id + '/' + p.target + '.jpg'; img.alt = 'Website post image'; img.loading = 'lazy';
+    const t = document.createElement('p'); t.innerHTML = ''; t.textContent = [p.doing, p.message].filter(Boolean).join(' — ');
+    const w = document.createElement('p'); w.className = 'when'; w.textContent = when(p.created) + (p.approvedBy ? ' · approved by ' + p.approvedBy : '');
+    d.append(img, t, w);
+    if (can) {
+      const row = document.createElement('div'); row.className = 'row';
+      actions.forEach(([label, action, cls]) => {
+        const b = document.createElement('button'); b.type = 'button'; b.className = 'btn ' + (cls || ''); b.textContent = label;
+        b.addEventListener('click', async () => {
+          if (action !== 'approve' && !confirm(label + '?')) return;
+          b.disabled = true;
+          const r = await fetch('/command/api/website', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: p.id, target: p.target, action }) }).then((x) => x.json()).catch(() => ({ ok: false }));
+          if (!r.ok) { alert(r.error || 'Could not save. Try again.'); b.disabled = false; return; }
+          load();
+        });
+        row.appendChild(b);
+      });
+      d.appendChild(row);
+    }
+    return d;
+  }
+  async function load() {
+    let j;
+    try { j = await fetch('/command/api/website').then((r) => r.json()); } catch (e) { return; }
+    if (!j || !j.ok) return;
+    $('web-posts').hidden = false;
+    $('web-note').textContent = j.canApprove
+      ? 'Approve a post and it appears in the From Mike section of yonke.law/about. Remove takes it down right away.'
+      : 'Posts you send to Yonke.law wait here until Geoff approves them for the Meet Mike page.';
+    const fill = (box, list, actions, empty) => {
+      box.innerHTML = '';
+      if (!list.length) { const e = document.createElement('p'); e.className = 'web-empty'; e.textContent = empty; box.appendChild(e); return; }
+      list.forEach((p) => box.appendChild(item(p, j.canApprove, actions)));
+    };
+    fill($('web-waiting'), j.waiting, [['Approve for website', 'approve', 'ok'], ["Don't show", 'decline']], 'Nothing waiting.');
+    fill($('web-live'), j.live, [['Remove from website', 'remove']], 'No posts on the website yet.');
+  }
+  window.ylWebsite = load;
+  load();
 })();
 </script>
 </body>

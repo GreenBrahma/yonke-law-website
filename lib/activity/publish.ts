@@ -18,13 +18,13 @@
 
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 
-export const PLATFORMS = ["facebook", "instagram", "threads", "google_business", "tiktok", "linkedin"] as const;
+export const PLATFORMS = ["facebook", "instagram", "threads", "google_business", "tiktok", "linkedin", "website"] as const;
 export type Platform = (typeof PLATFORMS)[number];
 /** Looks Mike can pick for each platform (see /command Add Activity). */
 export const STYLES = ["classic", "bubble"];
 
-/** Our platform key -> Metricool network name */
-const NETWORK: Record<Platform, string> = {
+/** Our platform key -> Metricool network name ("website" is not Metricool: it waits for Geoff's OK in /command) */
+const NETWORK: Record<Exclude<Platform, "website">, string> = {
   facebook: "facebook",
   instagram: "instagram",
   threads: "threads",
@@ -52,7 +52,7 @@ function env(name: string): string {
 export function connectedPlatforms(): Platform[] {
   if (!env("METRICOOL_TOKEN")) return [];
   const nets = env("METRICOOL_NETWORKS").split(",").map((s) => s.trim()).filter(Boolean);
-  return PLATFORMS.filter((p) => nets.includes(NETWORK[p]));
+  return PLATFORMS.filter((p) => p !== "website" && nets.includes(NETWORK[p]));
 }
 
 export function publishMode(): "draft" | "publish" {
@@ -106,8 +106,12 @@ export async function publish(post: Post): Promise<Record<string, string>> {
   const live = connectedPlatforms();
   const draft = publishMode() === "draft";
 
+  // The website is never sent anywhere: it waits for an approver in /command.
+  for (const t of post.targets) if (t.startsWith("website")) status[t] = "awaiting website approval";
+  const social = post.targets.filter((t) => !t.startsWith("website"));
+
   if (!token || !userId || !blogId) {
-    post.targets.forEach((t) => (status[t] = "awaiting connection"));
+    social.forEach((t) => (status[t] = "awaiting connection"));
     return status;
   }
 
@@ -116,8 +120,8 @@ export async function publish(post: Post): Promise<Record<string, string>> {
   const text = post.message ? `${post.doing ? post.doing + "\n\n" : ""}${post.message}` : post.doing;
 
   // One Metricool post per platform, each with its own framed image
-  for (const t of post.targets) {
-    const platform = t.split("__")[0] as Platform;
+  for (const t of social) {
+    const platform = t.split("__")[0] as Exclude<Platform, "website">;
     if (!live.includes(platform)) {
       status[t] = "awaiting connection";
       continue;
